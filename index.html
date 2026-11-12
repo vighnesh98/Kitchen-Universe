@@ -104,6 +104,41 @@
         inset 0 1px 0 rgba(255, 255, 255, 1);
     }
 
+    /* Shortage Card States on Home Screen */
+    .pantry-card-low {
+      background: linear-gradient(155deg, rgba(255, 247, 237, 0.98) 0%, rgba(254, 215, 170, 0.48) 100%) !important;
+      border-color: rgba(249, 115, 22, 0.55) !important;
+      box-shadow:
+        0 10px 26px -8px rgba(234, 88, 12, 0.14),
+        0 2px 6px -1px rgba(249, 115, 22, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .pantry-card-low:hover {
+      border-color: rgba(234, 88, 12, 0.85) !important;
+      box-shadow:
+        0 18px 34px -10px rgba(234, 88, 12, 0.22),
+        0 6px 14px -4px rgba(249, 115, 22, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+    }
+
+    .pantry-card-empty {
+      background: linear-gradient(155deg, rgba(255, 241, 242, 0.98) 0%, rgba(254, 205, 211, 0.52) 100%) !important;
+      border-color: rgba(244, 63, 94, 0.58) !important;
+      box-shadow:
+        0 10px 26px -8px rgba(225, 29, 72, 0.16),
+        0 2px 6px -1px rgba(244, 63, 94, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .pantry-card-empty:hover {
+      border-color: rgba(225, 29, 72, 0.88) !important;
+      box-shadow:
+        0 18px 34px -10px rgba(225, 29, 72, 0.24),
+        0 6px 14px -4px rgba(244, 63, 94, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+    }
+
     @keyframes modalPopIn {
       0% { opacity: 0; transform: scale(0.95) translateY(8px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
@@ -229,6 +264,19 @@
         >
           <i data-lucide="home" class="w-4 h-4 text-violet-600"></i>
           <span>Home</span>
+        </button>
+      </div>
+
+      <!-- Shortages View Header Button (Replaces List & Settings when on Shortages Screen) -->
+      <div id="shortageHeaderActions" class="hidden flex items-center gap-2 sm:gap-2.5 pr-1 sm:pr-1.5 flex-shrink-0">
+        <button
+          id="headerShortageBackBtn"
+          type="button"
+          class="inline-flex items-center justify-center gap-1.5 h-10 px-3.5 sm:px-4 rounded-xl bg-white/90 hover:bg-white text-slate-800 hover:text-orange-700 border border-slate-200/90 text-xs font-extrabold shadow-xs active:scale-95 transition cursor-pointer"
+          title="Back to Home"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4 text-orange-600"></i>
+          <span>Back</span>
         </button>
       </div>
     </header>
@@ -463,6 +511,23 @@
         <h4 class="text-base font-bold text-slate-800 mb-1">All pantry items are stocked!</h4>
         <p class="text-xs text-slate-500 max-w-xs mx-auto mb-4">
           No shortages found based on your Settings target values. Tap <span class="font-bold text-violet-600">Refresh</span> anytime to recalculate.
+        </p>
+      </div>
+    </section>
+
+    <!-- Dedicated Shortage Items Screen (Only Cards Facing Shortage) -->
+    <section id="shortageScreenView" class="hidden glass-panel rounded-[2rem] p-4 sm:p-7 min-h-[420px]">
+      <div id="shortageItemsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+        <!-- Rendered shortage cards here -->
+      </div>
+
+      <div id="emptyShortageState" class="hidden py-14 text-center">
+        <div class="w-16 h-16 bg-gradient-to-tr from-emerald-100 via-teal-100 to-violet-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-3 shadow-inner">
+          <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+        </div>
+        <h4 class="text-base font-bold text-slate-800 mb-1">No items facing shortage!</h4>
+        <p class="text-xs text-slate-500 max-w-xs mx-auto">
+          Every item in your pantry meets or exceeds its Settings target.
         </p>
       </div>
     </section>
@@ -950,33 +1015,43 @@
         </div>
         <h4 class="text-sm font-extrabold text-slate-800 mb-1">No reserved items</h4>
         <p class="text-xs text-slate-500 max-w-xs mx-auto">
-          Long-press the reserve icon on any pantry item card to move it here.
+          Long-press the reserve icon on any pantry card to move it here.
         </p>
       </div>
     </div>
   </div>
 
-  <!-- ==================== MODAL 7: UNCLOSABLE MANDATORY SETTINGS GATE ==================== -->
-  <div id="mandatorySettingsGateModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-md z-[80] flex items-center justify-center p-4 hidden">
+  <!-- ==================== MODAL 7: LIST ACCESS GATE (WHEN SETTINGS VALUES ARE MISSING) ==================== -->
+  <div id="mandatorySettingsGateModal" class="fixed inset-0 bg-slate-950/65 backdrop-blur-md z-[80] flex items-center justify-center p-4 hidden">
     <div class="bg-white/98 backdrop-blur-xl rounded-[1.75rem] p-6 max-w-sm w-full shadow-2xl border-2 border-rose-200 text-center animate-modal-in">
       <div class="w-14 h-14 bg-gradient-to-br from-rose-100 to-amber-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-3.5 shadow-inner">
         <i data-lucide="alert-circle" class="w-7 h-7"></i>
       </div>
       <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700">
-        Action Required
+        Shopping List Locked
       </span>
       <h4 class="text-lg font-black text-slate-900 mt-2 mb-1.5">Missing Item Values</h4>
       <p id="mandatoryGateDesc" class="text-xs text-slate-600 mb-5 leading-relaxed">
-        One or more items in Settings have an empty textbox. Please go to Settings and enter values for all items to continue.
+        One or more items in Settings have an empty textbox. Please fill all item values in Settings before accessing the Shopping List.
       </p>
-      <button
-        id="goToSettingsFromGateBtn"
-        type="button"
-        class="w-full py-3 text-xs font-extrabold rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 text-white shadow-lg shadow-violet-500/25 active:scale-95 transition cursor-pointer flex items-center justify-center gap-2"
-      >
-        <i data-lucide="settings" class="w-4 h-4"></i>
-        <span>Go to Settings</span>
-      </button>
+      <div class="flex flex-col gap-2">
+        <button
+          id="goToSettingsFromGateBtn"
+          type="button"
+          class="w-full py-3 text-xs font-extrabold rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 text-white shadow-lg shadow-violet-500/25 active:scale-95 transition cursor-pointer flex items-center justify-center gap-2"
+        >
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>Go to Settings</span>
+        </button>
+        <button
+          id="backHomeFromGateBtn"
+          type="button"
+          class="w-full py-2.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 active:scale-95 transition cursor-pointer flex items-center justify-center gap-2"
+        >
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Come Back to Home Screen</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1037,148 +1112,55 @@
     </div>
   </div>
 
+  <!-- ==================== MODAL 9: LAUNCH SHORTAGE ALERT POPUP ==================== -->
+  <div id="shortageAlertModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-md z-[65] flex items-center justify-center p-4 hidden">
+    <div class="bg-white/98 backdrop-blur-xl rounded-[1.75rem] p-6 max-w-sm w-full shadow-2xl border-2 border-orange-200/90 text-center animate-modal-in relative">
+      <button
+        id="dismissShortageAlertBtn"
+        type="button"
+        class="absolute top-4 right-4 w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer"
+        title="Dismiss"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+      <div class="w-14 h-14 bg-gradient-to-br from-orange-100 via-amber-100 to-rose-100 text-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-3.5 shadow-inner border border-orange-200/70">
+        <i data-lucide="alert-circle" class="w-7 h-7"></i>
+      </div>
+      <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-700">
+        Pantry Stock Notice
+      </span>
+      <h4 id="shortageAlertTitle" class="text-lg font-black text-slate-900 mt-2 mb-1.5">Low Stock Detected</h4>
+      <p id="shortageAlertDesc" class="text-xs text-slate-600 mb-5 leading-relaxed">
+        Some items in your kitchen are running below your target quantity.
+      </p>
+      <button
+        id="viewShortageItemsBtn"
+        type="button"
+        class="w-full py-3 text-xs font-extrabold rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white shadow-lg shadow-orange-500/25 active:scale-95 transition cursor-pointer flex items-center justify-center gap-2"
+      >
+        <i data-lucide="eye" class="w-4 h-4"></i>
+        <span>View Shortages</span>
+      </button>
+    </div>
+  </div>
+
   <script>
-    // ==================== STATE & STORAGE ====================
-    const DEFAULT_CATEGORIES = ['Produce', 'Grains & Flour', 'Spices & Herbs', 'Dairy & Eggs', 'Oils & Liquids', 'Snacks'];
-    let categories = [];
-    let items = [];
-    let shoppingList = [];
-    let shoppingListRefreshedAt = null;
-    let activePurchaseEntryId = null;
-    let currentSort = 'newest';
-    let currentFilterType = 'all';
-    let searchQuery = '';
-    let pendingModalAction = null;
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // PWA Service Worker & Install Prompt Handler
     let deferredPrompt = null;
-
-    // State for long-press quantity modal
-    let activeQtyModalContext = {
-      itemId: null,
-      target: 'active', // 'active' or 'stock'
-      stockMode: 'restock' // 'restock' or 'shift'
-    };
-
-    // DOM References
-    const itemsContainer = document.getElementById('itemsContainer');
-    const emptyState = document.getElementById('emptyState');
-    const renderedCountBadge = document.getElementById('renderedCountBadge');
-    const sortLabelNotice = document.getElementById('sortLabelNotice');
-
-    // Add Menu & Modals
-    const addActionMenuBtn = document.getElementById('addActionMenuBtn');
-    const addActionPopover = document.getElementById('addActionPopover');
-    const openNewEntryModalBtn = document.getElementById('openNewEntryModalBtn');
-    const openCategoryModalBtn = document.getElementById('openCategoryModalBtn');
-
-    const addEntryModal = document.getElementById('addEntryModal');
-    const closeAddEntryModal = document.getElementById('closeAddEntryModal');
-    const cancelAddEntryBtn = document.getElementById('cancelAddEntryBtn');
-    const inventoryForm = document.getElementById('inventoryForm');
-    const itemNameInput = document.getElementById('itemName');
-    const itemActiveQtyInput = document.getElementById('itemActiveQty');
-    const itemStockQtyInput = document.getElementById('itemStockQty');
-    const itemUnitSelect = document.getElementById('itemUnit');
-    const itemCategorySelect = document.getElementById('itemCategorySelect');
-
-    // Edit Entry Modal
-    const editEntryModal = document.getElementById('editEntryModal');
-    const closeEditEntryModal = document.getElementById('closeEditEntryModal');
-    const cancelEditEntryBtn = document.getElementById('cancelEditEntryBtn');
-    const editInventoryForm = document.getElementById('editInventoryForm');
-    const editItemIdInput = document.getElementById('editItemId');
-    const editItemNameInput = document.getElementById('editItemName');
-    const editItemUnitSelect = document.getElementById('editItemUnit');
-    const editItemCategorySelect = document.getElementById('editItemCategorySelect');
-
-    const categoryModal = document.getElementById('categoryModal');
-    const closeCategoryModal = document.getElementById('closeCategoryModal');
-    const doneCategoryModalBtn = document.getElementById('doneCategoryModalBtn');
-    const addCategoryForm = document.getElementById('addCategoryForm');
-    const newCategoryInput = document.getElementById('newCategoryInput');
-    const categoryPillsContainer = document.getElementById('categoryPillsContainer');
-
-    // Long-press Quantity Modal
-    const quantityActionModal = document.getElementById('quantityActionModal');
-    const closeQtyActionModal = document.getElementById('closeQtyActionModal');
-    const cancelQtyActionBtn = document.getElementById('cancelQtyActionBtn');
-    const qtyActionBadge = document.getElementById('qtyActionBadge');
-    const qtyActionTitle = document.getElementById('qtyActionTitle');
-    const qtyActionSubtitle = document.getElementById('qtyActionSubtitle');
-    const stockActionModeTabs = document.getElementById('stockActionModeTabs');
-    const tabRestockBtn = document.getElementById('tabRestockBtn');
-    const tabShiftBtn = document.getElementById('tabShiftBtn');
-    const qtyActionForm = document.getElementById('qtyActionForm');
-    const qtyActionInputLabel = document.getElementById('qtyActionInputLabel');
-    const qtyActionInput = document.getElementById('qtyActionInput');
-    const qtyActionUnitSuffix = document.getElementById('qtyActionUnitSuffix');
-    const qtyActionPreviewHint = document.getElementById('qtyActionPreviewHint');
-    const submitQtyActionBtn = document.getElementById('submitQtyActionBtn');
-
-    // Sort, Filter, Search
-    const sortFilterToggleBtn = document.getElementById('sortFilterToggleBtn');
-    const sortFilterDropdown = document.getElementById('sortFilterDropdown');
-    const searchInput = document.getElementById('searchInput');
-    const clearSearchBtn = document.getElementById('clearSearchBtn');
-    const clearAllBtn = document.getElementById('clearAllBtn');
-    const activeSortLabel = document.getElementById('activeSortLabel');
-    const activeFilterBadge = document.getElementById('activeFilterBadge');
-    const activeFilterLabel = document.getElementById('activeFilterLabel');
-
-    // Warning Modal
-    const customModal = document.getElementById('customModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalCancel = document.getElementById('modalCancel');
-    const modalConfirm = document.getElementById('modalConfirm');
-
-    // Settings & Reserved Items Modals
-    const headerSettingsBtn = document.getElementById('headerSettingsBtn');
-    const settingsModal = document.getElementById('settingsModal');
-    const closeSettingsModal = document.getElementById('closeSettingsModal');
-    const openReservedItemsBtn = document.getElementById('openReservedItemsBtn');
-    const reservedCountPill = document.getElementById('reservedCountPill');
-    const settingsAllItemsList = document.getElementById('settingsAllItemsList');
-    const settingsPendingBadge = document.getElementById('settingsPendingBadge');
-
-    // Unclosable Mandatory Settings Gate
-    const mandatorySettingsGateModal = document.getElementById('mandatorySettingsGateModal');
-    const mandatoryGateDesc = document.getElementById('mandatoryGateDesc');
-    const goToSettingsFromGateBtn = document.getElementById('goToSettingsFromGateBtn');
-
-    const reservedItemsModal = document.getElementById('reservedItemsModal');
-    const backToSettingsBtn = document.getElementById('backToSettingsBtn');
-    const closeReservedItemsModal = document.getElementById('closeReservedItemsModal');
-    const reservedModalCountBadge = document.getElementById('reservedModalCountBadge');
-    const reservedItemsContainer = document.getElementById('reservedItemsContainer');
-    const emptyReservedState = document.getElementById('emptyReservedState');
-
-    // Screen Navigation & Shopping List DOM
-    const homeHeaderActions = document.getElementById('homeHeaderActions');
-    const listHeaderActions = document.getElementById('listHeaderActions');
-    const headerListBtn = document.getElementById('headerListBtn');
-    const headerHomeBtn = document.getElementById('headerHomeBtn');
-    const homeScreenView = document.getElementById('homeScreenView');
-    const listScreenView = document.getElementById('listScreenView');
-    const shoppingListCountBadge = document.getElementById('shoppingListCountBadge');
-    const shoppingListLastRefreshed = document.getElementById('shoppingListLastRefreshed');
-    const refreshShoppingListBtn = document.getElementById('refreshShoppingListBtn');
-    const shareWhatsappBtn = document.getElementById('shareWhatsappBtn');
-    const shoppingListContainer = document.getElementById('shoppingListContainer');
-    const emptyShoppingListState = document.getElementById('emptyShoppingListState');
-
-    // Purchase Check Modal DOM
-    const purchaseCheckModal = document.getElementById('purchaseCheckModal');
-    const closePurchaseCheckModal = document.getElementById('closePurchaseCheckModal');
-    const cancelPurchaseCheckBtn = document.getElementById('cancelPurchaseCheckBtn');
-    const purchaseCheckForm = document.getElementById('purchaseCheckForm');
-    const purchaseModalItemTitle = document.getElementById('purchaseModalItemTitle');
-    const purchaseModalRefQty = document.getElementById('purchaseModalRefQty');
-    const purchasedQtyInput = document.getElementById('purchasedQtyInput');
-    const purchaseModalUnitSuffix = document.getElementById('purchaseModalUnitSuffix');
-    const purchasePreviewHint = document.getElementById('purchasePreviewHint');
-
-    // ==================== PWA & INSTALL SUPPORT ====================
     const installAppBtn = document.getElementById('installAppBtn');
+
+    if ('serviceWorker' in navigator) {
+      const swBlob = new Blob([`
+        self.addEventListener('fetch', function(event) {
+          event.respondWith(fetch(event.request).catch(() => new Response('Offline')));
+        });
+      `], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -1201,49 +1183,200 @@
       deferredPrompt = null;
     });
 
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        self.addEventListener('install', (e) => self.skipWaiting());
-        self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
-        self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response(''))));
-      `;
-      const swBlob = new Blob([swCode], { type: 'application/javascript' });
-      const swUrl = URL.createObjectURL(swBlob);
-      navigator.serviceWorker.register(swUrl).catch(() => {});
-    }
+    // Keys for Local Storage
+    const STORAGE_KEY_ITEMS = 'kitchen_universe_items_v2';
+    const STORAGE_KEY_CATS = 'kitchen_universe_cats_v2';
+    const STORAGE_KEY_SORT = 'kitchen_universe_sort_v2';
+    const STORAGE_KEY_SHOPPING_LIST = 'kitchen_universe_shopping_list_v1';
+    const STORAGE_KEY_SHOPPING_META = 'kitchen_universe_shopping_meta_v1';
 
-    // ==================== POPOVERS & MODAL TRIGGERS ====================
+    // Default Categories & Badge Colors
+    const DEFAULT_CATEGORIES = [
+      'Grains & Pulses',
+      'Produce & Fresh',
+      'Dairy & Eggs',
+      'Spices & Oils',
+      'Snacks & Beverages'
+    ];
+
+    const CATEGORY_COLORS = [
+      'bg-violet-50 text-violet-700 border-violet-200/80',
+      'bg-pink-50 text-pink-700 border-pink-200/80',
+      'bg-amber-50 text-amber-800 border-amber-200/80',
+      'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+      'bg-sky-50 text-sky-700 border-sky-200/80',
+      'bg-indigo-50 text-indigo-700 border-indigo-200/80',
+      'bg-rose-50 text-rose-700 border-rose-200/80'
+    ];
+
+    // App State
+    let items = [];
+    let categories = [];
+    let currentSort = 'newest';
+    let currentFilterType = 'all';
+    let searchQuery = '';
+    let pendingModalAction = null;
+
+    // Long-press active item state
+    let activeQtyEditTarget = {
+      itemId: null,
+      zone: 'active',
+      stockMode: 'restock'
+    };
+
+    // DOM Elements
+    const addActionMenuBtn = document.getElementById('addActionMenuBtn');
+    const addActionPopover = document.getElementById('addActionPopover');
+    const openNewEntryModalBtn = document.getElementById('openNewEntryModalBtn');
+    const openCategoryModalBtn = document.getElementById('openCategoryModalBtn');
+
+    // Modal 1: Add Entry
+    const addEntryModal = document.getElementById('addEntryModal');
+    const closeAddEntryModal = document.getElementById('closeAddEntryModal');
+    const cancelAddEntryBtn = document.getElementById('cancelAddEntryBtn');
+    const inventoryForm = document.getElementById('inventoryForm');
+    const itemNameInput = document.getElementById('itemName');
+    const itemActiveQtyInput = document.getElementById('itemActiveQty');
+    const itemStockQtyInput = document.getElementById('itemStockQty');
+    const itemUnitSelect = document.getElementById('itemUnit');
+    const itemCategorySelect = document.getElementById('itemCategorySelect');
+
+    // Modal 1B: Edit Entry
+    const editEntryModal = document.getElementById('editEntryModal');
+    const closeEditEntryModal = document.getElementById('closeEditEntryModal');
+    const cancelEditEntryBtn = document.getElementById('cancelEditEntryBtn');
+    const editInventoryForm = document.getElementById('editInventoryForm');
+    const editItemIdInput = document.getElementById('editItemId');
+    const editItemNameInput = document.getElementById('editItemName');
+    const editItemUnitSelect = document.getElementById('editItemUnit');
+    const editItemCategorySelect = document.getElementById('editItemCategorySelect');
+
+    // Modal 2: Categories
+    const categoryModal = document.getElementById('categoryModal');
+    const closeCategoryModal = document.getElementById('closeCategoryModal');
+    const doneCategoryModalBtn = document.getElementById('doneCategoryModalBtn');
+    const addCategoryForm = document.getElementById('addCategoryForm');
+    const newCategoryInput = document.getElementById('newCategoryInput');
+    const categoryPillsContainer = document.getElementById('categoryPillsContainer');
+
+    // Modal 3: Quantity Action (Long Press)
+    const quantityActionModal = document.getElementById('quantityActionModal');
+    const closeQtyActionModal = document.getElementById('closeQtyActionModal');
+    const cancelQtyActionBtn = document.getElementById('cancelQtyActionBtn');
+    const qtyActionBadge = document.getElementById('qtyActionBadge');
+    const qtyActionTitle = document.getElementById('qtyActionTitle');
+    const qtyActionSubtitle = document.getElementById('qtyActionSubtitle');
+    const stockActionModeTabs = document.getElementById('stockActionModeTabs');
+    const tabRestockBtn = document.getElementById('tabRestockBtn');
+    const tabShiftBtn = document.getElementById('tabShiftBtn');
+    const qtyActionForm = document.getElementById('qtyActionForm');
+    const qtyActionInputLabel = document.getElementById('qtyActionInputLabel');
+    const qtyActionInput = document.getElementById('qtyActionInput');
+    const qtyActionUnitSuffix = document.getElementById('qtyActionUnitSuffix');
+    const qtyActionPreviewHint = document.getElementById('qtyActionPreviewHint');
+    const submitQtyActionBtn = document.getElementById('submitQtyActionBtn');
+
+    // Sort & Filter Dropdown
+    const sortFilterToggleBtn = document.getElementById('sortFilterToggleBtn');
+    const sortFilterDropdown = document.getElementById('sortFilterDropdown');
+    const sortOptionBtns = document.querySelectorAll('.sort-option-btn');
+    const filterTypePills = document.querySelectorAll('.filter-type-pill');
+    const activeSortLabel = document.getElementById('activeSortLabel');
+    const activeFilterBadge = document.getElementById('activeFilterBadge');
+    const activeFilterLabel = document.getElementById('activeFilterLabel');
+    const sortLabelNotice = document.getElementById('sortLabelNotice');
+
+    // Search & Render
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const itemsContainer = document.getElementById('itemsContainer');
+    const emptyState = document.getElementById('emptyState');
+    const renderedCountBadge = document.getElementById('renderedCountBadge');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+
+    // Warning Modal
+    const customModal = document.getElementById('customModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalCancel = document.getElementById('modalCancel');
+    const modalConfirm = document.getElementById('modalConfirm');
+
+    // Settings & Reserved Items Modals
+    const headerSettingsBtn = document.getElementById('headerSettingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettingsModal = document.getElementById('closeSettingsModal');
+    const openReservedItemsBtn = document.getElementById('openReservedItemsBtn');
+    const reservedCountPill = document.getElementById('reservedCountPill');
+    const reservedItemsModal = document.getElementById('reservedItemsModal');
+    const backToSettingsBtn = document.getElementById('backToSettingsBtn');
+    const closeReservedItemsModal = document.getElementById('closeReservedItemsModal');
+    const reservedModalCountBadge = document.getElementById('reservedModalCountBadge');
+    const reservedItemsContainer = document.getElementById('reservedItemsContainer');
+    const emptyReservedState = document.getElementById('emptyReservedState');
+
+    // Settings All-Items Values & List Access Gate DOM
+    const settingsAllItemsList = document.getElementById('settingsAllItemsList');
+    const settingsPendingBadge = document.getElementById('settingsPendingBadge');
+    const mandatorySettingsGateModal = document.getElementById('mandatorySettingsGateModal');
+    const mandatoryGateDesc = document.getElementById('mandatoryGateDesc');
+    const goToSettingsFromGateBtn = document.getElementById('goToSettingsFromGateBtn');
+    const backHomeFromGateBtn = document.getElementById('backHomeFromGateBtn');
+
+    // Screen Navigation & Shopping List DOM
+    const homeHeaderActions = document.getElementById('homeHeaderActions');
+    const listHeaderActions = document.getElementById('listHeaderActions');
+    const shortageHeaderActions = document.getElementById('shortageHeaderActions');
+    const headerListBtn = document.getElementById('headerListBtn');
+    const headerHomeBtn = document.getElementById('headerHomeBtn');
+    const headerShortageBackBtn = document.getElementById('headerShortageBackBtn');
+    const homeScreenView = document.getElementById('homeScreenView');
+    const listScreenView = document.getElementById('listScreenView');
+    const shortageScreenView = document.getElementById('shortageScreenView');
+    const shortageItemsContainer = document.getElementById('shortageItemsContainer');
+    const emptyShortageState = document.getElementById('emptyShortageState');
+
+    // Launch Shortage Alert Modal DOM
+    const shortageAlertModal = document.getElementById('shortageAlertModal');
+    const dismissShortageAlertBtn = document.getElementById('dismissShortageAlertBtn');
+    const shortageAlertTitle = document.getElementById('shortageAlertTitle');
+    const shortageAlertDesc = document.getElementById('shortageAlertDesc');
+    const viewShortageItemsBtn = document.getElementById('viewShortageItemsBtn');
+
+    const shoppingListCountBadge = document.getElementById('shoppingListCountBadge');
+    const shoppingListLastRefreshed = document.getElementById('shoppingListLastRefreshed');
+    const refreshShoppingListBtn = document.getElementById('refreshShoppingListBtn');
+    const shareWhatsappBtn = document.getElementById('shareWhatsappBtn');
+    const shoppingListContainer = document.getElementById('shoppingListContainer');
+    const emptyShoppingListState = document.getElementById('emptyShoppingListState');
+
+    // Purchase Check Modal DOM
+    const purchaseCheckModal = document.getElementById('purchaseCheckModal');
+    const closePurchaseCheckModal = document.getElementById('closePurchaseCheckModal');
+    const cancelPurchaseCheckBtn = document.getElementById('cancelPurchaseCheckBtn');
+    const purchaseCheckForm = document.getElementById('purchaseCheckForm');
+    const purchaseModalItemTitle = document.getElementById('purchaseModalItemTitle');
+    const purchaseModalRefQty = document.getElementById('purchaseModalRefQty');
+    const purchasedQtyInput = document.getElementById('purchasedQtyInput');
+    const purchaseModalUnitSuffix = document.getElementById('purchaseModalUnitSuffix');
+    const purchasePreviewHint = document.getElementById('purchasePreviewHint');
+
+    let shoppingList = [];
+    let shoppingListLastTimestamp = null;
+    let activePurchaseCheckItemId = null;
+
+    // Toggle '+' Choice Popover
     addActionMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       sortFilterDropdown.classList.add('hidden');
       addActionPopover.classList.toggle('hidden');
-      lucide.createIcons();
     });
 
-    sortFilterToggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      addActionPopover.classList.add('hidden');
-      sortFilterDropdown.classList.toggle('hidden');
-      lucide.createIcons();
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!addActionPopover.contains(e.target) && !addActionMenuBtn.contains(e.target)) {
-        addActionPopover.classList.add('hidden');
-      }
-      if (!sortFilterDropdown.contains(e.target) && !sortFilterToggleBtn.contains(e.target)) {
-        sortFilterDropdown.classList.add('hidden');
-      }
-    });
-
-    // Open Add New Entry Popup
+    // Open New Entry Modal
     openNewEntryModalBtn.addEventListener('click', () => {
       addActionPopover.classList.add('hidden');
-      populateCategorySelect();
       inventoryForm.reset();
       addEntryModal.classList.remove('hidden');
       setTimeout(() => itemNameInput.focus(), 60);
-      lucide.createIcons();
     });
 
     function closeEntryPopup() {
@@ -1252,91 +1385,164 @@
     closeAddEntryModal.addEventListener('click', closeEntryPopup);
     cancelAddEntryBtn.addEventListener('click', closeEntryPopup);
 
-    // Open Edit Entry Popup
+    // Open & Close Edit Entry Modal
     window.openEditItemModal = function(id) {
       const item = items.find(i => i.id === id);
       if (!item) return;
 
-      populateEditCategorySelect(item.category);
       editItemIdInput.value = item.id;
       editItemNameInput.value = item.name;
       editItemUnitSelect.value = item.unit;
 
+      if (!categories.includes(item.category)) {
+        categories.push(item.category);
+        saveCategories();
+        renderCategories();
+      }
+      editItemCategorySelect.value = item.category;
+
       editEntryModal.classList.remove('hidden');
-      setTimeout(() => editItemNameInput.focus(), 60);
       lucide.createIcons();
+      setTimeout(() => editItemNameInput.focus(), 60);
     };
 
-    function closeEditPopup() {
+    function closeEditEntryPopup() {
       editEntryModal.classList.add('hidden');
     }
-    closeEditEntryModal.addEventListener('click', closeEditPopup);
-    cancelEditEntryBtn.addEventListener('click', closeEditPopup);
+    closeEditEntryModal.addEventListener('click', closeEditEntryPopup);
+    cancelEditEntryBtn.addEventListener('click', closeEditEntryPopup);
 
-    // Save Edited Item
     editInventoryForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const id = editItemIdInput.value;
+      const newName = editItemNameInput.value.trim();
+      const newUnit = editItemUnitSelect.value;
+      const newCategory = editItemCategorySelect.value || (categories[0] || 'General');
+
+      if (!newName) return;
+
       const item = items.find(i => i.id === id);
       if (!item) return;
 
-      const updatedName = editItemNameInput.value.trim();
-      const updatedUnit = editItemUnitSelect.value;
-      const updatedCategory = editItemCategorySelect.value || item.category;
+      item.name = newName;
+      item.unit = newUnit;
+      item.category = newCategory;
 
-      if (!updatedName) return;
-
-      item.name = updatedName;
-      item.unit = updatedUnit;
-      item.category = updatedCategory;
-
-      // Keep settings unit compatible with the updated measurement type
-      const compatibleUnits = getCompatibleUnits(updatedUnit);
-      if (!compatibleUnits.includes(item.settingsUnit)) {
-        item.settingsUnit = updatedUnit;
+      const compatUnits = getCompatibleUnits(newUnit);
+      if (!compatUnits.includes(item.settingsUnit)) {
+        item.settingsUnit = newUnit;
       }
 
       saveItems();
       renderItems();
       renderSettingsItemsList();
-      checkEmptySettingsGate();
-      closeEditPopup();
+      closeEditEntryPopup();
     });
 
-    // Open Category Management Popup
+    // Open Category Modal
     openCategoryModalBtn.addEventListener('click', () => {
       addActionPopover.classList.add('hidden');
-      renderCategoryPills();
       categoryModal.classList.remove('hidden');
       lucide.createIcons();
     });
 
-    function closeCatPopup() {
+    function closeCategoryPopup() {
       categoryModal.classList.add('hidden');
     }
-    closeCategoryModal.addEventListener('click', closeCatPopup);
-    doneCategoryModalBtn.addEventListener('click', closeCatPopup);
+    closeCategoryModal.addEventListener('click', closeCategoryPopup);
+    doneCategoryModalBtn.addEventListener('click', closeCategoryPopup);
 
-    // Settings & Reserved Items Popup Navigation
+    // Toggle Sort & Filter Dropdown
+    sortFilterToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      addActionPopover.classList.add('hidden');
+      sortFilterDropdown.classList.toggle('hidden');
+    });
+
+    // Close popovers when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!sortFilterDropdown.contains(e.target) && !sortFilterToggleBtn.contains(e.target)) {
+        sortFilterDropdown.classList.add('hidden');
+      }
+      if (!addActionPopover.contains(e.target) && !addActionMenuBtn.contains(e.target)) {
+        addActionPopover.classList.add('hidden');
+      }
+    });
+
+    // Settings & Reserved Items Navigation
     headerSettingsBtn.addEventListener('click', () => {
+      addActionPopover.classList.add('hidden');
+      sortFilterDropdown.classList.add('hidden');
       updateReservedCounters();
       renderSettingsItemsList();
       settingsModal.classList.remove('hidden');
-      checkEmptySettingsGate();
       lucide.createIcons();
     });
 
+    function switchToHomeView() {
+      listScreenView.classList.add('hidden');
+      listHeaderActions.classList.add('hidden');
+      shortageScreenView.classList.add('hidden');
+      shortageHeaderActions.classList.add('hidden');
+      homeScreenView.classList.remove('hidden');
+      homeHeaderActions.classList.remove('hidden');
+      renderItems();
+      lucide.createIcons();
+    }
+
+    function switchToShortageView() {
+      homeScreenView.classList.add('hidden');
+      homeHeaderActions.classList.add('hidden');
+      listScreenView.classList.add('hidden');
+      listHeaderActions.classList.add('hidden');
+      shortageScreenView.classList.remove('hidden');
+      shortageHeaderActions.classList.remove('hidden');
+      renderShortageScreen();
+      lucide.createIcons();
+    }
+
+    // Screen Switching: Home <-> Shopping List
+    headerListBtn.addEventListener('click', () => {
+      if (hasEmptySettingsValues()) {
+        showListGateWarning();
+        return;
+      }
+      homeScreenView.classList.add('hidden');
+      homeHeaderActions.classList.add('hidden');
+      shortageScreenView.classList.add('hidden');
+      shortageHeaderActions.classList.add('hidden');
+      listScreenView.classList.remove('hidden');
+      listHeaderActions.classList.remove('hidden');
+      renderShoppingList();
+      lucide.createIcons();
+    });
+
+    headerHomeBtn.addEventListener('click', () => {
+      switchToHomeView();
+    });
+
+    headerShortageBackBtn.addEventListener('click', () => {
+      switchToHomeView();
+    });
+
+    dismissShortageAlertBtn.addEventListener('click', () => {
+      shortageAlertModal.classList.add('hidden');
+    });
+
+    viewShortageItemsBtn.addEventListener('click', () => {
+      shortageAlertModal.classList.add('hidden');
+      switchToShortageView();
+    });
+
     closeSettingsModal.addEventListener('click', () => {
-      if (hasEmptySettingsValues()) return;
       settingsModal.classList.add('hidden');
-      checkEmptySettingsGate();
+      renderItems();
     });
 
     openReservedItemsBtn.addEventListener('click', () => {
       settingsModal.classList.add('hidden');
       renderReservedItems();
       reservedItemsModal.classList.remove('hidden');
-      checkEmptySettingsGate();
       lucide.createIcons();
     });
 
@@ -1345,434 +1551,178 @@
       updateReservedCounters();
       renderSettingsItemsList();
       settingsModal.classList.remove('hidden');
-      checkEmptySettingsGate();
       lucide.createIcons();
     });
 
     closeReservedItemsModal.addEventListener('click', () => {
       reservedItemsModal.classList.add('hidden');
-      checkEmptySettingsGate();
+      renderItems();
     });
 
     goToSettingsFromGateBtn.addEventListener('click', () => {
       mandatorySettingsGateModal.classList.add('hidden');
-      reservedItemsModal.classList.add('hidden');
+      addActionPopover.classList.add('hidden');
+      sortFilterDropdown.classList.add('hidden');
       updateReservedCounters();
       renderSettingsItemsList();
       settingsModal.classList.remove('hidden');
       lucide.createIcons();
     });
 
-    // Screen Switching: Home <-> Shopping List
-    headerListBtn.addEventListener('click', () => {
-      homeScreenView.classList.add('hidden');
-      homeHeaderActions.classList.add('hidden');
-      listScreenView.classList.remove('hidden');
-      listHeaderActions.classList.remove('hidden');
-      renderShoppingList();
-      lucide.createIcons();
+    backHomeFromGateBtn.addEventListener('click', () => {
+      mandatorySettingsGateModal.classList.add('hidden');
+      switchToHomeView();
     });
 
-    headerHomeBtn.addEventListener('click', () => {
-      listScreenView.classList.add('hidden');
-      listHeaderActions.classList.add('hidden');
-      homeScreenView.classList.remove('hidden');
-      homeHeaderActions.classList.remove('hidden');
-      renderItems();
-      lucide.createIcons();
-    });
-
-    // Sort Option Selection
-    document.querySelectorAll('.sort-option-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentSort = btn.dataset.sort;
-        updateSortUI();
-        renderItems();
-        sortFilterDropdown.classList.add('hidden');
-      });
-    });
-
-    function updateSortUI() {
-      const sortNames = {
-        'newest': 'Newest Added',
-        'oldest': 'Oldest Added',
-        'category': 'Category (A-Z)',
-        'name': 'Item Name (A-Z)',
-        'qty-high': 'Big Quantity First',
-        'qty-low': 'Small Quantity First'
-      };
-      const label = sortNames[currentSort] || 'Newest Added';
-      activeSortLabel.textContent = label;
-      sortLabelNotice.textContent = `Sorted by ${label.toLowerCase()}`;
-
-      document.querySelectorAll('.sort-option-btn').forEach(b => {
-        if (b.dataset.sort === currentSort) {
-          b.classList.add('bg-violet-100', 'text-violet-800', 'font-extrabold');
-        } else {
-          b.classList.remove('bg-violet-100', 'text-violet-800', 'font-extrabold');
-        }
-      });
-    }
-
-    // Filter Type Pills
-    document.querySelectorAll('.filter-type-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        currentFilterType = pill.dataset.filter;
-        document.querySelectorAll('.filter-type-pill').forEach(p => {
-          p.classList.remove('active', 'bg-violet-600', 'text-white', 'shadow-xs');
-          p.classList.add('text-slate-600');
-        });
-        pill.classList.add('active', 'bg-violet-600', 'text-white', 'shadow-xs');
-        pill.classList.remove('text-slate-600');
-
-        if (currentFilterType === 'all') {
-          activeFilterBadge.classList.add('hidden');
-        } else {
-          activeFilterBadge.classList.remove('hidden');
-          activeFilterLabel.textContent =
-            currentFilterType === 'weight' ? 'Weight (kg/g)' :
-            currentFilterType === 'volume' ? 'Liquid (L/ml)' :
-            'Count Units';
-        }
-        renderItems();
-      });
-    });
-
-    // ==================== INITIALIZATION & LOCAL STORAGE ====================
-    function loadData() {
-      const storedCats = localStorage.getItem('kitchen_vibrant_categories');
-      if (storedCats) {
-        try {
-          categories = JSON.parse(storedCats);
-          if (!Array.isArray(categories) || categories.length === 0) categories = [...DEFAULT_CATEGORIES];
-        } catch (e) {
-          categories = [...DEFAULT_CATEGORIES];
-        }
-      } else {
-        categories = [...DEFAULT_CATEGORIES];
-        saveCategories();
-      }
-
-      const storedItems = localStorage.getItem('kitchen_vibrant_items');
-      if (storedItems) {
-        try {
-          const parsed = JSON.parse(storedItems);
-          // Migrate legacy items that only had `qty` to `activeQty` + `stockQty` + `reserved` + `settingsValue`
-          items = parsed.map(item => ({
-            ...item,
-            activeQty: typeof item.activeQty === 'number' ? item.activeQty : (item.qty || 0),
-            stockQty: typeof item.stockQty === 'number' ? item.stockQty : 0,
-            reserved: Boolean(item.reserved),
-            settingsValue: item.settingsValue !== undefined && item.settingsValue !== null ? String(item.settingsValue) : '',
-            settingsUnit: item.settingsUnit || item.unit
-          }));
-        } catch (e) {
-          items = [];
-        }
-      } else {
-        items = [
-          { id: '1', name: 'Alphonso Mangoes', activeQty: 4, stockQty: 8, unit: 'items', category: 'Produce', reserved: false, settingsValue: '6', settingsUnit: 'items', timestamp: Date.now() - 50000 },
-          { id: '2', name: 'Basmati Rice', activeQty: 1.5, stockQty: 5, unit: 'kg', category: 'Grains & Flour', reserved: false, settingsValue: '2', settingsUnit: 'kg', timestamp: Date.now() - 40000 },
-          { id: '3', name: 'Saffron Threads', activeQty: 10, stockQty: 25, unit: 'g', category: 'Spices & Herbs', reserved: false, settingsValue: '15', settingsUnit: 'g', timestamp: Date.now() - 30000 },
-          { id: '4', name: 'Greek Yogurt', activeQty: 2, stockQty: 4, unit: 'packs', category: 'Dairy & Eggs', reserved: false, settingsValue: '3', settingsUnit: 'packs', timestamp: Date.now() - 20000 }
-        ];
-        saveItems();
-      }
-
-      loadShoppingListState();
-      renderCategoryPills();
-      populateCategorySelect();
-      updateSortUI();
-      updateReservedCounters();
-      renderSettingsItemsList();
-      renderItems();
-      renderShoppingList();
-      checkEmptySettingsGate();
-    }
-
-    function saveCategories() {
-      localStorage.setItem('kitchen_vibrant_categories', JSON.stringify(categories));
-    }
-
-    function saveItems() {
-      localStorage.setItem('kitchen_vibrant_items', JSON.stringify(items));
-      updateReservedCounters();
-    }
-
-    function updateReservedCounters() {
-      const reservedCount = items.filter(i => i.reserved).length;
-      if (reservedCountPill) reservedCountPill.textContent = reservedCount;
-      if (reservedModalCountBadge) reservedModalCountBadge.textContent = reservedCount;
-    }
-
-    // ==================== CATEGORY MANAGEMENT ====================
-    const TAG_PALETTE = [
-      'bg-violet-100/90 text-violet-800 border-violet-200/80',
-      'bg-pink-100/90 text-pink-800 border-pink-200/80',
-      'bg-amber-100/90 text-amber-800 border-amber-200/80',
-      'bg-emerald-100/90 text-emerald-800 border-emerald-200/80',
-      'bg-sky-100/90 text-sky-800 border-sky-200/80',
-      'bg-indigo-100/90 text-indigo-800 border-indigo-200/80',
-      'bg-rose-100/90 text-rose-800 border-rose-200/80'
-    ];
-
-    function getCategoryStyle(categoryName) {
-      let hash = 0;
-      for (let i = 0; i < categoryName.length; i++) {
-        hash = categoryName.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      return TAG_PALETTE[Math.abs(hash) % TAG_PALETTE.length];
-    }
-
-    function renderCategoryPills() {
-      categoryPillsContainer.innerHTML = '';
-      categories.forEach((cat) => {
-        const styleClass = getCategoryStyle(cat);
-        const pill = document.createElement('div');
-        pill.className = `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold shadow-2xs ${styleClass}`;
-
-        const labelSpan = document.createElement('span');
-        labelSpan.textContent = cat;
-        pill.appendChild(labelSpan);
-
-        if (categories.length > 1) {
-          const delBtn = document.createElement('button');
-          delBtn.type = 'button';
-          delBtn.title = `Delete "${cat}"`;
-          delBtn.className = 'hover:bg-black/10 rounded-full p-0.5 transition cursor-pointer ml-0.5';
-          delBtn.innerHTML = '<i data-lucide="x" class="w-3 h-3"></i>';
-          delBtn.onclick = () => promptDeleteCategory(cat);
-          pill.appendChild(delBtn);
-        }
-
-        categoryPillsContainer.appendChild(pill);
-      });
-      lucide.createIcons();
-    }
-
-    function populateCategorySelect() {
-      const currentVal = itemCategorySelect.value;
-      itemCategorySelect.innerHTML = '';
-      categories.forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat;
-        opt.textContent = cat;
-        itemCategorySelect.appendChild(opt);
-      });
-      if (categories.includes(currentVal)) {
-        itemCategorySelect.value = currentVal;
-      }
-    }
-
-    function populateEditCategorySelect(selectedCat) {
-      editItemCategorySelect.innerHTML = '';
-      categories.forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat;
-        opt.textContent = cat;
-        editItemCategorySelect.appendChild(opt);
-      });
-      if (selectedCat && !categories.includes(selectedCat)) {
-        const fallbackOpt = document.createElement('option');
-        fallbackOpt.value = selectedCat;
-        fallbackOpt.textContent = selectedCat;
-        editItemCategorySelect.appendChild(fallbackOpt);
-      }
-      editItemCategorySelect.value = selectedCat || categories[0];
-    }
-
-    addCategoryForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const rawName = newCategoryInput.value.trim();
-      if (!rawName) return;
-
-      const exists = categories.some(c => c.toLowerCase() === rawName.toLowerCase());
-      if (exists) {
-        newCategoryInput.value = '';
-        return;
-      }
-
-      categories.push(rawName);
-      saveCategories();
-      renderCategoryPills();
-      populateCategorySelect();
-      itemCategorySelect.value = rawName;
-      newCategoryInput.value = '';
-    });
-
-    function promptDeleteCategory(categoryName) {
-      const affectedCount = items.filter(i => i.category === categoryName).length;
-      const fallbackCat = categories.find(c => c !== categoryName) || 'General';
-      const warningText = affectedCount > 0
-        ? `Warning: Deleting "${categoryName}" will reassign ${affectedCount} existing item${affectedCount === 1 ? '' : 's'} to "${fallbackCat}". Continue?`
-        : `Are you sure you want to delete the "${categoryName}" category?`;
-
-      openModal(
-        `Delete "${categoryName}"?`,
-        warningText,
-        () => {
-          categories = categories.filter(c => c !== categoryName);
-          if (categories.length === 0) categories.push('General');
-
-          const newDefault = categories[0];
-          items = items.map(item => item.category === categoryName ? { ...item, category: newDefault } : item);
-
-          saveCategories();
-          saveItems();
-          renderCategoryPills();
-          populateCategorySelect();
-          renderItems();
-        },
-        "Delete Category"
-      );
-    }
-
-    // ==================== QUANTITY HELPERS & NORMALIZATION ====================
-    function isWeight(unit) {
-      return unit === 'kg' || unit === 'g';
-    }
-
-    function isVolume(unit) {
-      return unit === 'L' || unit === 'ml';
-    }
-
+    // Compatible Units Helper for Settings
     function getCompatibleUnits(unit) {
-      if (isWeight(unit)) return ['g', 'kg'];
-      if (isVolume(unit)) return ['ml', 'L'];
+      if (unit === 'kg' || unit === 'g') return ['kg', 'g'];
+      if (unit === 'L' || unit === 'ml') return ['L', 'ml'];
       return [unit];
     }
 
     function hasEmptySettingsValues() {
-      return items.some(i => String(i.settingsValue ?? '').trim() === '');
+      return items.some(item => {
+        const val = item.settingsValue;
+        return val === undefined || val === null || String(val).trim() === '';
+      });
     }
 
-    function checkEmptySettingsGate() {
-      const emptyItems = items.filter(i => String(i.settingsValue ?? '').trim() === '');
-      const isSettingsOpen = !settingsModal.classList.contains('hidden');
+    function showListGateWarning() {
+      const emptyCount = items.filter(item => {
+        const val = item.settingsValue;
+        return val === undefined || val === null || String(val).trim() === '';
+      }).length;
 
-      if (emptyItems.length > 0 && !isSettingsOpen) {
-        mandatoryGateDesc.textContent = `${emptyItems.length} item${emptyItems.length === 1 ? ' has' : 's have'} an empty value textbox in Settings. Please go to Settings and fill in all values to continue.`;
+      if (emptyCount > 0) {
+        mandatoryGateDesc.textContent = emptyCount === 1
+          ? `1 item in Settings still has an empty textbox. Please fill its value in Settings before opening the Shopping List.`
+          : `${emptyCount} items in Settings still have empty textboxes. Please fill all item values in Settings before opening the Shopping List.`;
         mandatorySettingsGateModal.classList.remove('hidden');
         lucide.createIcons();
-      } else {
-        mandatorySettingsGateModal.classList.add('hidden');
       }
     }
 
-    function updateSettingsCloseButtonState() {
-      const emptyCount = items.filter(i => String(i.settingsValue ?? '').trim() === '').length;
+    function updateSettingsBadgeUI() {
+      const emptyCount = items.filter(item => {
+        const val = item.settingsValue;
+        return val === undefined || val === null || String(val).trim() === '';
+      }).length;
+
       if (emptyCount > 0) {
-        closeSettingsModal.classList.add('hidden');
         settingsPendingBadge.textContent = `${emptyCount} empty`;
         settingsPendingBadge.classList.remove('hidden');
       } else {
-        closeSettingsModal.classList.remove('hidden');
         settingsPendingBadge.classList.add('hidden');
       }
     }
 
     function renderSettingsItemsList() {
       if (!settingsAllItemsList) return;
-      updateSettingsCloseButtonState();
+
+      updateSettingsBadgeUI();
+      settingsAllItemsList.innerHTML = '';
 
       if (items.length === 0) {
         settingsAllItemsList.innerHTML = `
-          <div class="py-6 text-center text-xs text-slate-400 font-medium bg-slate-50/80 rounded-2xl border border-slate-100">
-            No items in pantry or reserved list yet.
+          <div class="text-center py-6 px-3 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-400 font-medium">
+            No items in Pantry or Reserved yet.
           </div>
         `;
         return;
       }
 
-      // Sort so items with blank textboxes always appear at the top
-      const sortedForSettings = [...items].sort((a, b) => {
-        const aBlank = String(a.settingsValue ?? '').trim() === '';
-        const bBlank = String(b.settingsValue ?? '').trim() === '';
-        if (aBlank !== bBlank) return aBlank ? -1 : 1;
+      // Sort blank textboxes to the very top
+      const sortedAll = [...items].sort((a, b) => {
+        const aEmpty = a.settingsValue === undefined || a.settingsValue === null || String(a.settingsValue).trim() === '';
+        const bEmpty = b.settingsValue === undefined || b.settingsValue === null || String(b.settingsValue).trim() === '';
+        if (aEmpty && !bEmpty) return -1;
+        if (!aEmpty && bEmpty) return 1;
         return b.timestamp - a.timestamp;
       });
 
-      settingsAllItemsList.innerHTML = '';
-
-      sortedForSettings.forEach(item => {
-        const isBlank = String(item.settingsValue ?? '').trim() === '';
-        const compatibleUnits = getCompatibleUnits(item.unit);
-        const currentSettingsUnit = compatibleUnits.includes(item.settingsUnit) ? item.settingsUnit : item.unit;
+      sortedAll.forEach(item => {
+        const isBlank = item.settingsValue === undefined || item.settingsValue === null || String(item.settingsValue).trim() === '';
+        const compatUnits = getCompatibleUnits(item.unit);
+        const selectedSettingsUnit = compatUnits.includes(item.settingsUnit) ? item.settingsUnit : item.unit;
 
         const row = document.createElement('div');
-        row.className = `flex items-center justify-between gap-2.5 p-2.5 sm:p-3 rounded-2xl border transition-all ${
+        row.className = `flex items-center justify-between gap-2.5 p-2.5 rounded-xl border transition ${
           isBlank
-            ? 'bg-rose-50/70 border-rose-300/90 shadow-2xs'
-            : 'bg-slate-50/85 border-slate-200/80'
+            ? 'bg-rose-50/70 border-rose-200/90'
+            : 'bg-slate-50/80 border-slate-200/80'
         }`;
 
-        const unitControlHtml = compatibleUnits.length > 1
-          ? `<select
+        const unitControlHtml = compatUnits.length > 1
+          ? `
+            <select
               data-settings-unit="${item.id}"
-              class="glass-input h-9 rounded-xl px-2 text-xs font-extrabold text-slate-800 cursor-pointer focus:outline-none"
+              class="h-9 rounded-lg border border-slate-200 bg-white px-2 text-xs font-extrabold text-slate-700 focus:outline-none focus:border-violet-500 cursor-pointer"
             >
-              ${compatibleUnits.map(u => `<option value="${u}" ${u === currentSettingsUnit ? 'selected' : ''}>${u}</option>`).join('')}
-            </select>`
-          : `<span class="inline-flex items-center justify-center h-9 px-2.5 rounded-xl bg-white border border-slate-200 text-xs font-extrabold text-slate-600 select-none">
+              ${compatUnits.map(u => `<option value="${escapeHtml(u)}" ${u === selectedSettingsUnit ? 'selected' : ''}>${escapeHtml(u)}</option>`).join('')}
+            </select>
+          `
+          : `
+            <span class="h-9 inline-flex items-center justify-center px-2.5 rounded-lg bg-slate-200/70 text-[11px] font-extrabold text-slate-600 select-none">
               ${escapeHtml(item.unit)}
-            </span>`;
+            </span>
+          `;
 
         row.innerHTML = `
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-1.5">
-              <span class="text-xs sm:text-sm font-extrabold text-slate-900 truncate">${escapeHtml(item.name)}</span>
-              ${item.reserved ? '<span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200/70 flex-shrink-0">Reserved</span>' : ''}
+              <span class="text-xs font-extrabold text-slate-900 truncate">${escapeHtml(item.name)}</span>
+              ${item.reserved ? '<span class="text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 border border-amber-200">Reserved</span>' : ''}
             </div>
-            <span class="text-[10px] font-semibold text-slate-400 block truncate">${escapeHtml(item.category)}</span>
+            <div class="text-[10px] text-slate-400 font-semibold truncate">
+              ${escapeHtml(item.category)} &bull; Base: ${escapeHtml(item.unit)}
+            </div>
           </div>
 
           <div class="flex items-center gap-1.5 flex-shrink-0">
             <input
-              type="text"
-              inputmode="decimal"
-              data-settings-input="${item.id}"
-              value="${escapeHtml(item.settingsValue ?? '')}"
-              placeholder="Required"
-              class="glass-input w-20 sm:w-24 h-9 rounded-xl px-2.5 text-xs font-bold text-slate-900 placeholder-rose-400 focus:outline-none ${isBlank ? 'border-rose-400 bg-white' : ''}"
+              type="number"
+              step="any"
+              min="0"
+              data-settings-val="${item.id}"
+              value="${item.settingsValue !== undefined && item.settingsValue !== null ? escapeHtml(item.settingsValue) : ''}"
+              placeholder="Value"
+              class="w-20 sm:w-24 h-9 rounded-lg border ${isBlank ? 'border-rose-300 bg-white' : 'border-slate-200 bg-white'} px-2.5 text-xs font-extrabold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-600"
             />
             ${unitControlHtml}
           </div>
         `;
 
-        const inputEl = row.querySelector(`[data-settings-input="${item.id}"]`);
-        inputEl.addEventListener('input', (e) => {
-          const val = e.target.value;
+        const valInput = row.querySelector(`[data-settings-val="${item.id}"]`);
+        const unitSelect = row.querySelector(`[data-settings-unit="${item.id}"]`);
+
+        valInput.addEventListener('input', (e) => {
           const targetItem = items.find(i => i.id === item.id);
           if (!targetItem) return;
-          const wasBlank = String(targetItem.settingsValue ?? '').trim() === '';
-          targetItem.settingsValue = val;
-          const nowBlank = val.trim() === '';
+          targetItem.settingsValue = e.target.value;
           saveItems();
-          updateSettingsCloseButtonState();
+          updateSettingsBadgeUI();
 
-          if (nowBlank) {
-            row.className = 'flex items-center justify-between gap-2.5 p-2.5 sm:p-3 rounded-2xl border transition-all bg-rose-50/70 border-rose-300/90 shadow-2xs';
-            inputEl.classList.add('border-rose-400', 'bg-white');
+          const nowEmpty = String(targetItem.settingsValue).trim() === '';
+          if (nowEmpty) {
+            row.classList.remove('bg-slate-50/80', 'border-slate-200/80');
+            row.classList.add('bg-rose-50/70', 'border-rose-200/90');
+            valInput.classList.remove('border-slate-200');
+            valInput.classList.add('border-rose-300');
           } else {
-            row.className = 'flex items-center justify-between gap-2.5 p-2.5 sm:p-3 rounded-2xl border transition-all bg-slate-50/85 border-slate-200/80';
-            inputEl.classList.remove('border-rose-400', 'bg-white');
-          }
-
-          // Re-sort blank items to top when transitioning between blank and filled on blur
-          if (wasBlank !== nowBlank) {
-            inputEl.dataset.needsReorder = '1';
+            row.classList.remove('bg-rose-50/70', 'border-rose-200/90');
+            row.classList.add('bg-slate-50/80', 'border-slate-200/80');
+            valInput.classList.remove('border-rose-300');
+            valInput.classList.add('border-slate-200');
           }
         });
 
-        inputEl.addEventListener('blur', () => {
-          if (inputEl.dataset.needsReorder === '1') {
-            renderSettingsItemsList();
-          }
+        valInput.addEventListener('blur', () => {
+          renderSettingsItemsList();
         });
 
-        const unitSelectEl = row.querySelector(`[data-settings-unit="${item.id}"]`);
-        if (unitSelectEl) {
-          unitSelectEl.addEventListener('change', (e) => {
+        if (unitSelect) {
+          unitSelect.addEventListener('change', (e) => {
             const targetItem = items.find(i => i.id === item.id);
             if (!targetItem) return;
             targetItem.settingsUnit = e.target.value;
@@ -1784,6 +1734,278 @@
       });
     }
 
+    // Load Data & Migrate Legacy Items cleanly
+    function loadData() {
+      try {
+        const storedCats = localStorage.getItem(STORAGE_KEY_CATS);
+        categories = storedCats ? JSON.parse(storedCats) : [...DEFAULT_CATEGORIES];
+        if (!Array.isArray(categories) || categories.length === 0) {
+          categories = [...DEFAULT_CATEGORIES];
+        }
+      } catch (e) {
+        categories = [...DEFAULT_CATEGORIES];
+      }
+
+      try {
+        const storedItems = localStorage.getItem(STORAGE_KEY_ITEMS);
+        const rawItems = storedItems ? JSON.parse(storedItems) : [];
+        items = rawItems.map(item => {
+          const unit = item.unit || 'items';
+          const compat = getCompatibleUnits(unit);
+          const settingsUnit = compat.includes(item.settingsUnit) ? item.settingsUnit : unit;
+
+          if (typeof item.activeQty === 'number' && typeof item.stockQty === 'number') {
+            return {
+              ...item,
+              reserved: Boolean(item.reserved),
+              settingsValue: item.settingsValue !== undefined && item.settingsValue !== null ? String(item.settingsValue) : '',
+              settingsUnit
+            };
+          }
+          const legacyQty = typeof item.qty === 'number' ? item.qty : 0;
+          return {
+            ...item,
+            activeQty: legacyQty,
+            stockQty: 0,
+            reserved: Boolean(item.reserved),
+            settingsValue: item.settingsValue !== undefined && item.settingsValue !== null ? String(item.settingsValue) : '',
+            settingsUnit
+          };
+        });
+      } catch (e) {
+        items = [];
+      }
+
+      const savedSort = localStorage.getItem(STORAGE_KEY_SORT);
+      if (savedSort) currentSort = savedSort;
+
+      try {
+        const storedShopping = localStorage.getItem(STORAGE_KEY_SHOPPING_LIST);
+        shoppingList = storedShopping ? JSON.parse(storedShopping) : [];
+        if (!Array.isArray(shoppingList)) shoppingList = [];
+      } catch (e) {
+        shoppingList = [];
+      }
+
+      const savedShoppingMeta = localStorage.getItem(STORAGE_KEY_SHOPPING_META);
+      if (savedShoppingMeta) {
+        shoppingListLastTimestamp = Number(savedShoppingMeta) || null;
+      }
+
+      renderCategories();
+      updateSortUI();
+      updateReservedCounters();
+      renderSettingsItemsList();
+      renderItems();
+      renderShoppingList();
+      triggerLaunchShortagePopup();
+    }
+
+    function saveCategories() {
+      localStorage.setItem(STORAGE_KEY_CATS, JSON.stringify(categories));
+    }
+
+    function saveItems() {
+      localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify(items));
+      updateReservedCounters();
+    }
+
+    function saveShoppingList() {
+      localStorage.setItem(STORAGE_KEY_SHOPPING_LIST, JSON.stringify(shoppingList));
+      if (shoppingListLastTimestamp) {
+        localStorage.setItem(STORAGE_KEY_SHOPPING_META, String(shoppingListLastTimestamp));
+      }
+    }
+
+    function updateReservedCounters() {
+      const count = items.filter(i => i.reserved).length;
+      if (reservedCountPill) reservedCountPill.textContent = count;
+      if (reservedModalCountBadge) reservedModalCountBadge.textContent = count;
+    }
+
+    function getCategoryStyle(categoryName) {
+      const idx = categories.indexOf(categoryName);
+      const colorIdx = idx >= 0 ? idx % CATEGORY_COLORS.length : 0;
+      return CATEGORY_COLORS[colorIdx];
+    }
+
+    // Render Category Options & Pills inside Category Modal
+    function renderCategories() {
+      const currentSelected = itemCategorySelect.value;
+      itemCategorySelect.innerHTML = '';
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        itemCategorySelect.appendChild(option);
+      });
+      if (categories.includes(currentSelected)) {
+        itemCategorySelect.value = currentSelected;
+      }
+
+      const currentEditSelected = editItemCategorySelect.value;
+      editItemCategorySelect.innerHTML = '';
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        editItemCategorySelect.appendChild(option);
+      });
+      if (categories.includes(currentEditSelected)) {
+        editItemCategorySelect.value = currentEditSelected;
+      }
+
+      categoryPillsContainer.innerHTML = '';
+      categories.forEach((cat, idx) => {
+        const style = CATEGORY_COLORS[idx % CATEGORY_COLORS.length];
+        const pill = document.createElement('div');
+        pill.className = `inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-xl border transition shadow-2xs ${style}`;
+
+        const label = document.createElement('span');
+        label.textContent = cat;
+        pill.appendChild(label);
+
+        if (categories.length > 1) {
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.title = `Delete ${cat}`;
+          delBtn.className = 'hover:bg-rose-500 hover:text-white rounded-full p-0.5 transition ml-1 cursor-pointer';
+          delBtn.innerHTML = `<i data-lucide="x" class="w-3.5 h-3.5"></i>`;
+          delBtn.addEventListener('click', () => promptDeleteCategory(cat));
+          pill.appendChild(delBtn);
+        }
+
+        categoryPillsContainer.appendChild(pill);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Add Custom Category
+    addCategoryForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = newCategoryInput.value.trim();
+      if (!val) return;
+      const exists = categories.some(c => c.toLowerCase() === val.toLowerCase());
+      if (exists) {
+        newCategoryInput.value = '';
+        return;
+      }
+      categories.push(val);
+      saveCategories();
+      renderCategories();
+      itemCategorySelect.value = val;
+      newCategoryInput.value = '';
+    });
+
+    // Safe Warning before deleting Category
+    function promptDeleteCategory(categoryName) {
+      const affectedCount = items.filter(i => i.category === categoryName).length;
+      const fallbackCat = categories.find(c => c !== categoryName) || 'General';
+
+      const warningMsg = affectedCount > 0
+        ? `Warning: Deleting "${categoryName}" will reassign ${affectedCount} existing item(s) to "${fallbackCat}". Are you sure you want to proceed?`
+        : `Warning: Are you sure you want to delete the "${categoryName}" category?`;
+
+      openModal(`Delete "${categoryName}"?`, warningMsg, () => {
+        categories = categories.filter(c => c !== categoryName);
+        if (categories.length === 0) categories = ['General'];
+        items.forEach(item => {
+          if (item.category === categoryName) {
+            item.category = categories[0];
+          }
+        });
+        saveCategories();
+        saveItems();
+        renderCategories();
+        renderItems();
+      }, "Delete");
+    }
+
+    // Sort Option Selection
+    const sortLabels = {
+      'newest': 'Newest Added',
+      'oldest': 'Oldest Added',
+      'category': 'Category (A-Z)',
+      'name': 'Name (A-Z)',
+      'qty-high': 'Big Quantity First',
+      'qty-low': 'Small Quantity First'
+    };
+
+    function updateSortUI() {
+      sortOptionBtns.forEach(btn => {
+        const isSelected = btn.dataset.sort === currentSort;
+        if (isSelected) {
+          btn.classList.add('bg-violet-600', 'text-white');
+          btn.classList.remove('hover:bg-violet-50', 'text-slate-800');
+        } else {
+          btn.classList.remove('bg-violet-600', 'text-white');
+          btn.classList.add('hover:bg-violet-50', 'text-slate-800');
+        }
+      });
+      activeSortLabel.textContent = sortLabels[currentSort] || 'Newest Added';
+      sortLabelNotice.textContent = `Sorted by ${sortLabels[currentSort]?.toLowerCase() || 'newest added'}`;
+    }
+
+    sortOptionBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentSort = btn.dataset.sort;
+        localStorage.setItem(STORAGE_KEY_SORT, currentSort);
+        updateSortUI();
+        renderItems();
+        sortFilterDropdown.classList.add('hidden');
+      });
+    });
+
+    // Measurement Filter Pills
+    filterTypePills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterTypePills.forEach(p => {
+          p.classList.remove('bg-violet-600', 'text-white', 'shadow-xs', 'active');
+          p.classList.add('text-slate-600');
+        });
+        pill.classList.add('bg-violet-600', 'text-white', 'shadow-xs', 'active');
+        pill.classList.remove('text-slate-600');
+
+        currentFilterType = pill.dataset.filter;
+
+        if (currentFilterType === 'all') {
+          activeFilterBadge.classList.add('hidden');
+        } else {
+          activeFilterBadge.classList.remove('hidden');
+          activeFilterLabel.textContent =
+            currentFilterType === 'weight' ? 'Weight (kg, g)' :
+            currentFilterType === 'volume' ? 'Liquid (L, ml)' :
+            'Count Units';
+        }
+        renderItems();
+      });
+    });
+
+    function isWeight(unit) {
+      return unit === 'kg' || unit === 'g';
+    }
+
+    function isVolume(unit) {
+      return unit === 'L' || unit === 'ml';
+    }
+
+    function toBaseUnitValue(val, unit) {
+      if (unit === 'kg') return val * 1000;
+      if (unit === 'g') return val;
+      if (unit === 'L') return val * 1000;
+      if (unit === 'ml') return val;
+      return val;
+    }
+
+    function fromBaseUnitValue(baseVal, targetUnit) {
+      if (targetUnit === 'kg') return Number((baseVal / 1000).toFixed(3));
+      if (targetUnit === 'g') return Number(baseVal.toFixed(2));
+      if (targetUnit === 'L') return Number((baseVal / 1000).toFixed(3));
+      if (targetUnit === 'ml') return Number(baseVal.toFixed(2));
+      return Number(baseVal.toFixed(2));
+    }
+
     function normalizeQuantityForSorting(item) {
       const total = (item.activeQty || 0) + (item.stockQty || 0);
       if (item.unit === 'kg') return total * 1000;
@@ -1793,54 +2015,54 @@
       return total;
     }
 
-    // ==================== SHOPPING LIST ENGINE (MANUAL REFRESH ONLY) ====================
-    function toBaseUnitValue(val, unit) {
-      if (unit === 'kg' || unit === 'L') return val * 1000;
-      return val;
-    }
+    // ==================== SHORTAGE EVALUATION & LAUNCH ALERT ====================
+    function getItemStockStatus(item) {
+      if (item.reserved) return 'ok';
+      const total = Number(((item.activeQty || 0) + (item.stockQty || 0)).toFixed(4));
+      if (total <= 0) return 'empty';
 
-    function fromBaseUnitValue(baseVal, targetUnit) {
-      if (targetUnit === 'kg' || targetUnit === 'L') return Number((baseVal / 1000).toFixed(3));
-      return Number(baseVal.toFixed(2));
-    }
-
-    function loadShoppingListState() {
-      const storedList = localStorage.getItem('kitchen_shopping_list');
-      const storedTime = localStorage.getItem('kitchen_shopping_list_refreshed_at');
-      if (storedList) {
-        try {
-          shoppingList = JSON.parse(storedList);
-          if (!Array.isArray(shoppingList)) shoppingList = [];
-        } catch (e) {
-          shoppingList = [];
+      const targetRaw = parseFloat(item.settingsValue);
+      if (!isNaN(targetRaw) && targetRaw > 0) {
+        const targetUnit = getCompatibleUnits(item.unit).includes(item.settingsUnit)
+          ? item.settingsUnit
+          : item.unit;
+        const targetBase = toBaseUnitValue(targetRaw, targetUnit);
+        const currentBase = toBaseUnitValue(total, item.unit);
+        if (targetBase - currentBase > 0.0001) {
+          return 'low';
         }
-        shoppingListRefreshedAt = storedTime ? parseInt(storedTime, 10) : null;
-      } else {
-        // Initial calculation only if never initialized before
-        recalculateShoppingList(false);
       }
+      return 'ok';
     }
 
-    function saveShoppingListState() {
-      localStorage.setItem('kitchen_shopping_list', JSON.stringify(shoppingList));
-      if (shoppingListRefreshedAt) {
-        localStorage.setItem('kitchen_shopping_list_refreshed_at', String(shoppingListRefreshedAt));
-      }
+    function getShortageItems() {
+      return items.filter(item => {
+        if (item.reserved) return false;
+        const status = getItemStockStatus(item);
+        return status === 'empty' || status === 'low';
+      });
     }
 
-    function recalculateShoppingList(animateButton = true) {
-      if (animateButton && refreshShoppingListBtn) {
-        const icon = refreshShoppingListBtn.querySelector('svg');
-        if (icon) icon.classList.add('animate-spin');
-        setTimeout(() => {
-          const updatedIcon = refreshShoppingListBtn.querySelector('svg');
-          if (updatedIcon) updatedIcon.classList.remove('animate-spin');
-        }, 450);
-      }
+    function triggerLaunchShortagePopup() {
+      const shortageList = getShortageItems();
+      const count = shortageList.length;
+      if (count <= 0) return;
 
-      const nextList = [];
+      shortageAlertTitle.textContent = count === 1
+        ? '1 Item Running Short'
+        : `${count} Items Running Short`;
+      shortageAlertDesc.textContent = count === 1
+        ? `You are short of 1 item in your pantry compared to your Settings target.`
+        : `You are short of ${count} items in your pantry compared to your Settings targets.`;
 
-      // Only include non-reserved Pantry Inventory items
+      shortageAlertModal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    // ==================== SHOPPING LIST ENGINE (MANUAL REFRESH ONLY) ====================
+    function recalculateShoppingList() {
+      const calculated = [];
+
       items.forEach(item => {
         if (item.reserved) return;
 
@@ -1851,44 +2073,48 @@
           ? item.settingsUnit
           : item.unit;
 
-        const currentTotalInItemUnit = (item.activeQty || 0) + (item.stockQty || 0);
         const targetBase = toBaseUnitValue(targetRaw, targetUnit);
+        const currentTotalInItemUnit = (item.activeQty || 0) + (item.stockQty || 0);
         const currentBase = toBaseUnitValue(currentTotalInItemUnit, item.unit);
 
-        const shortageBase = targetBase - currentBase;
-        if (shortageBase > 0.0001) {
-          // Express needed quantity in the item's native pantry unit so stock updates align cleanly
-          const neededQty = fromBaseUnitValue(shortageBase, item.unit);
-          if (neededQty > 0) {
-            nextList.push({
+        const diffBase = targetBase - currentBase;
+        if (diffBase > 0.0001) {
+          const neededInTargetUnit = fromBaseUnitValue(diffBase, targetUnit);
+          if (neededInTargetUnit > 0) {
+            calculated.push({
+              id: 'shop_' + item.id,
               itemId: item.id,
               name: item.name,
               category: item.category,
-              neededQty: neededQty,
-              unit: item.unit
+              neededQty: neededInTargetUnit,
+              unit: targetUnit
             });
           }
         }
       });
 
-      shoppingList = nextList;
-      shoppingListRefreshedAt = Date.now();
-      saveShoppingListState();
+      shoppingList = calculated;
+      shoppingListLastTimestamp = Date.now();
+      saveShoppingList();
       renderShoppingList();
     }
 
     refreshShoppingListBtn.addEventListener('click', () => {
-      recalculateShoppingList(true);
+      if (hasEmptySettingsValues()) {
+        showListGateWarning();
+        return;
+      }
+      recalculateShoppingList();
     });
 
     function renderShoppingList() {
       if (!shoppingListContainer) return;
 
       shoppingListCountBadge.textContent = shoppingList.length;
-
-      if (shoppingListRefreshedAt) {
-        const timeStr = new Date(shoppingListRefreshedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        shoppingListLastRefreshed.textContent = `Last refreshed at ${timeStr} • Manual refresh only`;
+      if (shoppingListLastTimestamp) {
+        const d = new Date(shoppingListLastTimestamp);
+        const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        shoppingListLastRefreshed.textContent = `Last refreshed at ${timeStr} • Tap Refresh to recalculate`;
       } else {
         shoppingListLastRefreshed.textContent = 'Tap Refresh to calculate needed pantry items';
       }
@@ -1903,59 +2129,55 @@
         shoppingListContainer.classList.remove('hidden');
 
         shoppingList.forEach(entry => {
-          const catStyle = getCategoryStyle(entry.category || 'General');
+          const catStyle = getCategoryStyle(entry.category);
           const row = document.createElement('div');
           row.className = 'pantry-card rounded-2xl p-3.5 sm:p-4 flex items-center justify-between gap-3';
 
           row.innerHTML = `
             <div class="flex items-center gap-3 min-w-0 flex-1">
-              <!-- Checkbox button to record purchase -->
               <button
                 type="button"
-                data-check-list-item="${entry.itemId}"
-                class="w-6 h-6 rounded-lg border-2 border-violet-400 bg-white hover:bg-violet-50 hover:border-violet-600 flex items-center justify-center transition flex-shrink-0 cursor-pointer group"
-                title="Mark purchased quantity"
+                data-shop-check="${entry.id}"
+                class="w-7 h-7 rounded-xl border-2 border-violet-300 bg-white hover:bg-emerald-50 hover:border-emerald-500 text-transparent hover:text-emerald-600 flex items-center justify-center transition-all active:scale-90 cursor-pointer flex-shrink-0 shadow-2xs"
+                title="Mark as purchased"
               >
-                <i data-lucide="check" class="w-3.5 h-3.5 text-violet-600 opacity-0 group-hover:opacity-100 transition"></i>
+                <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
               </button>
 
               <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-1.5 flex-wrap mb-0.5">
+                <div class="flex items-center gap-1.5 flex-wrap mb-1">
                   <span class="inline-flex items-center text-[10px] font-extrabold px-2 py-0.5 rounded-md border ${catStyle}">
-                    ${escapeHtml(entry.category || 'General')}
+                    ${escapeHtml(entry.category)}
                   </span>
                 </div>
-                <h4 class="text-sm sm:text-base font-extrabold text-slate-900 truncate">
-                  ${escapeHtml(entry.name)}
-                </h4>
+                <div class="flex items-baseline gap-2 flex-wrap">
+                  <h4 class="text-sm sm:text-base font-extrabold text-slate-900 truncate">
+                    ${escapeHtml(entry.name)}
+                  </h4>
+                  <span class="text-xs sm:text-sm font-black px-2.5 py-0.5 rounded-lg bg-violet-100/90 text-violet-800 border border-violet-200/80">
+                    ${entry.neededQty} ${escapeHtml(entry.unit)}
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div class="flex items-center gap-2.5 flex-shrink-0">
-              <!-- Needed Quantity Pill -->
-              <span class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-violet-50 to-fuchsia-50 border border-violet-200/80 text-xs sm:text-sm font-black text-violet-800">
-                ${entry.neededQty} <span class="text-[11px] font-bold text-violet-600">${escapeHtml(entry.unit)}</span>
-              </span>
-
-              <!-- Delete from Shopping List only until refreshed -->
-              <button
-                type="button"
-                data-delete-list-item="${entry.itemId}"
-                class="w-8 h-8 rounded-xl bg-rose-50/90 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
-                title="Remove from list until refreshed"
-              >
-                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
+            <button
+              type="button"
+              data-shop-del="${entry.id}"
+              class="w-9 h-9 rounded-xl bg-rose-50/90 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-200/80 flex items-center justify-center transition-all active:scale-95 cursor-pointer flex-shrink-0"
+              title="Remove from list until refreshed"
+            >
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
           `;
 
-          row.querySelector(`[data-check-list-item="${entry.itemId}"]`).addEventListener('click', () => {
-            openPurchaseCheckModal(entry.itemId);
-          });
+          const checkBtn = row.querySelector(`[data-shop-check="${entry.id}"]`);
+          const delBtn = row.querySelector(`[data-shop-del="${entry.id}"]`);
 
-          row.querySelector(`[data-delete-list-item="${entry.itemId}"]`).addEventListener('click', () => {
-            shoppingList = shoppingList.filter(x => x.itemId !== entry.itemId);
-            saveShoppingListState();
+          checkBtn.addEventListener('click', () => openPurchaseCheckModal(entry.id));
+          delBtn.addEventListener('click', () => {
+            shoppingList = shoppingList.filter(e => e.id !== entry.id);
+            saveShoppingList();
             renderShoppingList();
           });
 
@@ -1966,103 +2188,105 @@
       lucide.createIcons();
     }
 
-    // Checkbox -> Open Purchased Quantity Popup
-    function openPurchaseCheckModal(itemId) {
-      const entry = shoppingList.find(x => x.itemId === itemId);
+    function openPurchaseCheckModal(shopEntryId) {
+      const entry = shoppingList.find(e => e.id === shopEntryId);
       if (!entry) return;
 
-      activePurchaseEntryId = itemId;
+      activePurchaseCheckItemId = shopEntryId;
       purchaseModalItemTitle.textContent = entry.name;
-      purchaseModalRefQty.textContent = `Needed in list: ${entry.neededQty} ${entry.unit}`;
+      purchaseModalRefQty.textContent = `Needed in shopping list: ${entry.neededQty} ${entry.unit}`;
       purchaseModalUnitSuffix.textContent = entry.unit;
-      purchasedQtyInput.value = '';
-      purchasePreviewHint.textContent = '';
+      purchasedQtyInput.value = entry.neededQty;
+      updatePurchasePreviewHint();
 
       purchaseCheckModal.classList.remove('hidden');
-      setTimeout(() => purchasedQtyInput.focus(), 60);
       lucide.createIcons();
+      setTimeout(() => {
+        purchasedQtyInput.focus();
+        purchasedQtyInput.select();
+      }, 60);
     }
 
-    function closePurchaseModal() {
-      purchaseCheckModal.classList.add('hidden');
-      activePurchaseEntryId = null;
-    }
+    function updatePurchasePreviewHint() {
+      const entry = shoppingList.find(e => e.id === activePurchaseCheckItemId);
+      if (!entry) return;
 
-    closePurchaseCheckModal.addEventListener('click', closePurchaseModal);
-    cancelPurchaseCheckBtn.addEventListener('click', closePurchaseModal);
-
-    purchasedQtyInput.addEventListener('input', () => {
-      const entry = shoppingList.find(x => x.itemId === activePurchaseEntryId);
       const val = parseFloat(purchasedQtyInput.value);
-      if (!entry || isNaN(val) || val <= 0) {
-        purchasePreviewHint.textContent = '';
+      if (isNaN(val) || val <= 0) {
+        purchasePreviewHint.textContent = 'Enter a positive purchased quantity';
         return;
       }
 
       if (val >= entry.neededQty) {
-        purchasePreviewHint.textContent = `Adds +${val} ${entry.unit} to Stock & removes item from list`;
-        purchasePreviewHint.className = 'text-[11px] font-semibold text-emerald-600 mt-1.5';
+        purchasePreviewHint.textContent = `Adds ${val} ${entry.unit} to Stock & removes item from list`;
       } else {
-        const remaining = Number((entry.neededQty - val).toFixed(2));
-        purchasePreviewHint.textContent = `Adds +${val} ${entry.unit} to Stock & updates list to ${remaining} ${entry.unit} left`;
-        purchasePreviewHint.className = 'text-[11px] font-semibold text-violet-600 mt-1.5';
+        const remaining = Number((entry.neededQty - val).toFixed(3));
+        purchasePreviewHint.textContent = `Adds ${val} ${entry.unit} to Stock & keeps ${remaining} ${entry.unit} on list`;
       }
-    });
+    }
+
+    purchasedQtyInput.addEventListener('input', updatePurchasePreviewHint);
+
+    function closePurchasePopup() {
+      purchaseCheckModal.classList.add('hidden');
+      activePurchaseCheckItemId = null;
+    }
+    closePurchaseCheckModal.addEventListener('click', closePurchasePopup);
+    cancelPurchaseCheckBtn.addEventListener('click', closePurchasePopup);
 
     purchaseCheckForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const entryIndex = shoppingList.findIndex(x => x.itemId === activePurchaseEntryId);
-      if (entryIndex === -1) return;
+      const entry = shoppingList.find(item => item.id === activePurchaseCheckItemId);
+      if (!entry) return;
 
-      const entry = shoppingList[entryIndex];
       const purchasedVal = parseFloat(purchasedQtyInput.value);
       if (isNaN(purchasedVal) || purchasedVal <= 0) return;
 
-      // 1. Add purchased quantity into the product's Stock in Pantry
       const pantryItem = items.find(i => i.id === entry.itemId);
       if (pantryItem) {
-        pantryItem.stockQty = Number(((pantryItem.stockQty || 0) + purchasedVal).toFixed(2));
+        const purchasedBase = toBaseUnitValue(purchasedVal, entry.unit);
+        const addedInPantryUnit = fromBaseUnitValue(purchasedBase, pantryItem.unit);
+        pantryItem.stockQty = Number(((pantryItem.stockQty || 0) + addedInPantryUnit).toFixed(3));
         saveItems();
       }
 
-      // 2. Update ONLY this item in the shopping list without refreshing the whole list
-      if (purchasedVal >= entry.neededQty) {
-        shoppingList.splice(entryIndex, 1);
+      if (purchasedVal >= entry.neededQty - 0.0001) {
+        shoppingList = shoppingList.filter(e => e.id !== entry.id);
       } else {
-        shoppingList[entryIndex] = {
-          ...entry,
-          neededQty: Number((entry.neededQty - purchasedVal).toFixed(2))
-        };
+        entry.neededQty = Number((entry.neededQty - purchasedVal).toFixed(3));
       }
 
-      saveShoppingListState();
+      saveShoppingList();
       renderShoppingList();
-      closePurchaseModal();
+      renderItems();
+      closePurchasePopup();
     });
 
     // Forward Shopping List to WhatsApp
     shareWhatsappBtn.addEventListener('click', () => {
-      if (shoppingList.length === 0) return;
+      if (shoppingList.length === 0) {
+        const emptyMsg = encodeURIComponent('🛒 *Kitchen Universe Shopping List*\nAll pantry items are fully stocked!');
+        window.open(`https://wa.me/?text=${emptyMsg}`, '_blank');
+        return;
+      }
 
-      const dateStr = new Date().toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
       const lines = [
-        `🛒 *Kitchen Universe — Shopping List*`,
-        `📅 _${dateStr}_`,
-        ``
+        '🛒 *Kitchen Universe — Shopping List*',
+        '────────────────────'
       ];
 
-      shoppingList.forEach((entry, idx) => {
-        lines.push(`${idx + 1}. *${entry.name}* — ${entry.neededQty} ${entry.unit}`);
+      shoppingList.forEach((entry, index) => {
+        lines.push(`${index + 1}. *${entry.name}* — ${entry.neededQty} ${entry.unit}`);
       });
 
-      lines.push(``);
-      lines.push(`_Sent from Kitchen Universe_`);
+      lines.push('────────────────────');
+      lines.push(`Total Items: ${shoppingList.length}`);
 
-      const messageText = encodeURIComponent(lines.join('\n'));
-      window.open(`https://wa.me/?text=${messageText}`, '_blank', 'noopener');
+      const encodedText = encodeURIComponent(lines.join('\n'));
+      window.open(`https://wa.me/?text=${encodedText}`, '_blank');
     });
 
-    // ==================== LONG-PRESS HELPER ====================
+    // ==================== LONG PRESS HELPER ====================
     function attachLongPress(element, onLongPress) {
       let pressTimer = null;
       let startX = 0;
@@ -2091,29 +2315,30 @@
       const move = (e) => {
         if (!pressTimer) return;
         const point = e.touches ? e.touches[0] : e;
-        if (Math.abs(point.clientX - startX) > 10 || Math.abs(point.clientY - startY) > 10) {
+        if (Math.abs(point.clientX - startX) > 12 || Math.abs(point.clientY - startY) > 12) {
           cancel();
         }
       };
 
-      element.addEventListener('touchstart', start, { passive: true });
-      element.addEventListener('touchend', cancel);
-      element.addEventListener('touchmove', move, { passive: true });
-      element.addEventListener('touchcancel', cancel);
-
       element.addEventListener('mousedown', start);
+      element.addEventListener('touchstart', start, { passive: true });
+      element.addEventListener('mousemove', move);
+      element.addEventListener('touchmove', move, { passive: true });
       element.addEventListener('mouseup', cancel);
       element.addEventListener('mouseleave', cancel);
+      element.addEventListener('touchend', cancel);
+      element.addEventListener('touchcancel', cancel);
+      element.addEventListener('contextmenu', (e) => e.preventDefault());
     }
 
-    // ==================== LONG-PRESS QUANTITY POPUP LOGIC ====================
-    function openQuantityActionModal(itemId, target) {
+    // ==================== QUANTITY ACTION MODAL (LONG PRESS) ====================
+    function openQuantityActionModal(itemId, zone) {
       const item = items.find(i => i.id === itemId);
       if (!item) return;
 
-      activeQtyModalContext = {
+      activeQtyEditTarget = {
         itemId,
-        target,
+        zone,
         stockMode: 'restock'
       };
 
@@ -2121,93 +2346,87 @@
       qtyActionInput.value = '';
       qtyActionPreviewHint.textContent = '';
 
-      if (target === 'active') {
+      if (zone === 'active') {
         qtyActionBadge.textContent = 'Active Quantity';
         qtyActionBadge.className = 'text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-violet-100 text-violet-700';
         qtyActionTitle.textContent = item.name;
         qtyActionSubtitle.textContent = `Current Active: ${item.activeQty} ${item.unit}`;
         stockActionModeTabs.classList.add('hidden');
         qtyActionInputLabel.textContent = 'Replace Active Quantity With';
-        qtyActionInput.placeholder = `Current: ${item.activeQty}`;
+        qtyActionInput.value = item.activeQty;
         submitQtyActionBtn.textContent = 'Replace Active';
         submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
       } else {
-        qtyActionBadge.textContent = 'In Stock';
+        qtyActionBadge.textContent = 'In Stock Quantity';
         qtyActionBadge.className = 'text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
         qtyActionTitle.textContent = item.name;
-        qtyActionSubtitle.textContent = `Stock: ${item.stockQty} ${item.unit} • Active: ${item.activeQty} ${item.unit}`;
+        qtyActionSubtitle.textContent = `In Stock: ${item.stockQty} ${item.unit} • Active: ${item.activeQty} ${item.unit}`;
         stockActionModeTabs.classList.remove('hidden');
-        setStockModalMode('restock');
+        setStockActionMode('restock');
       }
 
+      updateQtyActionPreview();
       quantityActionModal.classList.remove('hidden');
-      setTimeout(() => qtyActionInput.focus(), 60);
       lucide.createIcons();
+      setTimeout(() => qtyActionInput.focus(), 60);
     }
 
-    function setStockModalMode(mode) {
-      activeQtyModalContext.stockMode = mode;
-      const item = items.find(i => i.id === activeQtyModalContext.itemId);
-      if (!item) return;
-
-      qtyActionInput.value = '';
-      qtyActionPreviewHint.textContent = '';
-
+    function setStockActionMode(mode) {
+      activeQtyEditTarget.stockMode = mode;
       if (mode === 'restock') {
         tabRestockBtn.className = 'py-2 rounded-lg font-extrabold bg-emerald-600 text-white shadow-xs transition cursor-pointer';
         tabShiftBtn.className = 'py-2 rounded-lg font-extrabold text-slate-600 hover:text-slate-900 transition cursor-pointer';
-        qtyActionInputLabel.textContent = 'Add Quantity to Existing Stock';
-        qtyActionInput.placeholder = 'e.g. 5';
-        submitQtyActionBtn.textContent = 'Restock';
+        qtyActionInputLabel.textContent = 'Quantity to Add to Stock';
+        submitQtyActionBtn.textContent = 'Add to Stock';
         submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
       } else {
         tabShiftBtn.className = 'py-2 rounded-lg font-extrabold bg-indigo-600 text-white shadow-xs transition cursor-pointer';
         tabRestockBtn.className = 'py-2 rounded-lg font-extrabold text-slate-600 hover:text-slate-900 transition cursor-pointer';
-        qtyActionInputLabel.textContent = `Quantity to Shift to Active (Max ${item.stockQty})`;
-        qtyActionInput.placeholder = `Available: ${item.stockQty}`;
+        qtyActionInputLabel.textContent = 'Quantity to Shift to Active';
         submitQtyActionBtn.textContent = 'Shift to Active';
         submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
       }
-      qtyActionInput.focus();
+      updateQtyActionPreview();
     }
 
-    tabRestockBtn.addEventListener('click', () => setStockModalMode('restock'));
-    tabShiftBtn.addEventListener('click', () => setStockModalMode('shift'));
+    tabRestockBtn.addEventListener('click', () => setStockActionMode('restock'));
+    tabShiftBtn.addEventListener('click', () => setStockActionMode('shift'));
 
-    // Live calculation preview in quantity modal
-    qtyActionInput.addEventListener('input', () => {
-      const item = items.find(i => i.id === activeQtyModalContext.itemId);
+    function updateQtyActionPreview() {
+      const item = items.find(i => i.id === activeQtyEditTarget.itemId);
+      if (!item) return;
       const val = parseFloat(qtyActionInput.value);
-      if (!item || isNaN(val) || val < 0) {
+      if (isNaN(val) || val < 0) {
         qtyActionPreviewHint.textContent = '';
         return;
       }
 
-      if (activeQtyModalContext.target === 'active') {
-        qtyActionPreviewHint.textContent = `Active will become ${Number(val.toFixed(2))} ${item.unit}`;
-        qtyActionPreviewHint.className = 'text-[11px] font-semibold text-violet-600 mt-1.5';
-      } else if (activeQtyModalContext.stockMode === 'restock') {
+      if (activeQtyEditTarget.zone === 'active') {
+        qtyActionPreviewHint.textContent = `New Active quantity will be ${Number(val.toFixed(2))} ${item.unit}`;
+      } else if (activeQtyEditTarget.stockMode === 'restock') {
         const nextStock = Number((item.stockQty + val).toFixed(2));
         qtyActionPreviewHint.textContent = `${item.stockQty} + ${val} = ${nextStock} ${item.unit} in Stock`;
-        qtyActionPreviewHint.className = 'text-[11px] font-semibold text-emerald-600 mt-1.5';
       } else {
         const actualShift = Math.min(val, item.stockQty);
-        const remStock = Number((item.stockQty - actualShift).toFixed(2));
+        const nextStock = Number((item.stockQty - actualShift).toFixed(2));
         const nextActive = Number((item.activeQty + actualShift).toFixed(2));
-        qtyActionPreviewHint.textContent = `New Active: ${nextActive} ${item.unit} • Remaining Stock: ${remStock} ${item.unit}`;
-        qtyActionPreviewHint.className = 'text-[11px] font-semibold text-indigo-600 mt-1.5';
+        qtyActionPreviewHint.textContent = `Stock becomes ${nextStock} ${item.unit} • Active becomes ${nextActive} ${item.unit}`;
       }
-    });
+    }
+
+    qtyActionInput.addEventListener('input', updateQtyActionPreview);
 
     qtyActionForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const item = items.find(i => i.id === activeQtyModalContext.itemId);
-      const val = parseFloat(qtyActionInput.value);
-      if (!item || isNaN(val) || val < 0) return;
+      const item = items.find(i => i.id === activeQtyEditTarget.itemId);
+      if (!item) return;
 
-      if (activeQtyModalContext.target === 'active') {
+      const val = parseFloat(qtyActionInput.value);
+      if (isNaN(val) || val < 0) return;
+
+      if (activeQtyEditTarget.zone === 'active') {
         item.activeQty = Number(val.toFixed(2));
-      } else if (activeQtyModalContext.stockMode === 'restock') {
+      } else if (activeQtyEditTarget.stockMode === 'restock') {
         item.stockQty = Number((item.stockQty + val).toFixed(2));
       } else {
         const shiftAmount = Math.min(val, item.stockQty);
@@ -2227,43 +2446,176 @@
     cancelQtyActionBtn.addEventListener('click', closeQtyPopup);
 
     // ==================== RESERVE / UNRESERVE LOGIC ====================
-    window.promptReserveItem = function(id) {
+    function promptReserveItem(id) {
       const item = items.find(i => i.id === id);
       if (!item) return;
 
       openModal(
         `Reserve "${item.name}"?`,
-        `Are you sure you want to move "${item.name}" to Reserved Items? It will be hidden from Pantry Inventory until unreserved in Settings.`,
+        `Warning: "${item.name}" will be moved out of your Pantry Inventory and stored inside Settings → Reserved Items until you unreserve it. Continue?`,
         () => {
           item.reserved = true;
           saveItems();
           renderItems();
-          renderReservedItems();
-          renderSettingsItemsList();
         },
         "Reserve"
       );
-    };
+    }
 
-    window.promptUnreserveItem = function(id) {
+    function promptUnreserveItem(id) {
       const item = items.find(i => i.id === id);
       if (!item) return;
 
       openModal(
         `Unreserve "${item.name}"?`,
-        `Are you sure you want to restore "${item.name}" back to your active Pantry Inventory?`,
+        `Warning: "${item.name}" will be moved back into your active Pantry Inventory list. Do you want to proceed?`,
         () => {
           item.reserved = false;
           saveItems();
-          renderItems();
           renderReservedItems();
-          renderSettingsItemsList();
+          renderItems();
         },
         "Unreserve"
       );
-    };
+    }
 
     // ==================== RENDER PANTRY ITEMS ====================
+    function buildPantryItemCard(item) {
+      const catStyle = getCategoryStyle(item.category);
+      const stockStatus = getItemStockStatus(item);
+
+      const statusCardClass =
+        stockStatus === 'empty' ? 'pantry-card-empty' :
+        stockStatus === 'low' ? 'pantry-card-low' : '';
+
+      const accentBarGradient =
+        stockStatus === 'empty' ? 'from-rose-500 via-red-500 to-pink-600' :
+        stockStatus === 'low' ? 'from-orange-400 via-amber-500 to-orange-500' :
+        isWeight(item.unit) ? 'from-violet-500 via-fuchsia-500 to-pink-500' :
+        isVolume(item.unit) ? 'from-sky-500 via-cyan-500 to-teal-500' :
+        'from-amber-400 via-orange-500 to-rose-500';
+
+      const card = document.createElement('div');
+      card.className = `pantry-card ${statusCardClass} rounded-[1.6rem] pt-4 pb-3.5 px-4 flex flex-col justify-between gap-3.5 relative overflow-hidden group`;
+
+      card.innerHTML = `
+        <!-- Top Vibrant Accent Strip -->
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentBarGradient} opacity-90"></div>
+
+        <!-- Top Section: Item Name, Category & Action Icons (Reserve, Edit, Delete) -->
+        <div class="flex items-start justify-between gap-2.5">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-1.5 flex-wrap mb-1.5">
+              <span class="inline-flex items-center text-[10px] font-extrabold px-2.5 py-0.5 rounded-lg border ${catStyle}">
+                ${escapeHtml(item.category)}
+              </span>
+            </div>
+            <h4 class="text-base sm:text-[17px] font-extrabold text-slate-900 truncate leading-snug tracking-tight">
+              ${escapeHtml(item.name)}
+            </h4>
+          </div>
+
+          <!-- Reserve, Edit & Delete Icon Buttons -->
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            <button
+              type="button"
+              data-reserve-btn="${item.id}"
+              class="hold-zone w-8 h-8 rounded-xl bg-amber-50/90 hover:bg-amber-500 text-amber-600 hover:text-white border border-amber-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
+              title="Long-press to reserve item"
+            >
+              <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+            </button>
+            <button
+              type="button"
+              onclick="openEditItemModal('${item.id}')"
+              class="w-8 h-8 rounded-xl bg-indigo-50/90 hover:bg-indigo-600 text-indigo-600 hover:text-white border border-indigo-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
+              title="Edit item"
+            >
+              <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+            </button>
+            <button
+              type="button"
+              onclick="promptRemoveItem('${item.id}')"
+              class="w-8 h-8 rounded-xl bg-rose-50/90 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
+              title="Delete item"
+            >
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lower Split Bar: Left = Active | Center Vertical Line | Right = Stock -->
+        <div class="pt-3 border-t border-slate-200/80 flex items-stretch justify-between gap-2.5">
+          
+          <!-- Left Side: Active Quantity (Long Press to Replace) -->
+          <div
+            data-hold-active="${item.id}"
+            class="hold-zone flex-1 flex items-center justify-between gap-2 bg-white/80 hover:bg-violet-50/90 border border-violet-200/80 rounded-2xl px-3.5 py-2.5 cursor-pointer shadow-2xs"
+            title="Long-press to replace active quantity"
+          >
+            <div class="min-w-0">
+              <span class="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-violet-700">
+                <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                Active
+              </span>
+              <div class="text-sm sm:text-[15px] font-black text-slate-900 truncate mt-0.5">
+                ${item.activeQty} <span class="text-xs font-bold text-violet-700">${escapeHtml(item.unit)}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Center Divider Line -->
+          <div class="w-[1.5px] bg-gradient-to-b from-transparent via-slate-300/90 to-transparent self-stretch my-1"></div>
+
+          <!-- Right Side: Stock Quantity (Long Press for Restock / Shift to Active) -->
+          <div
+            data-hold-stock="${item.id}"
+            class="hold-zone flex-1 flex items-center justify-between gap-2 bg-white/80 hover:bg-emerald-50/90 border border-emerald-200/80 rounded-2xl px-3.5 py-2.5 cursor-pointer shadow-2xs"
+            title="Long-press to restock or shift to active"
+          >
+            <div class="min-w-0">
+              <span class="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                In Stock
+              </span>
+              <div class="text-sm sm:text-[15px] font-black text-slate-900 truncate mt-0.5">
+                ${item.stockQty} <span class="text-xs font-bold text-emerald-700">${escapeHtml(item.unit)}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      const activeBox = card.querySelector(`[data-hold-active="${item.id}"]`);
+      const stockBox = card.querySelector(`[data-hold-stock="${item.id}"]`);
+      const reserveBtn = card.querySelector(`[data-reserve-btn="${item.id}"]`);
+      attachLongPress(activeBox, () => openQuantityActionModal(item.id, 'active'));
+      attachLongPress(stockBox, () => openQuantityActionModal(item.id, 'stock'));
+      attachLongPress(reserveBtn, () => promptReserveItem(item.id));
+
+      return card;
+    }
+
+    function renderShortageScreen() {
+      if (!shortageItemsContainer) return;
+      const shortageList = getShortageItems().sort((a, b) => b.timestamp - a.timestamp);
+      shortageItemsContainer.innerHTML = '';
+
+      if (shortageList.length === 0) {
+        emptyShortageState.classList.remove('hidden');
+        shortageItemsContainer.classList.add('hidden');
+      } else {
+        emptyShortageState.classList.add('hidden');
+        shortageItemsContainer.classList.remove('hidden');
+        shortageList.forEach(item => {
+          shortageItemsContainer.appendChild(buildPantryItemCard(item));
+        });
+      }
+
+      lucide.createIcons();
+    }
+
     function renderItems() {
       const query = searchQuery.toLowerCase().trim();
 
@@ -2315,116 +2667,12 @@
         itemsContainer.classList.remove('hidden');
 
         filtered.forEach(item => {
-          const catStyle = getCategoryStyle(item.category);
-          const totalQty = Number(((item.activeQty || 0) + (item.stockQty || 0)).toFixed(2));
-          const accentBarGradient = isWeight(item.unit)
-            ? 'from-violet-500 via-fuchsia-500 to-pink-500'
-            : isVolume(item.unit)
-            ? 'from-sky-500 via-cyan-500 to-teal-500'
-            : 'from-amber-400 via-orange-500 to-rose-500';
-
-          const card = document.createElement('div');
-          card.className = 'pantry-card rounded-[1.6rem] pt-4 pb-3.5 px-4 flex flex-col justify-between gap-3.5 relative overflow-hidden group';
-
-          card.innerHTML = `
-            <!-- Top Vibrant Accent Strip -->
-            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentBarGradient} opacity-85"></div>
-
-            <!-- Top Section: Item Name, Category & Action Icons (Reserve, Edit, Delete) -->
-            <div class="flex items-start justify-between gap-2.5">
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-1.5 flex-wrap mb-1.5">
-                  <span class="inline-flex items-center text-[10px] font-extrabold px-2.5 py-0.5 rounded-lg border ${catStyle}">
-                    ${escapeHtml(item.category)}
-                  </span>
-                </div>
-                <h4 class="text-base sm:text-[17px] font-extrabold text-slate-900 truncate leading-snug tracking-tight">
-                  ${escapeHtml(item.name)}
-                </h4>
-              </div>
-
-              <!-- Reserve, Edit & Delete Icon Buttons -->
-              <div class="flex items-center gap-1.5 flex-shrink-0">
-                <button
-                  type="button"
-                  data-reserve-btn="${item.id}"
-                  class="hold-zone w-8 h-8 rounded-xl bg-amber-50/90 hover:bg-amber-500 text-amber-600 hover:text-white border border-amber-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
-                  title="Long-press to reserve item"
-                >
-                  <i data-lucide="archive" class="w-3.5 h-3.5"></i>
-                </button>
-                <button
-                  type="button"
-                  onclick="openEditItemModal('${item.id}')"
-                  class="w-8 h-8 rounded-xl bg-indigo-50/90 hover:bg-indigo-600 text-indigo-600 hover:text-white border border-indigo-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
-                  title="Edit item"
-                >
-                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-                </button>
-                <button
-                  type="button"
-                  onclick="promptRemoveItem('${item.id}')"
-                  class="w-8 h-8 rounded-xl bg-rose-50/90 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
-                  title="Delete item"
-                >
-                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- Lower Split Bar: Left = Active | Center Vertical Line | Right = Stock -->
-            <div class="pt-3 border-t border-slate-200/80 flex items-stretch justify-between gap-2.5">
-              
-              <!-- Left Side: Active Quantity (Long Press to Replace) -->
-              <div
-                data-hold-active="${item.id}"
-                class="hold-zone flex-1 flex items-center justify-between gap-2 bg-gradient-to-br from-violet-50/95 to-indigo-50/70 hover:from-violet-100/90 hover:to-indigo-100/70 border border-violet-200/80 rounded-2xl px-3.5 py-2.5 cursor-pointer shadow-2xs"
-                title="Long-press to replace active quantity"
-              >
-                <div class="min-w-0">
-                  <span class="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-violet-700">
-                    <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
-                    Active
-                  </span>
-                  <div class="text-sm sm:text-[15px] font-black text-slate-900 truncate mt-0.5">
-                    ${item.activeQty} <span class="text-xs font-bold text-violet-700">${escapeHtml(item.unit)}</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Center Divider Line -->
-              <div class="w-[1.5px] bg-gradient-to-b from-transparent via-slate-300/90 to-transparent self-stretch my-1"></div>
-
-              <!-- Right Side: Stock Quantity (Long Press for Restock / Shift to Active) -->
-              <div
-                data-hold-stock="${item.id}"
-                class="hold-zone flex-1 flex items-center justify-between gap-2 bg-gradient-to-br from-emerald-50/95 to-teal-50/70 hover:from-emerald-100/90 hover:to-teal-100/70 border border-emerald-200/80 rounded-2xl px-3.5 py-2.5 cursor-pointer shadow-2xs"
-                title="Long-press to restock or shift to active"
-              >
-                <div class="min-w-0">
-                  <span class="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    In Stock
-                  </span>
-                  <div class="text-sm sm:text-[15px] font-black text-slate-900 truncate mt-0.5">
-                    ${item.stockQty} <span class="text-xs font-bold text-emerald-700">${escapeHtml(item.unit)}</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          `;
-
-          // Bind long-press handlers
-          const activeBox = card.querySelector(`[data-hold-active="${item.id}"]`);
-          const stockBox = card.querySelector(`[data-hold-stock="${item.id}"]`);
-          const reserveBtn = card.querySelector(`[data-reserve-btn="${item.id}"]`);
-          attachLongPress(activeBox, () => openQuantityActionModal(item.id, 'active'));
-          attachLongPress(stockBox, () => openQuantityActionModal(item.id, 'stock'));
-          attachLongPress(reserveBtn, () => promptReserveItem(item.id));
-
-          itemsContainer.appendChild(card);
+          itemsContainer.appendChild(buildPantryItemCard(item));
         });
+      }
+
+      if (!shortageScreenView.classList.contains('hidden')) {
+        renderShortageScreen();
       }
 
       lucide.createIcons();
@@ -2510,7 +2758,6 @@
           saveItems();
           renderItems();
           renderSettingsItemsList();
-          checkEmptySettingsGate();
         },
         "Delete"
       );
@@ -2545,7 +2792,6 @@
       renderItems();
       renderSettingsItemsList();
       closeEntryPopup();
-      checkEmptySettingsGate();
     });
 
     // Search Input & Clear
@@ -2599,7 +2845,6 @@
           saveItems();
           renderItems();
           renderSettingsItemsList();
-          checkEmptySettingsGate();
         },
         "Clear All"
       );
