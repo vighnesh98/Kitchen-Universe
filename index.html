@@ -1170,31 +1170,31 @@
   </div>
 
   <!-- ==================== MODAL 9: LAUNCH SHORTAGE ALERT POPUP ==================== -->
-  <div id="shortageAlertModal" data-backdrop-close="shortageAlertModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-md z-[65] flex items-center justify-center p-4 hidden modal-backdrop-animate">
-    <div class="glass-modal rounded-[1.75rem] p-6 max-w-sm w-full border-2 border-orange-200/90 text-center animate-modal-in">
-      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500"></div>
+  <div id="shortageAlertModal" data-backdrop-close="shortageAlertModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[65] flex items-center justify-center p-4 hidden modal-backdrop-animate">
+    <div class="bg-white/95 backdrop-blur-2xl rounded-[1.75rem] p-6 max-w-sm w-full border border-violet-100 shadow-[0_28px_60px_-14px_rgba(109,40,217,0.22),0_10px_24px_-8px_rgba(15,23,42,0.1)] text-center relative overflow-hidden animate-modal-in">
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 via-fuchsia-500 to-amber-500"></div>
       <button
         id="dismissShortageAlertBtn"
         type="button"
-        class="absolute top-4 right-4 w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition active:scale-95 cursor-pointer"
+        class="absolute top-4 right-4 w-8 h-8 rounded-xl bg-slate-100/90 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition active:scale-95 cursor-pointer"
         title="Dismiss"
       >
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
-      <div class="w-14 h-14 bg-gradient-to-br from-orange-100 via-amber-100 to-rose-100 text-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-3.5 mt-1 shadow-inner border border-orange-200/70">
+      <div class="w-14 h-14 bg-gradient-to-br from-violet-100 via-fuchsia-100 to-amber-100 text-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-3.5 mt-1 shadow-inner border border-violet-200/70">
         <i data-lucide="alert-circle" class="w-7 h-7"></i>
       </div>
-      <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-700">
+      <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-violet-100 text-violet-700 border border-violet-200/70">
         Pantry Stock Notice
       </span>
       <h4 id="shortageAlertTitle" class="text-lg font-black text-slate-900 mt-2 mb-1.5">Low Stock Detected</h4>
-      <p id="shortageAlertDesc" class="text-xs text-slate-600 mb-5 leading-relaxed">
+      <p id="shortageAlertDesc" class="text-xs font-medium text-slate-600 mb-5 leading-relaxed">
         Some items in your kitchen are running below your target quantity.
       </p>
       <button
         id="viewShortageItemsBtn"
         type="button"
-        class="w-full py-3 text-xs font-extrabold rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 text-white shadow-lg shadow-orange-500/25 active:scale-95 transition cursor-pointer flex items-center justify-center gap-2"
+        class="w-full py-3 text-xs font-extrabold rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 text-white shadow-lg shadow-violet-500/25 active:scale-95 transition cursor-pointer flex items-center justify-center gap-2"
       >
         <i data-lucide="eye" class="w-4 h-4"></i>
         <span>View Shortages</span>
