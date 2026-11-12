@@ -166,8 +166,8 @@
   <div class="w-full max-w-4xl space-y-5 sm:space-y-6 relative z-10">
 
     <!-- Clean Light Branded Header -->
-    <header class="flex items-center justify-between px-1 pt-1">
-      <div class="flex items-center gap-3.5">
+    <header class="flex items-center justify-between gap-3 px-1.5 sm:px-2 pt-1">
+      <div class="flex items-center gap-3 sm:gap-3.5 min-w-0">
         <!-- Brand Logo Badge -->
         <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-amber-500 flex items-center justify-center shadow-xl shadow-violet-500/25 p-2.5 flex-shrink-0 border-2 border-white">
           <svg viewBox="0 0 100 100" class="w-full h-full fill-white drop-shadow-sm">
@@ -176,27 +176,65 @@
             <circle cx="50" cy="26" r="6" fill="#ffffff" />
           </svg>
         </div>
-        <div>
-          <h1 class="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-violet-900 to-fuchsia-800 bg-clip-text text-transparent">
+        <div class="min-w-0">
+          <h1 class="text-xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-violet-900 to-fuchsia-800 bg-clip-text text-transparent truncate">
             Kitchen Universe
           </h1>
           <p class="text-[11px] font-semibold text-slate-500 hidden sm:block">Smart Pantry & Volume Tracker</p>
         </div>
       </div>
 
-      <!-- Install PWA Mobile App Button (Conditional) -->
-      <button
-        id="installAppBtn"
-        class="hidden inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-violet-50 text-violet-700 border border-violet-200 text-xs font-extrabold rounded-xl shadow-sm active:scale-95 transition cursor-pointer"
-        title="Install Kitchen Universe App"
-      >
-        <i data-lucide="download" class="w-3.5 h-3.5"></i>
-        <span>Install App</span>
-      </button>
+      <!-- Home View Header Buttons -->
+      <div id="homeHeaderActions" class="flex items-center gap-2 sm:gap-2.5 pr-1 sm:pr-1.5 flex-shrink-0">
+        <!-- Install PWA Mobile App Button (Conditional) -->
+        <button
+          id="installAppBtn"
+          class="hidden inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-violet-50 text-violet-700 border border-violet-200 text-xs font-extrabold rounded-xl shadow-sm active:scale-95 transition cursor-pointer"
+          title="Install Kitchen Universe App"
+        >
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Install App</span>
+        </button>
+
+        <!-- List Button -->
+        <button
+          id="headerListBtn"
+          type="button"
+          class="inline-flex items-center justify-center gap-1.5 h-10 px-3 sm:px-3.5 rounded-xl bg-white/90 hover:bg-white text-slate-700 hover:text-violet-700 border border-slate-200/90 text-xs font-extrabold shadow-xs active:scale-95 transition cursor-pointer"
+          title="Shopping List"
+        >
+          <i data-lucide="clipboard-list" class="w-4 h-4 text-violet-600"></i>
+          <span>List</span>
+        </button>
+
+        <!-- Settings Button -->
+        <button
+          id="headerSettingsBtn"
+          type="button"
+          class="inline-flex items-center justify-center gap-1.5 h-10 px-3 sm:px-3.5 rounded-xl bg-white/90 hover:bg-white text-slate-700 hover:text-violet-700 border border-slate-200/90 text-xs font-extrabold shadow-xs active:scale-95 transition cursor-pointer"
+          title="Settings"
+        >
+          <i data-lucide="settings" class="w-4 h-4 text-slate-700"></i>
+          <span class="hidden sm:inline">Settings</span>
+        </button>
+      </div>
+
+      <!-- List View Header Button (Replaces List & Settings when on List Screen) -->
+      <div id="listHeaderActions" class="hidden flex items-center gap-2 sm:gap-2.5 pr-1 sm:pr-1.5 flex-shrink-0">
+        <button
+          id="headerHomeBtn"
+          type="button"
+          class="inline-flex items-center justify-center gap-1.5 h-10 px-3.5 sm:px-4 rounded-xl bg-white/90 hover:bg-white text-slate-800 hover:text-violet-700 border border-slate-200/90 text-xs font-extrabold shadow-xs active:scale-95 transition cursor-pointer"
+          title="Back to Home"
+        >
+          <i data-lucide="home" class="w-4 h-4 text-violet-600"></i>
+          <span>Home</span>
+        </button>
+      </div>
     </header>
 
-    <!-- Main Pantry Inventory Card -->
-    <main class="glass-panel rounded-[2rem] p-4 sm:p-7 min-h-[420px]">
+    <!-- Main Pantry Inventory Card (Home Screen) -->
+    <main id="homeScreenView" class="glass-panel rounded-[2rem] p-4 sm:p-7 min-h-[420px]">
       
       <!-- Pantry Header with Action Buttons (+ Add Menu & Clear) -->
       <div class="flex items-center justify-between gap-2 pb-4 border-b border-slate-200/70">
@@ -374,6 +412,60 @@
         </p>
       </div>
     </main>
+
+    <!-- Shopping List Screen (Matches Home Screen Style & Theme) -->
+    <section id="listScreenView" class="hidden glass-panel rounded-[2rem] p-4 sm:p-7 min-h-[420px]">
+      <!-- Top Bar: Title, Refresh Button & Forward to WhatsApp -->
+      <div class="flex items-center justify-between gap-2 pb-4 border-b border-slate-200/70 flex-wrap">
+        <div>
+          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2.5 tracking-tight">
+            Shopping List
+            <span id="shoppingListCountBadge" class="text-[11px] px-2.5 py-0.5 rounded-full bg-gradient-to-r from-violet-100 to-fuchsia-100 text-violet-700 border border-violet-200/60 font-extrabold">0</span>
+          </h2>
+          <p class="text-[11px] text-slate-500 mt-0.5 font-medium" id="shoppingListLastRefreshed">Tap Refresh to calculate needed pantry items</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Refresh Button -->
+          <button
+            id="refreshShoppingListBtn"
+            type="button"
+            class="inline-flex items-center justify-center gap-1.5 text-xs font-extrabold text-violet-700 hover:text-white bg-violet-50 hover:bg-violet-600 border border-violet-200/90 px-3.5 py-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer"
+            title="Recalculate from Settings & Pantry"
+          >
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>Refresh</span>
+          </button>
+
+          <!-- Forward to WhatsApp Button -->
+          <button
+            id="shareWhatsappBtn"
+            type="button"
+            class="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 via-green-600 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xs sm:text-sm font-extrabold shadow-lg shadow-emerald-500/25 active:scale-95 transition-all duration-200 cursor-pointer"
+            title="Forward Shopping List to WhatsApp"
+          >
+            <i data-lucide="share-2" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+            <span>WhatsApp</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Shopping List Items Container -->
+      <div id="shoppingListContainer" class="pt-4 space-y-2.5">
+        <!-- Rendered shopping list rows -->
+      </div>
+
+      <!-- Empty Shopping List State -->
+      <div id="emptyShoppingListState" class="hidden py-14 text-center">
+        <div class="w-16 h-16 bg-gradient-to-tr from-emerald-100 via-teal-100 to-violet-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-3 shadow-inner">
+          <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+        </div>
+        <h4 class="text-base font-bold text-slate-800 mb-1">All pantry items are stocked!</h4>
+        <p class="text-xs text-slate-500 max-w-xs mx-auto mb-4">
+          No shortages found based on your Settings target values. Tap <span class="font-bold text-violet-600">Refresh</span> anytime to recalculate.
+        </p>
+      </div>
+    </section>
 
     <!-- Footer -->
     <footer class="text-center text-[11px] text-slate-500 py-2 font-medium tracking-wide">
@@ -733,7 +825,7 @@
   </div>
 
   <!-- ==================== MODAL 4: WARNING / CONFIRMATION MODAL ==================== -->
-  <div id="customModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+  <div id="customModal" class="fixed inset-0 bg-slate-900/55 backdrop-blur-md z-[70] flex items-center justify-center p-4 hidden">
     <div class="bg-white/95 backdrop-blur-xl rounded-[1.75rem] p-5 sm:p-6 max-w-sm w-full shadow-2xl border border-white text-center animate-modal-in">
       <div class="w-12 h-12 bg-gradient-to-br from-rose-100 to-pink-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-inner">
         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
@@ -759,86 +851,225 @@
     </div>
   </div>
 
+  <!-- ==================== MODAL 5: SETTINGS POPUP ==================== -->
+  <div id="settingsModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white/95 backdrop-blur-xl rounded-[1.75rem] p-5 sm:p-6 max-w-lg w-full max-h-[88vh] flex flex-col shadow-2xl border border-white animate-modal-in">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3.5 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-slate-800 via-violet-800 to-indigo-700 text-white flex items-center justify-center shadow-lg shadow-slate-500/20">
+            <i data-lucide="settings" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900">Settings</h3>
+            <p class="text-[11px] text-slate-500 font-medium">Kitchen preferences & storage</p>
+          </div>
+        </div>
+        <button id="closeSettingsModal" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 pt-3 flex-1 overflow-y-auto pr-0.5">
+        <!-- Long Bar Button: Reserved Items -->
+        <button
+          id="openReservedItemsBtn"
+          type="button"
+          class="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50/80 to-amber-50 hover:from-amber-100 hover:to-orange-100/90 border border-amber-200/80 text-left shadow-xs active:scale-[0.99] transition-all cursor-pointer group"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-sm">
+              <i data-lucide="archive" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="text-sm font-extrabold text-slate-900">Reserved Items</div>
+              <div class="text-[11px] text-slate-500 font-medium">View & restore reserved pantry items</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="reservedCountPill" class="px-2.5 py-0.5 rounded-full bg-amber-200/80 text-amber-900 text-xs font-extrabold">0</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-700 group-hover:translate-x-0.5 transition-transform"></i>
+          </div>
+        </button>
+
+        <!-- All Items Threshold / Reference Values List (Pantry + Reserved) -->
+        <div class="pt-2 border-t border-slate-100">
+          <div class="flex items-center justify-between mb-2 px-1">
+            <div>
+              <h4 class="text-xs font-black uppercase tracking-wider text-slate-800">All Items Values</h4>
+              <p class="text-[10px] text-slate-500 font-medium">Fill every item's value below (blank entries stay on top)</p>
+            </div>
+            <span id="settingsPendingBadge" class="hidden text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 border border-rose-200">
+              0 empty
+            </span>
+          </div>
+
+          <div id="settingsAllItemsList" class="space-y-2">
+            <!-- Dynamically populated with all pantry & reserved items -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 6: RESERVED ITEMS POPUP ==================== -->
+  <div id="reservedItemsModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white/95 backdrop-blur-xl rounded-[1.75rem] p-5 sm:p-6 max-w-2xl w-full max-h-[88vh] flex flex-col shadow-2xl border border-white animate-modal-in">
+      <!-- Top Bar with Back Button to Settings -->
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3.5 mb-4 flex-shrink-0">
+        <div class="flex items-center gap-2.5">
+          <button
+            id="backToSettingsBtn"
+            type="button"
+            class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition active:scale-95 cursor-pointer"
+            title="Back to Settings"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center gap-2">
+              Reserved Items
+              <span id="reservedModalCountBadge" class="text-[11px] px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200/70 font-extrabold">0</span>
+            </h3>
+            <p class="text-[11px] text-slate-500 font-medium">Long-press the unreserve icon to move back to Pantry</p>
+          </div>
+        </div>
+        <button id="closeReservedItemsModal" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Reserved Items Cards Container -->
+      <div id="reservedItemsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 overflow-y-auto pr-1 flex-1">
+        <!-- Rendered reserved item cards -->
+      </div>
+
+      <!-- Empty Reserved State -->
+      <div id="emptyReservedState" class="hidden py-12 text-center">
+        <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-amber-100">
+          <i data-lucide="archive" class="w-7 h-7"></i>
+        </div>
+        <h4 class="text-sm font-extrabold text-slate-800 mb-1">No reserved items</h4>
+        <p class="text-xs text-slate-500 max-w-xs mx-auto">
+          Long-press the reserve icon on any pantry item card to move it here.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 7: UNCLOSABLE MANDATORY SETTINGS GATE ==================== -->
+  <div id="mandatorySettingsGateModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-md z-[80] flex items-center justify-center p-4 hidden">
+    <div class="bg-white/98 backdrop-blur-xl rounded-[1.75rem] p-6 max-w-sm w-full shadow-2xl border-2 border-rose-200 text-center animate-modal-in">
+      <div class="w-14 h-14 bg-gradient-to-br from-rose-100 to-amber-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-3.5 shadow-inner">
+        <i data-lucide="alert-circle" class="w-7 h-7"></i>
+      </div>
+      <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700">
+        Action Required
+      </span>
+      <h4 class="text-lg font-black text-slate-900 mt-2 mb-1.5">Missing Item Values</h4>
+      <p id="mandatoryGateDesc" class="text-xs text-slate-600 mb-5 leading-relaxed">
+        One or more items in Settings have an empty textbox. Please go to Settings and enter values for all items to continue.
+      </p>
+      <button
+        id="goToSettingsFromGateBtn"
+        type="button"
+        class="w-full py-3 text-xs font-extrabold rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 text-white shadow-lg shadow-violet-500/25 active:scale-95 transition cursor-pointer flex items-center justify-center gap-2"
+      >
+        <i data-lucide="settings" class="w-4 h-4"></i>
+        <span>Go to Settings</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 8: PURCHASED QUANTITY POPUP (SHOPPING LIST CHECKBOX) ==================== -->
+  <div id="purchaseCheckModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white/95 backdrop-blur-xl rounded-[1.75rem] p-5 sm:p-6 max-w-sm w-full shadow-2xl border border-white space-y-4 animate-modal-in">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 text-white flex items-center justify-center shadow-lg shadow-emerald-500/25">
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 id="purchaseModalItemTitle" class="text-base font-extrabold text-slate-900">Item Purchased</h3>
+            <p id="purchaseModalRefQty" class="text-xs font-bold text-violet-700 mt-0.5">Needed in list: 0</p>
+          </div>
+        </div>
+        <button id="closePurchaseCheckModal" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="purchaseCheckForm" class="space-y-3">
+        <div>
+          <label for="purchasedQtyInput" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+            How much quantity did you purchase?
+          </label>
+          <div class="relative">
+            <input
+              type="number"
+              id="purchasedQtyInput"
+              step="any"
+              min="0.01"
+              placeholder="Enter purchased quantity"
+              class="glass-input w-full rounded-xl px-3.5 py-2.5 pr-14 text-slate-900 font-bold focus:outline-none"
+              required
+            />
+            <span id="purchaseModalUnitSuffix" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-extrabold text-slate-400 uppercase">kg</span>
+          </div>
+          <p id="purchasePreviewHint" class="text-[11px] font-semibold text-emerald-600 mt-1.5"></p>
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <button
+            type="button"
+            id="cancelPurchaseCheckBtn"
+            class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold text-xs shadow-md active:scale-95 transition cursor-pointer"
+          >
+            Confirm Purchase
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
-    // Service Worker for offline PWA installation capability
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        const swBlob = new Blob([
-          `self.addEventListener('install', e => self.skipWaiting());
-           self.addEventListener('activate', e => clients.claim());
-           self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));`
-        ], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(swBlob);
-        navigator.serviceWorker.register(swUrl).catch(() => {});
-      });
-    }
-
-    // PWA Install Prompt Listener
-    let deferredPrompt = null;
-    const installAppBtn = document.getElementById('installAppBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installAppBtn.classList.remove('hidden');
-    });
-
-    installAppBtn.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          installAppBtn.classList.add('hidden');
-        }
-        deferredPrompt = null;
-      }
-    });
-
-    // Vibrant Category Colors Palette for Light Theme
-    const CATEGORY_COLORS = [
-      { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' },
-      { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
-      { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200' },
-      { bg: 'bg-sky-50', text: 'text-sky-700', border: 'border-sky-200' },
-      { bg: 'bg-violet-50', text: 'text-violet-700', border: 'border-violet-200' },
-      { bg: 'bg-fuchsia-50', text: 'text-fuchsia-700', border: 'border-fuchsia-200' },
-      { bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
-    ];
-
-    // State Variables
-    let items = [];
+    // ==================== STATE & STORAGE ====================
+    const DEFAULT_CATEGORIES = ['Produce', 'Grains & Flour', 'Spices & Herbs', 'Dairy & Eggs', 'Oils & Liquids', 'Snacks'];
     let categories = [];
-    let currentFilter = 'all'; // 'all' | 'weight' | 'volume' | 'count'
+    let items = [];
+    let shoppingList = [];
+    let shoppingListRefreshedAt = null;
+    let activePurchaseEntryId = null;
     let currentSort = 'newest';
+    let currentFilterType = 'all';
     let searchQuery = '';
-    let pendingModalCallback = null;
+    let pendingModalAction = null;
+    let deferredPrompt = null;
 
-    // Long-press Action State
-    let activeQtyModalState = {
+    // State for long-press quantity modal
+    let activeQtyModalContext = {
       itemId: null,
-      targetType: 'active', // 'active' | 'stock'
-      stockMode: 'restock'  // 'restock' | 'shift'
+      target: 'active', // 'active' or 'stock'
+      stockMode: 'restock' // 'restock' or 'shift'
     };
 
     // DOM References
     const itemsContainer = document.getElementById('itemsContainer');
     const emptyState = document.getElementById('emptyState');
     const renderedCountBadge = document.getElementById('renderedCountBadge');
-    const searchInput = document.getElementById('searchInput');
-    const clearSearchBtn = document.getElementById('clearSearchBtn');
     const sortLabelNotice = document.getElementById('sortLabelNotice');
-    const activeSortLabel = document.getElementById('activeSortLabel');
-    const activeFilterBadge = document.getElementById('activeFilterBadge');
-    const activeFilterLabel = document.getElementById('activeFilterLabel');
-    const clearAllBtn = document.getElementById('clearAllBtn');
 
-    // Add Action Popover & Modals
+    // Add Menu & Modals
     const addActionMenuBtn = document.getElementById('addActionMenuBtn');
     const addActionPopover = document.getElementById('addActionPopover');
     const openNewEntryModalBtn = document.getElementById('openNewEntryModalBtn');
     const openCategoryModalBtn = document.getElementById('openCategoryModalBtn');
 
-    // Add Entry Modal Elements
     const addEntryModal = document.getElementById('addEntryModal');
     const closeAddEntryModal = document.getElementById('closeAddEntryModal');
     const cancelAddEntryBtn = document.getElementById('cancelAddEntryBtn');
@@ -849,7 +1080,7 @@
     const itemUnitSelect = document.getElementById('itemUnit');
     const itemCategorySelect = document.getElementById('itemCategorySelect');
 
-    // Edit Entry Modal Elements
+    // Edit Entry Modal
     const editEntryModal = document.getElementById('editEntryModal');
     const closeEditEntryModal = document.getElementById('closeEditEntryModal');
     const cancelEditEntryBtn = document.getElementById('cancelEditEntryBtn');
@@ -859,7 +1090,6 @@
     const editItemUnitSelect = document.getElementById('editItemUnit');
     const editItemCategorySelect = document.getElementById('editItemCategorySelect');
 
-    // Category Modal Elements
     const categoryModal = document.getElementById('categoryModal');
     const closeCategoryModal = document.getElementById('closeCategoryModal');
     const doneCategoryModalBtn = document.getElementById('doneCategoryModalBtn');
@@ -867,13 +1097,7 @@
     const newCategoryInput = document.getElementById('newCategoryInput');
     const categoryPillsContainer = document.getElementById('categoryPillsContainer');
 
-    // Sort & Filter Dropdown
-    const sortFilterToggleBtn = document.getElementById('sortFilterToggleBtn');
-    const sortFilterDropdown = document.getElementById('sortFilterDropdown');
-    const sortOptionBtns = document.querySelectorAll('.sort-option-btn');
-    const filterTypePills = document.querySelectorAll('.filter-type-pill');
-
-    // Long-press Quantity Action Modal
+    // Long-press Quantity Modal
     const quantityActionModal = document.getElementById('quantityActionModal');
     const closeQtyActionModal = document.getElementById('closeQtyActionModal');
     const cancelQtyActionBtn = document.getElementById('cancelQtyActionBtn');
@@ -890,90 +1114,166 @@
     const qtyActionPreviewHint = document.getElementById('qtyActionPreviewHint');
     const submitQtyActionBtn = document.getElementById('submitQtyActionBtn');
 
-    // Warning Confirmation Modal
+    // Sort, Filter, Search
+    const sortFilterToggleBtn = document.getElementById('sortFilterToggleBtn');
+    const sortFilterDropdown = document.getElementById('sortFilterDropdown');
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    const activeSortLabel = document.getElementById('activeSortLabel');
+    const activeFilterBadge = document.getElementById('activeFilterBadge');
+    const activeFilterLabel = document.getElementById('activeFilterLabel');
+
+    // Warning Modal
     const customModal = document.getElementById('customModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalDescription = document.getElementById('modalDescription');
     const modalCancel = document.getElementById('modalCancel');
     const modalConfirm = document.getElementById('modalConfirm');
 
-    // Category Color Resolver
-    function getCategoryColor(categoryName) {
-      let hash = 0;
-      for (let i = 0; i < categoryName.length; i++) {
-        hash = categoryName.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      return CATEGORY_COLORS[Math.abs(hash) % CATEGORY_COLORS.length];
-    }
+    // Settings & Reserved Items Modals
+    const headerSettingsBtn = document.getElementById('headerSettingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettingsModal = document.getElementById('closeSettingsModal');
+    const openReservedItemsBtn = document.getElementById('openReservedItemsBtn');
+    const reservedCountPill = document.getElementById('reservedCountPill');
+    const settingsAllItemsList = document.getElementById('settingsAllItemsList');
+    const settingsPendingBadge = document.getElementById('settingsPendingBadge');
 
-    // Confirmation Modal Control
-    function openModal(title, desc, onConfirm, confirmBtnText = 'Confirm') {
-      modalTitle.textContent = title;
-      modalDescription.textContent = desc;
-      modalConfirm.textContent = confirmBtnText;
-      pendingModalCallback = onConfirm;
-      customModal.classList.remove('hidden');
-      lucide.createIcons();
-    }
+    // Unclosable Mandatory Settings Gate
+    const mandatorySettingsGateModal = document.getElementById('mandatorySettingsGateModal');
+    const mandatoryGateDesc = document.getElementById('mandatoryGateDesc');
+    const goToSettingsFromGateBtn = document.getElementById('goToSettingsFromGateBtn');
 
-    modalCancel.addEventListener('click', () => {
-      customModal.classList.add('hidden');
-      pendingModalCallback = null;
+    const reservedItemsModal = document.getElementById('reservedItemsModal');
+    const backToSettingsBtn = document.getElementById('backToSettingsBtn');
+    const closeReservedItemsModal = document.getElementById('closeReservedItemsModal');
+    const reservedModalCountBadge = document.getElementById('reservedModalCountBadge');
+    const reservedItemsContainer = document.getElementById('reservedItemsContainer');
+    const emptyReservedState = document.getElementById('emptyReservedState');
+
+    // Screen Navigation & Shopping List DOM
+    const homeHeaderActions = document.getElementById('homeHeaderActions');
+    const listHeaderActions = document.getElementById('listHeaderActions');
+    const headerListBtn = document.getElementById('headerListBtn');
+    const headerHomeBtn = document.getElementById('headerHomeBtn');
+    const homeScreenView = document.getElementById('homeScreenView');
+    const listScreenView = document.getElementById('listScreenView');
+    const shoppingListCountBadge = document.getElementById('shoppingListCountBadge');
+    const shoppingListLastRefreshed = document.getElementById('shoppingListLastRefreshed');
+    const refreshShoppingListBtn = document.getElementById('refreshShoppingListBtn');
+    const shareWhatsappBtn = document.getElementById('shareWhatsappBtn');
+    const shoppingListContainer = document.getElementById('shoppingListContainer');
+    const emptyShoppingListState = document.getElementById('emptyShoppingListState');
+
+    // Purchase Check Modal DOM
+    const purchaseCheckModal = document.getElementById('purchaseCheckModal');
+    const closePurchaseCheckModal = document.getElementById('closePurchaseCheckModal');
+    const cancelPurchaseCheckBtn = document.getElementById('cancelPurchaseCheckBtn');
+    const purchaseCheckForm = document.getElementById('purchaseCheckForm');
+    const purchaseModalItemTitle = document.getElementById('purchaseModalItemTitle');
+    const purchaseModalRefQty = document.getElementById('purchaseModalRefQty');
+    const purchasedQtyInput = document.getElementById('purchasedQtyInput');
+    const purchaseModalUnitSuffix = document.getElementById('purchaseModalUnitSuffix');
+    const purchasePreviewHint = document.getElementById('purchasePreviewHint');
+
+    // ==================== PWA & INSTALL SUPPORT ====================
+    const installAppBtn = document.getElementById('installAppBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installAppBtn.classList.remove('hidden');
     });
 
-    modalConfirm.addEventListener('click', () => {
-      if (typeof pendingModalCallback === 'function') {
-        pendingModalCallback();
+    installAppBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        installAppBtn.classList.add('hidden');
       }
-      customModal.classList.add('hidden');
-      pendingModalCallback = null;
+      deferredPrompt = null;
     });
 
-    // Toggle '+' Choice Popover
+    window.addEventListener('appinstalled', () => {
+      installAppBtn.classList.add('hidden');
+      deferredPrompt = null;
+    });
+
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        self.addEventListener('install', (e) => self.skipWaiting());
+        self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
+        self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response(''))));
+      `;
+      const swBlob = new Blob([swCode], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    // ==================== POPOVERS & MODAL TRIGGERS ====================
     addActionMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       sortFilterDropdown.classList.add('hidden');
       addActionPopover.classList.toggle('hidden');
+      lucide.createIcons();
     });
 
-    // Open New Entry Popup
+    sortFilterToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      addActionPopover.classList.add('hidden');
+      sortFilterDropdown.classList.toggle('hidden');
+      lucide.createIcons();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!addActionPopover.contains(e.target) && !addActionMenuBtn.contains(e.target)) {
+        addActionPopover.classList.add('hidden');
+      }
+      if (!sortFilterDropdown.contains(e.target) && !sortFilterToggleBtn.contains(e.target)) {
+        sortFilterDropdown.classList.add('hidden');
+      }
+    });
+
+    // Open Add New Entry Popup
     openNewEntryModalBtn.addEventListener('click', () => {
       addActionPopover.classList.add('hidden');
       populateCategorySelect();
+      inventoryForm.reset();
       addEntryModal.classList.remove('hidden');
-      setTimeout(() => itemNameInput.focus(), 80);
+      setTimeout(() => itemNameInput.focus(), 60);
+      lucide.createIcons();
     });
 
     function closeEntryPopup() {
       addEntryModal.classList.add('hidden');
-      inventoryForm.reset();
     }
     closeAddEntryModal.addEventListener('click', closeEntryPopup);
     cancelAddEntryBtn.addEventListener('click', closeEntryPopup);
 
-    // Open & Close Edit Entry Popup
-    window.openEditEntryModal = function(id) {
+    // Open Edit Entry Popup
+    window.openEditItemModal = function(id) {
       const item = items.find(i => i.id === id);
       if (!item) return;
 
-      populateCategorySelect();
+      populateEditCategorySelect(item.category);
       editItemIdInput.value = item.id;
       editItemNameInput.value = item.name;
       editItemUnitSelect.value = item.unit;
-      editItemCategorySelect.value = categories.includes(item.category) ? item.category : (categories[0] || '');
 
       editEntryModal.classList.remove('hidden');
+      setTimeout(() => editItemNameInput.focus(), 60);
       lucide.createIcons();
-      setTimeout(() => editItemNameInput.focus(), 80);
     };
 
     function closeEditPopup() {
       editEntryModal.classList.add('hidden');
-      editInventoryForm.reset();
     }
     closeEditEntryModal.addEventListener('click', closeEditPopup);
     cancelEditEntryBtn.addEventListener('click', closeEditPopup);
 
+    // Save Edited Item
     editInventoryForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const id = editItemIdInput.value;
@@ -982,7 +1282,7 @@
 
       const updatedName = editItemNameInput.value.trim();
       const updatedUnit = editItemUnitSelect.value;
-      const updatedCategory = editItemCategorySelect.value || (categories[0] || 'General');
+      const updatedCategory = editItemCategorySelect.value || item.category;
 
       if (!updatedName) return;
 
@@ -990,8 +1290,16 @@
       item.unit = updatedUnit;
       item.category = updatedCategory;
 
+      // Keep settings unit compatible with the updated measurement type
+      const compatibleUnits = getCompatibleUnits(updatedUnit);
+      if (!compatibleUnits.includes(item.settingsUnit)) {
+        item.settingsUnit = updatedUnit;
+      }
+
       saveItems();
       renderItems();
+      renderSettingsItemsList();
+      checkEmptySettingsGate();
       closeEditPopup();
     });
 
@@ -1000,104 +1308,148 @@
       addActionPopover.classList.add('hidden');
       renderCategoryPills();
       categoryModal.classList.remove('hidden');
+      lucide.createIcons();
     });
 
-    function closeCategoryPopup() {
+    function closeCatPopup() {
       categoryModal.classList.add('hidden');
-      newCategoryInput.value = '';
     }
-    closeCategoryModal.addEventListener('click', closeCategoryPopup);
-    doneCategoryModalBtn.addEventListener('click', closeCategoryPopup);
+    closeCategoryModal.addEventListener('click', closeCatPopup);
+    doneCategoryModalBtn.addEventListener('click', closeCatPopup);
 
-    // Toggle Sort/Filter Popover
-    sortFilterToggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      addActionPopover.classList.add('hidden');
-      sortFilterDropdown.classList.toggle('hidden');
+    // Settings & Reserved Items Popup Navigation
+    headerSettingsBtn.addEventListener('click', () => {
+      updateReservedCounters();
+      renderSettingsItemsList();
+      settingsModal.classList.remove('hidden');
+      checkEmptySettingsGate();
+      lucide.createIcons();
     });
 
-    // Close popovers when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!sortFilterDropdown.contains(e.target) && !sortFilterToggleBtn.contains(e.target)) {
-        sortFilterDropdown.classList.add('hidden');
-      }
-      if (!addActionPopover.contains(e.target) && !addActionMenuBtn.contains(e.target)) {
-        addActionPopover.classList.add('hidden');
-      }
+    closeSettingsModal.addEventListener('click', () => {
+      if (hasEmptySettingsValues()) return;
+      settingsModal.classList.add('hidden');
+      checkEmptySettingsGate();
+    });
+
+    openReservedItemsBtn.addEventListener('click', () => {
+      settingsModal.classList.add('hidden');
+      renderReservedItems();
+      reservedItemsModal.classList.remove('hidden');
+      checkEmptySettingsGate();
+      lucide.createIcons();
+    });
+
+    backToSettingsBtn.addEventListener('click', () => {
+      reservedItemsModal.classList.add('hidden');
+      updateReservedCounters();
+      renderSettingsItemsList();
+      settingsModal.classList.remove('hidden');
+      checkEmptySettingsGate();
+      lucide.createIcons();
+    });
+
+    closeReservedItemsModal.addEventListener('click', () => {
+      reservedItemsModal.classList.add('hidden');
+      checkEmptySettingsGate();
+    });
+
+    goToSettingsFromGateBtn.addEventListener('click', () => {
+      mandatorySettingsGateModal.classList.add('hidden');
+      reservedItemsModal.classList.add('hidden');
+      updateReservedCounters();
+      renderSettingsItemsList();
+      settingsModal.classList.remove('hidden');
+      lucide.createIcons();
+    });
+
+    // Screen Switching: Home <-> Shopping List
+    headerListBtn.addEventListener('click', () => {
+      homeScreenView.classList.add('hidden');
+      homeHeaderActions.classList.add('hidden');
+      listScreenView.classList.remove('hidden');
+      listHeaderActions.classList.remove('hidden');
+      renderShoppingList();
+      lucide.createIcons();
+    });
+
+    headerHomeBtn.addEventListener('click', () => {
+      listScreenView.classList.add('hidden');
+      listHeaderActions.classList.add('hidden');
+      homeScreenView.classList.remove('hidden');
+      homeHeaderActions.classList.remove('hidden');
+      renderItems();
+      lucide.createIcons();
     });
 
     // Sort Option Selection
-    sortOptionBtns.forEach(btn => {
+    document.querySelectorAll('.sort-option-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         currentSort = btn.dataset.sort;
         updateSortUI();
+        renderItems();
         sortFilterDropdown.classList.add('hidden');
-        renderItems();
-      });
-    });
-
-    // Filter Type Pills
-    filterTypePills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        filterTypePills.forEach(p => {
-          p.classList.remove('bg-violet-600', 'text-white');
-          p.classList.add('text-slate-600');
-        });
-        pill.classList.add('bg-violet-600', 'text-white');
-        pill.classList.remove('text-slate-600');
-
-        currentFilter = pill.dataset.filter;
-        updateFilterUI();
-        renderItems();
       });
     });
 
     function updateSortUI() {
-      const sortMap = {
+      const sortNames = {
         'newest': 'Newest Added',
         'oldest': 'Oldest Added',
         'category': 'Category (A-Z)',
         'name': 'Item Name (A-Z)',
-        'qty-high': 'Big Quantity (↓)',
-        'qty-low': 'Small Quantity (↑)'
+        'qty-high': 'Big Quantity First',
+        'qty-low': 'Small Quantity First'
       };
-      activeSortLabel.textContent = sortMap[currentSort] || 'Sorted';
-      sortLabelNotice.textContent = `Sorted by ${sortMap[currentSort] ? sortMap[currentSort].toLowerCase() : 'view'}`;
+      const label = sortNames[currentSort] || 'Newest Added';
+      activeSortLabel.textContent = label;
+      sortLabelNotice.textContent = `Sorted by ${label.toLowerCase()}`;
 
-      sortOptionBtns.forEach(btn => {
-        if (btn.dataset.sort === currentSort) {
-          btn.classList.add('bg-violet-100', 'text-violet-800');
+      document.querySelectorAll('.sort-option-btn').forEach(b => {
+        if (b.dataset.sort === currentSort) {
+          b.classList.add('bg-violet-100', 'text-violet-800', 'font-extrabold');
         } else {
-          btn.classList.remove('bg-violet-100', 'text-violet-800');
+          b.classList.remove('bg-violet-100', 'text-violet-800', 'font-extrabold');
         }
       });
     }
 
-    function updateFilterUI() {
-      if (currentFilter === 'all') {
-        activeFilterBadge.classList.add('hidden');
-      } else {
-        activeFilterBadge.classList.remove('hidden');
-        const filterLabels = {
-          'weight': 'Weights (kg/g)',
-          'volume': 'Liquids (L/ml)',
-          'count': 'Counts only'
-        };
-        activeFilterLabel.textContent = filterLabels[currentFilter] || 'Filtered';
-      }
-    }
+    // Filter Type Pills
+    document.querySelectorAll('.filter-type-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        currentFilterType = pill.dataset.filter;
+        document.querySelectorAll('.filter-type-pill').forEach(p => {
+          p.classList.remove('active', 'bg-violet-600', 'text-white', 'shadow-xs');
+          p.classList.add('text-slate-600');
+        });
+        pill.classList.add('active', 'bg-violet-600', 'text-white', 'shadow-xs');
+        pill.classList.remove('text-slate-600');
 
-    // Load & Migrate LocalStorage Data
+        if (currentFilterType === 'all') {
+          activeFilterBadge.classList.add('hidden');
+        } else {
+          activeFilterBadge.classList.remove('hidden');
+          activeFilterLabel.textContent =
+            currentFilterType === 'weight' ? 'Weight (kg/g)' :
+            currentFilterType === 'volume' ? 'Liquid (L/ml)' :
+            'Count Units';
+        }
+        renderItems();
+      });
+    });
+
+    // ==================== INITIALIZATION & LOCAL STORAGE ====================
     function loadData() {
-      const storedCategories = localStorage.getItem('kitchen_vibrant_categories');
-      if (storedCategories) {
+      const storedCats = localStorage.getItem('kitchen_vibrant_categories');
+      if (storedCats) {
         try {
-          categories = JSON.parse(storedCategories);
+          categories = JSON.parse(storedCats);
+          if (!Array.isArray(categories) || categories.length === 0) categories = [...DEFAULT_CATEGORIES];
         } catch (e) {
-          categories = ['Produce', 'Grains & Flour', 'Spices & Herbs', 'Dairy & Eggs', 'Snacks & Sweets'];
+          categories = [...DEFAULT_CATEGORIES];
         }
       } else {
-        categories = ['Produce', 'Grains & Flour', 'Spices & Herbs', 'Dairy & Eggs', 'Snacks & Sweets'];
+        categories = [...DEFAULT_CATEGORIES];
         saveCategories();
       }
 
@@ -1105,29 +1457,37 @@
       if (storedItems) {
         try {
           const parsed = JSON.parse(storedItems);
-          // Migrate legacy items that only had `qty` to `activeQty` + `stockQty`
+          // Migrate legacy items that only had `qty` to `activeQty` + `stockQty` + `reserved` + `settingsValue`
           items = parsed.map(item => ({
             ...item,
             activeQty: typeof item.activeQty === 'number' ? item.activeQty : (item.qty || 0),
-            stockQty: typeof item.stockQty === 'number' ? item.stockQty : 0
+            stockQty: typeof item.stockQty === 'number' ? item.stockQty : 0,
+            reserved: Boolean(item.reserved),
+            settingsValue: item.settingsValue !== undefined && item.settingsValue !== null ? String(item.settingsValue) : '',
+            settingsUnit: item.settingsUnit || item.unit
           }));
         } catch (e) {
           items = [];
         }
       } else {
         items = [
-          { id: '1', name: 'Alphonso Mangoes', activeQty: 4, stockQty: 8, unit: 'items', category: 'Produce', timestamp: Date.now() - 50000 },
-          { id: '2', name: 'Basmati Rice', activeQty: 1.5, stockQty: 5, unit: 'kg', category: 'Grains & Flour', timestamp: Date.now() - 40000 },
-          { id: '3', name: 'Saffron Threads', activeQty: 10, stockQty: 25, unit: 'g', category: 'Spices & Herbs', timestamp: Date.now() - 30000 },
-          { id: '4', name: 'Greek Yogurt', activeQty: 2, stockQty: 4, unit: 'packs', category: 'Dairy & Eggs', timestamp: Date.now() - 20000 }
+          { id: '1', name: 'Alphonso Mangoes', activeQty: 4, stockQty: 8, unit: 'items', category: 'Produce', reserved: false, settingsValue: '6', settingsUnit: 'items', timestamp: Date.now() - 50000 },
+          { id: '2', name: 'Basmati Rice', activeQty: 1.5, stockQty: 5, unit: 'kg', category: 'Grains & Flour', reserved: false, settingsValue: '2', settingsUnit: 'kg', timestamp: Date.now() - 40000 },
+          { id: '3', name: 'Saffron Threads', activeQty: 10, stockQty: 25, unit: 'g', category: 'Spices & Herbs', reserved: false, settingsValue: '15', settingsUnit: 'g', timestamp: Date.now() - 30000 },
+          { id: '4', name: 'Greek Yogurt', activeQty: 2, stockQty: 4, unit: 'packs', category: 'Dairy & Eggs', reserved: false, settingsValue: '3', settingsUnit: 'packs', timestamp: Date.now() - 20000 }
         ];
         saveItems();
       }
 
+      loadShoppingListState();
       renderCategoryPills();
       populateCategorySelect();
       updateSortUI();
+      updateReservedCounters();
+      renderSettingsItemsList();
       renderItems();
+      renderShoppingList();
+      checkEmptySettingsGate();
     }
 
     function saveCategories() {
@@ -1136,107 +1496,138 @@
 
     function saveItems() {
       localStorage.setItem('kitchen_vibrant_items', JSON.stringify(items));
+      updateReservedCounters();
     }
 
-    function populateCategorySelect() {
-      [itemCategorySelect, editItemCategorySelect].forEach(selectEl => {
-        if (!selectEl) return;
-        const previousVal = selectEl.value;
-        selectEl.innerHTML = '';
-        categories.forEach(cat => {
-          const option = document.createElement('option');
-          option.value = cat;
-          option.textContent = cat;
-          selectEl.appendChild(option);
-        });
-        if (previousVal && categories.includes(previousVal)) {
-          selectEl.value = previousVal;
-        }
-      });
+    function updateReservedCounters() {
+      const reservedCount = items.filter(i => i.reserved).length;
+      if (reservedCountPill) reservedCountPill.textContent = reservedCount;
+      if (reservedModalCountBadge) reservedModalCountBadge.textContent = reservedCount;
     }
 
-    // Render Category Pills inside Category Modal
+    // ==================== CATEGORY MANAGEMENT ====================
+    const TAG_PALETTE = [
+      'bg-violet-100/90 text-violet-800 border-violet-200/80',
+      'bg-pink-100/90 text-pink-800 border-pink-200/80',
+      'bg-amber-100/90 text-amber-800 border-amber-200/80',
+      'bg-emerald-100/90 text-emerald-800 border-emerald-200/80',
+      'bg-sky-100/90 text-sky-800 border-sky-200/80',
+      'bg-indigo-100/90 text-indigo-800 border-indigo-200/80',
+      'bg-rose-100/90 text-rose-800 border-rose-200/80'
+    ];
+
+    function getCategoryStyle(categoryName) {
+      let hash = 0;
+      for (let i = 0; i < categoryName.length; i++) {
+        hash = categoryName.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return TAG_PALETTE[Math.abs(hash) % TAG_PALETTE.length];
+    }
+
     function renderCategoryPills() {
       categoryPillsContainer.innerHTML = '';
-      categories.forEach(cat => {
-        const style = getCategoryColor(cat);
+      categories.forEach((cat) => {
+        const styleClass = getCategoryStyle(cat);
         const pill = document.createElement('div');
-        pill.className = `flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold ${style.bg} ${style.text} ${style.border}`;
+        pill.className = `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold shadow-2xs ${styleClass}`;
 
-        pill.innerHTML = `
-          <span>${escapeHtml(cat)}</span>
-          <button
-            type="button"
-            onclick="promptDeleteCategory('${escapeHtml(cat)}')"
-            class="hover:bg-black/10 p-0.5 rounded transition text-current cursor-pointer"
-            title="Delete Category"
-          >
-            <i data-lucide="x" class="w-3.5 h-3.5"></i>
-          </button>
-        `;
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = cat;
+        pill.appendChild(labelSpan);
+
+        if (categories.length > 1) {
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.title = `Delete "${cat}"`;
+          delBtn.className = 'hover:bg-black/10 rounded-full p-0.5 transition cursor-pointer ml-0.5';
+          delBtn.innerHTML = '<i data-lucide="x" class="w-3 h-3"></i>';
+          delBtn.onclick = () => promptDeleteCategory(cat);
+          pill.appendChild(delBtn);
+        }
+
         categoryPillsContainer.appendChild(pill);
       });
       lucide.createIcons();
     }
 
-    // Delete Category with Safety Warning
-    window.promptDeleteCategory = function(catName) {
-      if (categories.length <= 1) {
-        openModal(
-          "Action Prohibited",
-          "You must keep at least one active category in your kitchen inventory.",
-          () => {},
-          "Okay"
-        );
+    function populateCategorySelect() {
+      const currentVal = itemCategorySelect.value;
+      itemCategorySelect.innerHTML = '';
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        itemCategorySelect.appendChild(opt);
+      });
+      if (categories.includes(currentVal)) {
+        itemCategorySelect.value = currentVal;
+      }
+    }
+
+    function populateEditCategorySelect(selectedCat) {
+      editItemCategorySelect.innerHTML = '';
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        editItemCategorySelect.appendChild(opt);
+      });
+      if (selectedCat && !categories.includes(selectedCat)) {
+        const fallbackOpt = document.createElement('option');
+        fallbackOpt.value = selectedCat;
+        fallbackOpt.textContent = selectedCat;
+        editItemCategorySelect.appendChild(fallbackOpt);
+      }
+      editItemCategorySelect.value = selectedCat || categories[0];
+    }
+
+    addCategoryForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const rawName = newCategoryInput.value.trim();
+      if (!rawName) return;
+
+      const exists = categories.some(c => c.toLowerCase() === rawName.toLowerCase());
+      if (exists) {
+        newCategoryInput.value = '';
         return;
       }
 
-      const affectedCount = items.filter(i => i.category === catName).length;
-      const targetCategory = categories.find(c => c !== catName) || 'General';
+      categories.push(rawName);
+      saveCategories();
+      renderCategoryPills();
+      populateCategorySelect();
+      itemCategorySelect.value = rawName;
+      newCategoryInput.value = '';
+    });
 
+    function promptDeleteCategory(categoryName) {
+      const affectedCount = items.filter(i => i.category === categoryName).length;
+      const fallbackCat = categories.find(c => c !== categoryName) || 'General';
       const warningText = affectedCount > 0
-        ? `Warning: There are ${affectedCount} item(s) in "${catName}". Deleting it will move those items to "${targetCategory}".`
-        : `Are you sure you want to delete the category "${catName}"?`;
+        ? `Warning: Deleting "${categoryName}" will reassign ${affectedCount} existing item${affectedCount === 1 ? '' : 's'} to "${fallbackCat}". Continue?`
+        : `Are you sure you want to delete the "${categoryName}" category?`;
 
       openModal(
-        `Delete "${catName}"?`,
+        `Delete "${categoryName}"?`,
         warningText,
         () => {
-          categories = categories.filter(c => c !== catName);
-          items.forEach(item => {
-            if (item.category === catName) {
-              item.category = targetCategory;
-            }
-          });
+          categories = categories.filter(c => c !== categoryName);
+          if (categories.length === 0) categories.push('General');
+
+          const newDefault = categories[0];
+          items = items.map(item => item.category === categoryName ? { ...item, category: newDefault } : item);
+
           saveCategories();
           saveItems();
           renderCategoryPills();
           populateCategorySelect();
           renderItems();
         },
-        "Delete"
+        "Delete Category"
       );
-    };
+    }
 
-    // Add New Category
-    addCategoryForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const val = newCategoryInput.value.trim();
-      if (!val) return;
-
-      const exists = categories.some(c => c.toLowerCase() === val.toLowerCase());
-      if (exists) {
-        newCategoryInput.value = '';
-        return;
-      }
-
-      categories.push(val);
-      saveCategories();
-      renderCategoryPills();
-      populateCategorySelect();
-      newCategoryInput.value = '';
-    });
-
+    // ==================== QUANTITY HELPERS & NORMALIZATION ====================
     function isWeight(unit) {
       return unit === 'kg' || unit === 'g';
     }
@@ -1245,127 +1636,588 @@
       return unit === 'L' || unit === 'ml';
     }
 
+    function getCompatibleUnits(unit) {
+      if (isWeight(unit)) return ['g', 'kg'];
+      if (isVolume(unit)) return ['ml', 'L'];
+      return [unit];
+    }
+
+    function hasEmptySettingsValues() {
+      return items.some(i => String(i.settingsValue ?? '').trim() === '');
+    }
+
+    function checkEmptySettingsGate() {
+      const emptyItems = items.filter(i => String(i.settingsValue ?? '').trim() === '');
+      const isSettingsOpen = !settingsModal.classList.contains('hidden');
+
+      if (emptyItems.length > 0 && !isSettingsOpen) {
+        mandatoryGateDesc.textContent = `${emptyItems.length} item${emptyItems.length === 1 ? ' has' : 's have'} an empty value textbox in Settings. Please go to Settings and fill in all values to continue.`;
+        mandatorySettingsGateModal.classList.remove('hidden');
+        lucide.createIcons();
+      } else {
+        mandatorySettingsGateModal.classList.add('hidden');
+      }
+    }
+
+    function updateSettingsCloseButtonState() {
+      const emptyCount = items.filter(i => String(i.settingsValue ?? '').trim() === '').length;
+      if (emptyCount > 0) {
+        closeSettingsModal.classList.add('hidden');
+        settingsPendingBadge.textContent = `${emptyCount} empty`;
+        settingsPendingBadge.classList.remove('hidden');
+      } else {
+        closeSettingsModal.classList.remove('hidden');
+        settingsPendingBadge.classList.add('hidden');
+      }
+    }
+
+    function renderSettingsItemsList() {
+      if (!settingsAllItemsList) return;
+      updateSettingsCloseButtonState();
+
+      if (items.length === 0) {
+        settingsAllItemsList.innerHTML = `
+          <div class="py-6 text-center text-xs text-slate-400 font-medium bg-slate-50/80 rounded-2xl border border-slate-100">
+            No items in pantry or reserved list yet.
+          </div>
+        `;
+        return;
+      }
+
+      // Sort so items with blank textboxes always appear at the top
+      const sortedForSettings = [...items].sort((a, b) => {
+        const aBlank = String(a.settingsValue ?? '').trim() === '';
+        const bBlank = String(b.settingsValue ?? '').trim() === '';
+        if (aBlank !== bBlank) return aBlank ? -1 : 1;
+        return b.timestamp - a.timestamp;
+      });
+
+      settingsAllItemsList.innerHTML = '';
+
+      sortedForSettings.forEach(item => {
+        const isBlank = String(item.settingsValue ?? '').trim() === '';
+        const compatibleUnits = getCompatibleUnits(item.unit);
+        const currentSettingsUnit = compatibleUnits.includes(item.settingsUnit) ? item.settingsUnit : item.unit;
+
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between gap-2.5 p-2.5 sm:p-3 rounded-2xl border transition-all ${
+          isBlank
+            ? 'bg-rose-50/70 border-rose-300/90 shadow-2xs'
+            : 'bg-slate-50/85 border-slate-200/80'
+        }`;
+
+        const unitControlHtml = compatibleUnits.length > 1
+          ? `<select
+              data-settings-unit="${item.id}"
+              class="glass-input h-9 rounded-xl px-2 text-xs font-extrabold text-slate-800 cursor-pointer focus:outline-none"
+            >
+              ${compatibleUnits.map(u => `<option value="${u}" ${u === currentSettingsUnit ? 'selected' : ''}>${u}</option>`).join('')}
+            </select>`
+          : `<span class="inline-flex items-center justify-center h-9 px-2.5 rounded-xl bg-white border border-slate-200 text-xs font-extrabold text-slate-600 select-none">
+              ${escapeHtml(item.unit)}
+            </span>`;
+
+        row.innerHTML = `
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs sm:text-sm font-extrabold text-slate-900 truncate">${escapeHtml(item.name)}</span>
+              ${item.reserved ? '<span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200/70 flex-shrink-0">Reserved</span>' : ''}
+            </div>
+            <span class="text-[10px] font-semibold text-slate-400 block truncate">${escapeHtml(item.category)}</span>
+          </div>
+
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            <input
+              type="text"
+              inputmode="decimal"
+              data-settings-input="${item.id}"
+              value="${escapeHtml(item.settingsValue ?? '')}"
+              placeholder="Required"
+              class="glass-input w-20 sm:w-24 h-9 rounded-xl px-2.5 text-xs font-bold text-slate-900 placeholder-rose-400 focus:outline-none ${isBlank ? 'border-rose-400 bg-white' : ''}"
+            />
+            ${unitControlHtml}
+          </div>
+        `;
+
+        const inputEl = row.querySelector(`[data-settings-input="${item.id}"]`);
+        inputEl.addEventListener('input', (e) => {
+          const val = e.target.value;
+          const targetItem = items.find(i => i.id === item.id);
+          if (!targetItem) return;
+          const wasBlank = String(targetItem.settingsValue ?? '').trim() === '';
+          targetItem.settingsValue = val;
+          const nowBlank = val.trim() === '';
+          saveItems();
+          updateSettingsCloseButtonState();
+
+          if (nowBlank) {
+            row.className = 'flex items-center justify-between gap-2.5 p-2.5 sm:p-3 rounded-2xl border transition-all bg-rose-50/70 border-rose-300/90 shadow-2xs';
+            inputEl.classList.add('border-rose-400', 'bg-white');
+          } else {
+            row.className = 'flex items-center justify-between gap-2.5 p-2.5 sm:p-3 rounded-2xl border transition-all bg-slate-50/85 border-slate-200/80';
+            inputEl.classList.remove('border-rose-400', 'bg-white');
+          }
+
+          // Re-sort blank items to top when transitioning between blank and filled on blur
+          if (wasBlank !== nowBlank) {
+            inputEl.dataset.needsReorder = '1';
+          }
+        });
+
+        inputEl.addEventListener('blur', () => {
+          if (inputEl.dataset.needsReorder === '1') {
+            renderSettingsItemsList();
+          }
+        });
+
+        const unitSelectEl = row.querySelector(`[data-settings-unit="${item.id}"]`);
+        if (unitSelectEl) {
+          unitSelectEl.addEventListener('change', (e) => {
+            const targetItem = items.find(i => i.id === item.id);
+            if (!targetItem) return;
+            targetItem.settingsUnit = e.target.value;
+            saveItems();
+          });
+        }
+
+        settingsAllItemsList.appendChild(row);
+      });
+    }
+
     function normalizeQuantityForSorting(item) {
       const total = (item.activeQty || 0) + (item.stockQty || 0);
-      if (item.unit === 'kg' || item.unit === 'L') return total * 1000;
-      if (item.unit === 'g' || item.unit === 'ml') return total;
-      return total * 100;
+      if (item.unit === 'kg') return total * 1000;
+      if (item.unit === 'g') return total;
+      if (item.unit === 'L') return total * 1000;
+      if (item.unit === 'ml') return total;
+      return total;
+    }
+
+    // ==================== SHOPPING LIST ENGINE (MANUAL REFRESH ONLY) ====================
+    function toBaseUnitValue(val, unit) {
+      if (unit === 'kg' || unit === 'L') return val * 1000;
+      return val;
+    }
+
+    function fromBaseUnitValue(baseVal, targetUnit) {
+      if (targetUnit === 'kg' || targetUnit === 'L') return Number((baseVal / 1000).toFixed(3));
+      return Number(baseVal.toFixed(2));
+    }
+
+    function loadShoppingListState() {
+      const storedList = localStorage.getItem('kitchen_shopping_list');
+      const storedTime = localStorage.getItem('kitchen_shopping_list_refreshed_at');
+      if (storedList) {
+        try {
+          shoppingList = JSON.parse(storedList);
+          if (!Array.isArray(shoppingList)) shoppingList = [];
+        } catch (e) {
+          shoppingList = [];
+        }
+        shoppingListRefreshedAt = storedTime ? parseInt(storedTime, 10) : null;
+      } else {
+        // Initial calculation only if never initialized before
+        recalculateShoppingList(false);
+      }
+    }
+
+    function saveShoppingListState() {
+      localStorage.setItem('kitchen_shopping_list', JSON.stringify(shoppingList));
+      if (shoppingListRefreshedAt) {
+        localStorage.setItem('kitchen_shopping_list_refreshed_at', String(shoppingListRefreshedAt));
+      }
+    }
+
+    function recalculateShoppingList(animateButton = true) {
+      if (animateButton && refreshShoppingListBtn) {
+        const icon = refreshShoppingListBtn.querySelector('svg');
+        if (icon) icon.classList.add('animate-spin');
+        setTimeout(() => {
+          const updatedIcon = refreshShoppingListBtn.querySelector('svg');
+          if (updatedIcon) updatedIcon.classList.remove('animate-spin');
+        }, 450);
+      }
+
+      const nextList = [];
+
+      // Only include non-reserved Pantry Inventory items
+      items.forEach(item => {
+        if (item.reserved) return;
+
+        const targetRaw = parseFloat(item.settingsValue);
+        if (isNaN(targetRaw) || targetRaw <= 0) return;
+
+        const targetUnit = getCompatibleUnits(item.unit).includes(item.settingsUnit)
+          ? item.settingsUnit
+          : item.unit;
+
+        const currentTotalInItemUnit = (item.activeQty || 0) + (item.stockQty || 0);
+        const targetBase = toBaseUnitValue(targetRaw, targetUnit);
+        const currentBase = toBaseUnitValue(currentTotalInItemUnit, item.unit);
+
+        const shortageBase = targetBase - currentBase;
+        if (shortageBase > 0.0001) {
+          // Express needed quantity in the item's native pantry unit so stock updates align cleanly
+          const neededQty = fromBaseUnitValue(shortageBase, item.unit);
+          if (neededQty > 0) {
+            nextList.push({
+              itemId: item.id,
+              name: item.name,
+              category: item.category,
+              neededQty: neededQty,
+              unit: item.unit
+            });
+          }
+        }
+      });
+
+      shoppingList = nextList;
+      shoppingListRefreshedAt = Date.now();
+      saveShoppingListState();
+      renderShoppingList();
+    }
+
+    refreshShoppingListBtn.addEventListener('click', () => {
+      recalculateShoppingList(true);
+    });
+
+    function renderShoppingList() {
+      if (!shoppingListContainer) return;
+
+      shoppingListCountBadge.textContent = shoppingList.length;
+
+      if (shoppingListRefreshedAt) {
+        const timeStr = new Date(shoppingListRefreshedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        shoppingListLastRefreshed.textContent = `Last refreshed at ${timeStr} • Manual refresh only`;
+      } else {
+        shoppingListLastRefreshed.textContent = 'Tap Refresh to calculate needed pantry items';
+      }
+
+      shoppingListContainer.innerHTML = '';
+
+      if (shoppingList.length === 0) {
+        emptyShoppingListState.classList.remove('hidden');
+        shoppingListContainer.classList.add('hidden');
+      } else {
+        emptyShoppingListState.classList.add('hidden');
+        shoppingListContainer.classList.remove('hidden');
+
+        shoppingList.forEach(entry => {
+          const catStyle = getCategoryStyle(entry.category || 'General');
+          const row = document.createElement('div');
+          row.className = 'pantry-card rounded-2xl p-3.5 sm:p-4 flex items-center justify-between gap-3';
+
+          row.innerHTML = `
+            <div class="flex items-center gap-3 min-w-0 flex-1">
+              <!-- Checkbox button to record purchase -->
+              <button
+                type="button"
+                data-check-list-item="${entry.itemId}"
+                class="w-6 h-6 rounded-lg border-2 border-violet-400 bg-white hover:bg-violet-50 hover:border-violet-600 flex items-center justify-center transition flex-shrink-0 cursor-pointer group"
+                title="Mark purchased quantity"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5 text-violet-600 opacity-0 group-hover:opacity-100 transition"></i>
+              </button>
+
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap mb-0.5">
+                  <span class="inline-flex items-center text-[10px] font-extrabold px-2 py-0.5 rounded-md border ${catStyle}">
+                    ${escapeHtml(entry.category || 'General')}
+                  </span>
+                </div>
+                <h4 class="text-sm sm:text-base font-extrabold text-slate-900 truncate">
+                  ${escapeHtml(entry.name)}
+                </h4>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5 flex-shrink-0">
+              <!-- Needed Quantity Pill -->
+              <span class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-violet-50 to-fuchsia-50 border border-violet-200/80 text-xs sm:text-sm font-black text-violet-800">
+                ${entry.neededQty} <span class="text-[11px] font-bold text-violet-600">${escapeHtml(entry.unit)}</span>
+              </span>
+
+              <!-- Delete from Shopping List only until refreshed -->
+              <button
+                type="button"
+                data-delete-list-item="${entry.itemId}"
+                class="w-8 h-8 rounded-xl bg-rose-50/90 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
+                title="Remove from list until refreshed"
+              >
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          `;
+
+          row.querySelector(`[data-check-list-item="${entry.itemId}"]`).addEventListener('click', () => {
+            openPurchaseCheckModal(entry.itemId);
+          });
+
+          row.querySelector(`[data-delete-list-item="${entry.itemId}"]`).addEventListener('click', () => {
+            shoppingList = shoppingList.filter(x => x.itemId !== entry.itemId);
+            saveShoppingListState();
+            renderShoppingList();
+          });
+
+          shoppingListContainer.appendChild(row);
+        });
+      }
+
+      lucide.createIcons();
+    }
+
+    // Checkbox -> Open Purchased Quantity Popup
+    function openPurchaseCheckModal(itemId) {
+      const entry = shoppingList.find(x => x.itemId === itemId);
+      if (!entry) return;
+
+      activePurchaseEntryId = itemId;
+      purchaseModalItemTitle.textContent = entry.name;
+      purchaseModalRefQty.textContent = `Needed in list: ${entry.neededQty} ${entry.unit}`;
+      purchaseModalUnitSuffix.textContent = entry.unit;
+      purchasedQtyInput.value = '';
+      purchasePreviewHint.textContent = '';
+
+      purchaseCheckModal.classList.remove('hidden');
+      setTimeout(() => purchasedQtyInput.focus(), 60);
+      lucide.createIcons();
+    }
+
+    function closePurchaseModal() {
+      purchaseCheckModal.classList.add('hidden');
+      activePurchaseEntryId = null;
+    }
+
+    closePurchaseCheckModal.addEventListener('click', closePurchaseModal);
+    cancelPurchaseCheckBtn.addEventListener('click', closePurchaseModal);
+
+    purchasedQtyInput.addEventListener('input', () => {
+      const entry = shoppingList.find(x => x.itemId === activePurchaseEntryId);
+      const val = parseFloat(purchasedQtyInput.value);
+      if (!entry || isNaN(val) || val <= 0) {
+        purchasePreviewHint.textContent = '';
+        return;
+      }
+
+      if (val >= entry.neededQty) {
+        purchasePreviewHint.textContent = `Adds +${val} ${entry.unit} to Stock & removes item from list`;
+        purchasePreviewHint.className = 'text-[11px] font-semibold text-emerald-600 mt-1.5';
+      } else {
+        const remaining = Number((entry.neededQty - val).toFixed(2));
+        purchasePreviewHint.textContent = `Adds +${val} ${entry.unit} to Stock & updates list to ${remaining} ${entry.unit} left`;
+        purchasePreviewHint.className = 'text-[11px] font-semibold text-violet-600 mt-1.5';
+      }
+    });
+
+    purchaseCheckForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entryIndex = shoppingList.findIndex(x => x.itemId === activePurchaseEntryId);
+      if (entryIndex === -1) return;
+
+      const entry = shoppingList[entryIndex];
+      const purchasedVal = parseFloat(purchasedQtyInput.value);
+      if (isNaN(purchasedVal) || purchasedVal <= 0) return;
+
+      // 1. Add purchased quantity into the product's Stock in Pantry
+      const pantryItem = items.find(i => i.id === entry.itemId);
+      if (pantryItem) {
+        pantryItem.stockQty = Number(((pantryItem.stockQty || 0) + purchasedVal).toFixed(2));
+        saveItems();
+      }
+
+      // 2. Update ONLY this item in the shopping list without refreshing the whole list
+      if (purchasedVal >= entry.neededQty) {
+        shoppingList.splice(entryIndex, 1);
+      } else {
+        shoppingList[entryIndex] = {
+          ...entry,
+          neededQty: Number((entry.neededQty - purchasedVal).toFixed(2))
+        };
+      }
+
+      saveShoppingListState();
+      renderShoppingList();
+      closePurchaseModal();
+    });
+
+    // Forward Shopping List to WhatsApp
+    shareWhatsappBtn.addEventListener('click', () => {
+      if (shoppingList.length === 0) return;
+
+      const dateStr = new Date().toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+      const lines = [
+        `🛒 *Kitchen Universe — Shopping List*`,
+        `📅 _${dateStr}_`,
+        ``
+      ];
+
+      shoppingList.forEach((entry, idx) => {
+        lines.push(`${idx + 1}. *${entry.name}* — ${entry.neededQty} ${entry.unit}`);
+      });
+
+      lines.push(``);
+      lines.push(`_Sent from Kitchen Universe_`);
+
+      const messageText = encodeURIComponent(lines.join('\n'));
+      window.open(`https://wa.me/?text=${messageText}`, '_blank', 'noopener');
+    });
+
+    // ==================== LONG-PRESS HELPER ====================
+    function attachLongPress(element, onLongPress) {
+      let pressTimer = null;
+      let startX = 0;
+      let startY = 0;
+
+      const start = (e) => {
+        if (e.type === 'mousedown' && e.button !== 0) return;
+        const point = e.touches ? e.touches[0] : e;
+        startX = point.clientX;
+        startY = point.clientY;
+
+        pressTimer = setTimeout(() => {
+          pressTimer = null;
+          if (navigator.vibrate) navigator.vibrate(25);
+          onLongPress();
+        }, 480);
+      };
+
+      const cancel = () => {
+        if (pressTimer) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+        }
+      };
+
+      const move = (e) => {
+        if (!pressTimer) return;
+        const point = e.touches ? e.touches[0] : e;
+        if (Math.abs(point.clientX - startX) > 10 || Math.abs(point.clientY - startY) > 10) {
+          cancel();
+        }
+      };
+
+      element.addEventListener('touchstart', start, { passive: true });
+      element.addEventListener('touchend', cancel);
+      element.addEventListener('touchmove', move, { passive: true });
+      element.addEventListener('touchcancel', cancel);
+
+      element.addEventListener('mousedown', start);
+      element.addEventListener('mouseup', cancel);
+      element.addEventListener('mouseleave', cancel);
     }
 
     // ==================== LONG-PRESS QUANTITY POPUP LOGIC ====================
-    function openQuantityActionModal(itemId, targetType) {
+    function openQuantityActionModal(itemId, target) {
       const item = items.find(i => i.id === itemId);
       if (!item) return;
 
-      activeQtyModalState.itemId = itemId;
-      activeQtyModalState.targetType = targetType;
-      activeQtyModalState.stockMode = 'restock';
+      activeQtyModalContext = {
+        itemId,
+        target,
+        stockMode: 'restock'
+      };
 
       qtyActionUnitSuffix.textContent = item.unit;
       qtyActionInput.value = '';
+      qtyActionPreviewHint.textContent = '';
 
-      if (targetType === 'active') {
-        qtyActionBadge.textContent = 'Active Usage';
+      if (target === 'active') {
+        qtyActionBadge.textContent = 'Active Quantity';
         qtyActionBadge.className = 'text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-violet-100 text-violet-700';
-        qtyActionTitle.textContent = `Replace Active • ${item.name}`;
+        qtyActionTitle.textContent = item.name;
         qtyActionSubtitle.textContent = `Current Active: ${item.activeQty} ${item.unit}`;
         stockActionModeTabs.classList.add('hidden');
-        qtyActionInputLabel.textContent = 'New Active Quantity';
-        qtyActionInput.placeholder = `e.g. ${item.activeQty}`;
+        qtyActionInputLabel.textContent = 'Replace Active Quantity With';
+        qtyActionInput.placeholder = `Current: ${item.activeQty}`;
         submitQtyActionBtn.textContent = 'Replace Active';
         submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
       } else {
-        qtyActionBadge.textContent = 'In Stock Reserve';
+        qtyActionBadge.textContent = 'In Stock';
         qtyActionBadge.className = 'text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
-        qtyActionTitle.textContent = `Manage Stock • ${item.name}`;
-        qtyActionSubtitle.textContent = `In Stock: ${item.stockQty} ${item.unit} • Active: ${item.activeQty} ${item.unit}`;
+        qtyActionTitle.textContent = item.name;
+        qtyActionSubtitle.textContent = `Stock: ${item.stockQty} ${item.unit} • Active: ${item.activeQty} ${item.unit}`;
         stockActionModeTabs.classList.remove('hidden');
-        setStockActionMode('restock');
+        setStockModalMode('restock');
       }
 
-      updateQtyActionPreview();
       quantityActionModal.classList.remove('hidden');
-      setTimeout(() => qtyActionInput.focus(), 80);
+      setTimeout(() => qtyActionInput.focus(), 60);
+      lucide.createIcons();
     }
 
-    function setStockActionMode(mode) {
-      activeQtyModalState.stockMode = mode;
-      const item = items.find(i => i.id === activeQtyModalState.itemId);
+    function setStockModalMode(mode) {
+      activeQtyModalContext.stockMode = mode;
+      const item = items.find(i => i.id === activeQtyModalContext.itemId);
       if (!item) return;
+
+      qtyActionInput.value = '';
+      qtyActionPreviewHint.textContent = '';
 
       if (mode === 'restock') {
         tabRestockBtn.className = 'py-2 rounded-lg font-extrabold bg-emerald-600 text-white shadow-xs transition cursor-pointer';
         tabShiftBtn.className = 'py-2 rounded-lg font-extrabold text-slate-600 hover:text-slate-900 transition cursor-pointer';
-        qtyActionInputLabel.textContent = 'Add Quantity to Stock';
+        qtyActionInputLabel.textContent = 'Add Quantity to Existing Stock';
         qtyActionInput.placeholder = 'e.g. 5';
         submitQtyActionBtn.textContent = 'Restock';
         submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
       } else {
-        tabShiftBtn.className = 'py-2 rounded-lg font-extrabold bg-violet-600 text-white shadow-xs transition cursor-pointer';
+        tabShiftBtn.className = 'py-2 rounded-lg font-extrabold bg-indigo-600 text-white shadow-xs transition cursor-pointer';
         tabRestockBtn.className = 'py-2 rounded-lg font-extrabold text-slate-600 hover:text-slate-900 transition cursor-pointer';
-        qtyActionInputLabel.textContent = `Shift to Active (Max ${item.stockQty} ${item.unit})`;
-        qtyActionInput.placeholder = `e.g. ${Math.min(1, item.stockQty)}`;
+        qtyActionInputLabel.textContent = `Quantity to Shift to Active (Max ${item.stockQty})`;
+        qtyActionInput.placeholder = `Available: ${item.stockQty}`;
         submitQtyActionBtn.textContent = 'Shift to Active';
-        submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
+        submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
       }
-      updateQtyActionPreview();
+      qtyActionInput.focus();
     }
 
-    tabRestockBtn.addEventListener('click', () => setStockActionMode('restock'));
-    tabShiftBtn.addEventListener('click', () => setStockActionMode('shift'));
+    tabRestockBtn.addEventListener('click', () => setStockModalMode('restock'));
+    tabShiftBtn.addEventListener('click', () => setStockModalMode('shift'));
 
-    function updateQtyActionPreview() {
-      const item = items.find(i => i.id === activeQtyModalState.itemId);
-      if (!item) return;
+    // Live calculation preview in quantity modal
+    qtyActionInput.addEventListener('input', () => {
+      const item = items.find(i => i.id === activeQtyModalContext.itemId);
       const val = parseFloat(qtyActionInput.value);
-
-      if (isNaN(val) || val < 0) {
-        if (activeQtyModalState.targetType === 'active') {
-          qtyActionPreviewHint.textContent = 'Enter a new quantity to replace the current active amount.';
-        } else if (activeQtyModalState.stockMode === 'restock') {
-          qtyActionPreviewHint.textContent = `Adds directly onto your existing ${item.stockQty} ${item.unit} stock.`;
-        } else {
-          qtyActionPreviewHint.textContent = `Moves quantity from Stock (${item.stockQty} ${item.unit}) into Active (${item.activeQty} ${item.unit}).`;
-        }
+      if (!item || isNaN(val) || val < 0) {
+        qtyActionPreviewHint.textContent = '';
         return;
       }
 
-      if (activeQtyModalState.targetType === 'active') {
+      if (activeQtyModalContext.target === 'active') {
         qtyActionPreviewHint.textContent = `Active will become ${Number(val.toFixed(2))} ${item.unit}`;
-      } else if (activeQtyModalState.stockMode === 'restock') {
+        qtyActionPreviewHint.className = 'text-[11px] font-semibold text-violet-600 mt-1.5';
+      } else if (activeQtyModalContext.stockMode === 'restock') {
         const nextStock = Number((item.stockQty + val).toFixed(2));
-        qtyActionPreviewHint.textContent = `New Stock: ${item.stockQty} + ${val} = ${nextStock} ${item.unit}`;
+        qtyActionPreviewHint.textContent = `${item.stockQty} + ${val} = ${nextStock} ${item.unit} in Stock`;
+        qtyActionPreviewHint.className = 'text-[11px] font-semibold text-emerald-600 mt-1.5';
       } else {
-        const shiftAmt = Math.min(val, item.stockQty);
-        const nextStock = Number((item.stockQty - shiftAmt).toFixed(2));
-        const nextActive = Number((item.activeQty + shiftAmt).toFixed(2));
-        qtyActionPreviewHint.textContent = `Result → Stock: ${nextStock} ${item.unit} | Active: ${nextActive} ${item.unit}`;
+        const actualShift = Math.min(val, item.stockQty);
+        const remStock = Number((item.stockQty - actualShift).toFixed(2));
+        const nextActive = Number((item.activeQty + actualShift).toFixed(2));
+        qtyActionPreviewHint.textContent = `New Active: ${nextActive} ${item.unit} • Remaining Stock: ${remStock} ${item.unit}`;
+        qtyActionPreviewHint.className = 'text-[11px] font-semibold text-indigo-600 mt-1.5';
       }
-    }
-
-    qtyActionInput.addEventListener('input', updateQtyActionPreview);
+    });
 
     qtyActionForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const item = items.find(i => i.id === activeQtyModalState.itemId);
-      if (!item) return;
-
+      const item = items.find(i => i.id === activeQtyModalContext.itemId);
       const val = parseFloat(qtyActionInput.value);
-      if (isNaN(val) || val < 0) return;
+      if (!item || isNaN(val) || val < 0) return;
 
-      if (activeQtyModalState.targetType === 'active') {
+      if (activeQtyModalContext.target === 'active') {
         item.activeQty = Number(val.toFixed(2));
-      } else if (activeQtyModalState.stockMode === 'restock') {
+      } else if (activeQtyModalContext.stockMode === 'restock') {
         item.stockQty = Number((item.stockQty + val).toFixed(2));
       } else {
-        const shiftAmt = Math.min(val, item.stockQty);
-        item.stockQty = Number((item.stockQty - shiftAmt).toFixed(2));
-        item.activeQty = Number((item.activeQty + shiftAmt).toFixed(2));
+        const shiftAmount = Math.min(val, item.stockQty);
+        item.stockQty = Number((item.stockQty - shiftAmount).toFixed(2));
+        item.activeQty = Number((item.activeQty + shiftAmount).toFixed(2));
       }
 
       saveItems();
       renderItems();
-      quantityActionModal.classList.add('hidden');
+      closeQtyPopup();
     });
 
     function closeQtyPopup() {
@@ -1374,128 +2226,137 @@
     closeQtyActionModal.addEventListener('click', closeQtyPopup);
     cancelQtyActionBtn.addEventListener('click', closeQtyPopup);
 
-    // Attach Long-Press Handler (supports Touch & Mouse hold without blocking '-' button clicks)
-    function attachLongPress(element, callback) {
-      let pressTimer = null;
-      let startX = 0;
-      let startY = 0;
+    // ==================== RESERVE / UNRESERVE LOGIC ====================
+    window.promptReserveItem = function(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
 
-      const startHold = (e) => {
-        // Ignore clicks on quick '-' or '+' buttons inside the zone
-        if (e.target.closest('button')) return;
-        const point = e.touches ? e.touches[0] : e;
-        startX = point.clientX;
-        startY = point.clientY;
+      openModal(
+        `Reserve "${item.name}"?`,
+        `Are you sure you want to move "${item.name}" to Reserved Items? It will be hidden from Pantry Inventory until unreserved in Settings.`,
+        () => {
+          item.reserved = true;
+          saveItems();
+          renderItems();
+          renderReservedItems();
+          renderSettingsItemsList();
+        },
+        "Reserve"
+      );
+    };
 
-        pressTimer = setTimeout(() => {
-          if (navigator.vibrate) navigator.vibrate(25);
-          callback();
-        }, 450);
-      };
+    window.promptUnreserveItem = function(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
 
-      const cancelHold = () => {
-        if (pressTimer) {
-          clearTimeout(pressTimer);
-          pressTimer = null;
-        }
-      };
-
-      const moveHold = (e) => {
-        if (!pressTimer) return;
-        const point = e.touches ? e.touches[0] : e;
-        if (Math.abs(point.clientX - startX) > 10 || Math.abs(point.clientY - startY) > 10) {
-          cancelHold();
-        }
-      };
-
-      element.addEventListener('touchstart', startHold, { passive: true });
-      element.addEventListener('touchmove', moveHold, { passive: true });
-      element.addEventListener('touchend', cancelHold);
-      element.addEventListener('touchcancel', cancelHold);
-
-      element.addEventListener('mousedown', startHold);
-      element.addEventListener('mousemove', moveHold);
-      element.addEventListener('mouseup', cancelHold);
-      element.addEventListener('mouseleave', cancelHold);
-    }
+      openModal(
+        `Unreserve "${item.name}"?`,
+        `Are you sure you want to restore "${item.name}" back to your active Pantry Inventory?`,
+        () => {
+          item.reserved = false;
+          saveItems();
+          renderItems();
+          renderReservedItems();
+          renderSettingsItemsList();
+        },
+        "Unreserve"
+      );
+    };
 
     // ==================== RENDER PANTRY ITEMS ====================
     function renderItems() {
-      let result = items.filter(item => {
-        const q = searchQuery.toLowerCase();
-        const matchesQuery = item.name.toLowerCase().includes(q) ||
-                             item.category.toLowerCase().includes(q) ||
-                             item.unit.toLowerCase().includes(q);
-        if (!matchesQuery) return false;
+      const query = searchQuery.toLowerCase().trim();
 
-        if (currentFilter === 'weight') return isWeight(item.unit);
-        if (currentFilter === 'volume') return isVolume(item.unit);
-        if (currentFilter === 'count') return !isWeight(item.unit) && !isVolume(item.unit);
-        return true;
+      let filtered = items.filter(item => {
+        if (item.reserved) return false;
+        const matchesQuery =
+          !query ||
+          item.name.toLowerCase().includes(query) ||
+          item.category.toLowerCase().includes(query);
+
+        const matchesType =
+          currentFilterType === 'all' ||
+          (currentFilterType === 'weight' && isWeight(item.unit)) ||
+          (currentFilterType === 'volume' && isVolume(item.unit)) ||
+          (currentFilterType === 'count' && !isWeight(item.unit) && !isVolume(item.unit));
+
+        return matchesQuery && matchesType;
       });
 
-      result.sort((a, b) => {
+      filtered.sort((a, b) => {
         switch (currentSort) {
-          case 'newest': return b.timestamp - a.timestamp;
-          case 'oldest': return a.timestamp - b.timestamp;
-          case 'category': return a.category.localeCompare(b.category) || a.name.localeCompare(b.name);
-          case 'name': return a.name.localeCompare(b.name);
-          case 'qty-high': return normalizeQuantityForSorting(b) - normalizeQuantityForSorting(a);
-          case 'qty-low': return normalizeQuantityForSorting(a) - normalizeQuantityForSorting(b);
-          default: return 0;
+          case 'newest':
+            return b.timestamp - a.timestamp;
+          case 'oldest':
+            return a.timestamp - b.timestamp;
+          case 'category': {
+            const catCompare = a.category.localeCompare(b.category);
+            return catCompare !== 0 ? catCompare : a.name.localeCompare(b.name);
+          }
+          case 'name':
+            return a.name.localeCompare(b.name);
+          case 'qty-high':
+            return normalizeQuantityForSorting(b) - normalizeQuantityForSorting(a);
+          case 'qty-low':
+            return normalizeQuantityForSorting(a) - normalizeQuantityForSorting(b);
+          default:
+            return b.timestamp - a.timestamp;
         }
       });
 
-      renderedCountBadge.textContent = `${result.length}`;
+      renderedCountBadge.textContent = filtered.length;
       itemsContainer.innerHTML = '';
 
-      if (result.length === 0) {
+      if (filtered.length === 0) {
         emptyState.classList.remove('hidden');
+        itemsContainer.classList.add('hidden');
       } else {
         emptyState.classList.add('hidden');
+        itemsContainer.classList.remove('hidden');
 
-        result.forEach(item => {
-          const catStyle = getCategoryColor(item.category);
+        filtered.forEach(item => {
+          const catStyle = getCategoryStyle(item.category);
           const totalQty = Number(((item.activeQty || 0) + (item.stockQty || 0)).toFixed(2));
-          const unitTypeBadge = isWeight(item.unit)
-            ? { label: 'Weight', icon: 'scale', cls: 'text-amber-600 bg-amber-50/90 border-amber-200/70' }
+          const accentBarGradient = isWeight(item.unit)
+            ? 'from-violet-500 via-fuchsia-500 to-pink-500'
             : isVolume(item.unit)
-              ? { label: 'Liquid', icon: 'droplets', cls: 'text-sky-600 bg-sky-50/90 border-sky-200/70' }
-              : { label: 'Count', icon: 'hash', cls: 'text-indigo-600 bg-indigo-50/90 border-indigo-200/70' };
+            ? 'from-sky-500 via-cyan-500 to-teal-500'
+            : 'from-amber-400 via-orange-500 to-rose-500';
 
           const card = document.createElement('div');
-          card.className = 'pantry-card group relative flex flex-col justify-between p-4 sm:p-5 rounded-[1.5rem] overflow-hidden';
+          card.className = 'pantry-card rounded-[1.6rem] pt-4 pb-3.5 px-4 flex flex-col justify-between gap-3.5 relative overflow-hidden group';
 
           card.innerHTML = `
-            <!-- Subtle Top Accent Strip -->
-            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-amber-400 opacity-75 group-hover:opacity-100 transition-opacity"></div>
+            <!-- Top Vibrant Accent Strip -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${accentBarGradient} opacity-85"></div>
 
-            <!-- Top Header: Category & Type Badges + Item Name + Edit & Delete Icon Buttons -->
-            <div class="flex items-start justify-between gap-2.5 pt-0.5">
+            <!-- Top Section: Item Name, Category & Action Icons (Reserve, Edit, Delete) -->
+            <div class="flex items-start justify-between gap-2.5">
               <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-1.5 flex-wrap mb-2">
-                  <span class="text-[10px] uppercase font-extrabold tracking-wider px-2.5 py-0.5 rounded-full border ${catStyle.bg} ${catStyle.text} ${catStyle.border}">
+                <div class="flex items-center gap-1.5 flex-wrap mb-1.5">
+                  <span class="inline-flex items-center text-[10px] font-extrabold px-2.5 py-0.5 rounded-lg border ${catStyle}">
                     ${escapeHtml(item.category)}
                   </span>
-                  <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${unitTypeBadge.cls}">
-                    <i data-lucide="${unitTypeBadge.icon}" class="w-2.5 h-2.5"></i>
-                    ${unitTypeBadge.label}
-                  </span>
                 </div>
-                <h4 class="font-extrabold text-base sm:text-lg text-slate-900 truncate tracking-tight">
+                <h4 class="text-base sm:text-[17px] font-extrabold text-slate-900 truncate leading-snug tracking-tight">
                   ${escapeHtml(item.name)}
                 </h4>
-                <p class="text-[11px] font-semibold text-slate-400 mt-0.5">
-                  Total: <span class="text-slate-600 font-bold">${totalQty} ${escapeHtml(item.unit)}</span>
-                </p>
               </div>
 
-              <!-- Action Buttons: Edit & Delete Icons -->
+              <!-- Reserve, Edit & Delete Icon Buttons -->
               <div class="flex items-center gap-1.5 flex-shrink-0">
                 <button
                   type="button"
-                  onclick="openEditEntryModal('${item.id}')"
-                  class="w-8 h-8 inline-flex items-center justify-center text-indigo-600 hover:text-white bg-indigo-50/90 hover:bg-indigo-600 border border-indigo-200/70 rounded-xl transition-all duration-200 active:scale-90 cursor-pointer"
+                  data-reserve-btn="${item.id}"
+                  class="hold-zone w-8 h-8 rounded-xl bg-amber-50/90 hover:bg-amber-500 text-amber-600 hover:text-white border border-amber-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
+                  title="Long-press to reserve item"
+                >
+                  <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+                </button>
+                <button
+                  type="button"
+                  onclick="openEditItemModal('${item.id}')"
+                  class="w-8 h-8 rounded-xl bg-indigo-50/90 hover:bg-indigo-600 text-indigo-600 hover:text-white border border-indigo-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
                   title="Edit item"
                 >
                   <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
@@ -1503,7 +2364,7 @@
                 <button
                   type="button"
                   onclick="promptRemoveItem('${item.id}')"
-                  class="w-8 h-8 inline-flex items-center justify-center text-rose-500 hover:text-white bg-rose-50/90 hover:bg-rose-500 border border-rose-200/70 rounded-xl transition-all duration-200 active:scale-90 cursor-pointer"
+                  class="w-8 h-8 rounded-xl bg-rose-50/90 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-200/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs"
                   title="Delete item"
                 >
                   <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
@@ -1511,59 +2372,125 @@
               </div>
             </div>
 
-            <!-- Bottom Split Bar: Left (Active) | Center Divider | Right (Stock) -->
-            <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-4 pt-3.5 border-t border-slate-100/90">
+            <!-- Lower Split Bar: Left = Active | Center Vertical Line | Right = Stock -->
+            <div class="pt-3 border-t border-slate-200/80 flex items-stretch justify-between gap-2.5">
               
-              <!-- Left Side: Active Quantity (Long-press to Replace) -->
+              <!-- Left Side: Active Quantity (Long Press to Replace) -->
               <div
                 data-hold-active="${item.id}"
-                class="hold-zone relative flex flex-col justify-center px-3.5 py-2.5 rounded-2xl bg-gradient-to-br from-violet-50 via-indigo-50/70 to-white hover:from-violet-100/90 hover:to-indigo-50 border border-violet-200/70 shadow-2xs cursor-pointer"
-                title="Long-press to replace Active quantity"
+                class="hold-zone flex-1 flex items-center justify-between gap-2 bg-gradient-to-br from-violet-50/95 to-indigo-50/70 hover:from-violet-100/90 hover:to-indigo-100/70 border border-violet-200/80 rounded-2xl px-3.5 py-2.5 cursor-pointer shadow-2xs"
+                title="Long-press to replace active quantity"
               >
-                <div class="flex items-center justify-between mb-0.5">
-                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-violet-600 flex items-center gap-1">
+                <div class="min-w-0">
+                  <span class="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-violet-700">
                     <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
                     Active
                   </span>
-                </div>
-                <div class="flex items-baseline gap-1">
-                  <span class="text-lg sm:text-xl font-black text-slate-900 leading-tight">${item.activeQty}</span>
-                  <span class="text-[11px] font-extrabold text-violet-700">${escapeHtml(item.unit)}</span>
+                  <div class="text-sm sm:text-[15px] font-black text-slate-900 truncate mt-0.5">
+                    ${item.activeQty} <span class="text-xs font-bold text-violet-700">${escapeHtml(item.unit)}</span>
+                  </div>
                 </div>
               </div>
 
-              <!-- Middle Vertical Line Divider -->
-              <div class="w-[1.5px] h-12 bg-gradient-to-b from-transparent via-slate-300/90 to-transparent rounded-full mx-0.5"></div>
+              <!-- Center Divider Line -->
+              <div class="w-[1.5px] bg-gradient-to-b from-transparent via-slate-300/90 to-transparent self-stretch my-1"></div>
 
-              <!-- Right Side: In Stock Quantity (Long-press to Restock or Shift to Active) -->
+              <!-- Right Side: Stock Quantity (Long Press for Restock / Shift to Active) -->
               <div
                 data-hold-stock="${item.id}"
-                class="hold-zone relative flex flex-col justify-center px-3.5 py-2.5 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50/70 to-white hover:from-emerald-100/90 hover:to-teal-50 border border-emerald-200/70 shadow-2xs cursor-pointer"
-                title="Long-press to Restock or Shift to Active"
+                class="hold-zone flex-1 flex items-center justify-between gap-2 bg-gradient-to-br from-emerald-50/95 to-teal-50/70 hover:from-emerald-100/90 hover:to-teal-100/70 border border-emerald-200/80 rounded-2xl px-3.5 py-2.5 cursor-pointer shadow-2xs"
+                title="Long-press to restock or shift to active"
               >
-                <div class="flex items-center justify-between mb-0.5">
-                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 flex items-center gap-1">
+                <div class="min-w-0">
+                  <span class="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-emerald-700">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    Stock
+                    In Stock
                   </span>
-                </div>
-                <div class="flex items-baseline gap-1">
-                  <span class="text-lg sm:text-xl font-black text-slate-900 leading-tight">${item.stockQty}</span>
-                  <span class="text-[11px] font-extrabold text-emerald-700">${escapeHtml(item.unit)}</span>
+                  <div class="text-sm sm:text-[15px] font-black text-slate-900 truncate mt-0.5">
+                    ${item.stockQty} <span class="text-xs font-bold text-emerald-700">${escapeHtml(item.unit)}</span>
+                  </div>
                 </div>
               </div>
 
             </div>
           `;
 
-          // Bind Long-Press to Active and Stock zones
-          const activeZone = card.querySelector(`[data-hold-active="${item.id}"]`);
-          const stockZone = card.querySelector(`[data-hold-stock="${item.id}"]`);
-
-          attachLongPress(activeZone, () => openQuantityActionModal(item.id, 'active'));
-          attachLongPress(stockZone, () => openQuantityActionModal(item.id, 'stock'));
+          // Bind long-press handlers
+          const activeBox = card.querySelector(`[data-hold-active="${item.id}"]`);
+          const stockBox = card.querySelector(`[data-hold-stock="${item.id}"]`);
+          const reserveBtn = card.querySelector(`[data-reserve-btn="${item.id}"]`);
+          attachLongPress(activeBox, () => openQuantityActionModal(item.id, 'active'));
+          attachLongPress(stockBox, () => openQuantityActionModal(item.id, 'stock'));
+          attachLongPress(reserveBtn, () => promptReserveItem(item.id));
 
           itemsContainer.appendChild(card);
+        });
+      }
+
+      lucide.createIcons();
+    }
+
+    // ==================== RENDER RESERVED ITEMS ====================
+    function renderReservedItems() {
+      const reservedList = items
+        .filter(i => i.reserved)
+        .sort((a, b) => b.timestamp - a.timestamp);
+
+      updateReservedCounters();
+      reservedItemsContainer.innerHTML = '';
+
+      if (reservedList.length === 0) {
+        emptyReservedState.classList.remove('hidden');
+        reservedItemsContainer.classList.add('hidden');
+      } else {
+        emptyReservedState.classList.add('hidden');
+        reservedItemsContainer.classList.remove('hidden');
+
+        reservedList.forEach(item => {
+          const catStyle = getCategoryStyle(item.category);
+          const card = document.createElement('div');
+          card.className = 'pantry-card rounded-[1.5rem] pt-4 pb-3.5 px-4 flex flex-col justify-between gap-3 relative overflow-hidden';
+
+          card.innerHTML = `
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 opacity-90"></div>
+
+            <div class="flex items-start justify-between gap-2.5">
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap mb-1.5">
+                  <span class="inline-flex items-center text-[10px] font-extrabold px-2.5 py-0.5 rounded-lg border ${catStyle}">
+                    ${escapeHtml(item.category)}
+                  </span>
+                </div>
+                <h4 class="text-base font-extrabold text-slate-900 truncate leading-snug">
+                  ${escapeHtml(item.name)}
+                </h4>
+              </div>
+
+              <!-- Icon-only Long-Press Unreserve Button -->
+              <button
+                type="button"
+                data-unreserve-btn="${item.id}"
+                class="hold-zone w-9 h-9 rounded-xl bg-amber-100/90 hover:bg-amber-500 text-amber-700 hover:text-white border border-amber-300/80 flex items-center justify-center transition-all duration-150 cursor-pointer shadow-2xs flex-shrink-0"
+                title="Long-press to unreserve item"
+              >
+                <i data-lucide="archive-restore" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <div class="pt-2.5 border-t border-slate-200/80 flex items-center justify-between gap-2 text-xs">
+              <span class="font-bold text-violet-700 bg-violet-50 px-2.5 py-1 rounded-lg border border-violet-200/70">
+                Active: ${item.activeQty} ${escapeHtml(item.unit)}
+              </span>
+              <span class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/70">
+                Stock: ${item.stockQty} ${escapeHtml(item.unit)}
+              </span>
+            </div>
+          `;
+
+          const unreserveBtn = card.querySelector(`[data-unreserve-btn="${item.id}"]`);
+          attachLongPress(unreserveBtn, () => promptUnreserveItem(item.id));
+
+          reservedItemsContainer.appendChild(card);
         });
       }
 
@@ -1582,6 +2509,8 @@
           items = items.filter(i => i.id !== id);
           saveItems();
           renderItems();
+          renderSettingsItemsList();
+          checkEmptySettingsGate();
         },
         "Delete"
       );
@@ -1605,19 +2534,28 @@
         stockQty: Number(stockQty.toFixed(2)),
         unit,
         category,
+        reserved: false,
+        settingsValue: '',
+        settingsUnit: unit,
         timestamp: Date.now()
       };
 
       items.unshift(newItem);
       saveItems();
       renderItems();
+      renderSettingsItemsList();
       closeEntryPopup();
+      checkEmptySettingsGate();
     });
 
     // Search Input & Clear
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
-      clearSearchBtn.classList.toggle('hidden', searchQuery.length === 0);
+      if (searchQuery.trim().length > 0) {
+        clearSearchBtn.classList.remove('hidden');
+      } else {
+        clearSearchBtn.classList.add('hidden');
+      }
       renderItems();
     });
 
@@ -1626,19 +2564,42 @@
       searchQuery = '';
       clearSearchBtn.classList.add('hidden');
       renderItems();
-      searchInput.focus();
+    });
+
+    // Warning Modal Helpers
+    function openModal(title, description, onConfirm, confirmLabel = "Delete") {
+      modalTitle.textContent = title;
+      modalDescription.textContent = description;
+      modalConfirm.textContent = confirmLabel;
+      pendingModalAction = onConfirm;
+      customModal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeModal() {
+      customModal.classList.add('hidden');
+      pendingModalAction = null;
+    }
+
+    modalCancel.addEventListener('click', closeModal);
+    modalConfirm.addEventListener('click', () => {
+      if (typeof pendingModalAction === 'function') pendingModalAction();
+      closeModal();
     });
 
     // Clear All Pantry Items
     clearAllBtn.addEventListener('click', () => {
-      if (items.length === 0) return;
+      const activeItems = items.filter(i => !i.reserved);
+      if (activeItems.length === 0) return;
       openModal(
         'Empty Entire Kitchen?',
         'Warning: This will permanently wipe all pantry items from your device storage. Continue?',
         () => {
-          items = [];
+          items = items.filter(i => i.reserved);
           saveItems();
           renderItems();
+          renderSettingsItemsList();
+          checkEmptySettingsGate();
         },
         "Clear All"
       );
@@ -1646,18 +2607,19 @@
 
     // Escape HTML
     function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, (m) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      }[m]));
+      return String(str).replace(/[&<>"']/g, function(m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }[m];
+      });
     }
 
-    window.onload = function() {
-      loadData();
-    };
+    // Boot App
+    loadData();
   </script>
 </body>
 </html>
