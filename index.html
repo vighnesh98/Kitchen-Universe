@@ -6,84 +6,47 @@
   <title>Kitchen Universe • Smart Pantry</title>
   
   <!-- PWA & Mobile Meta Tags -->
-  <meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#f8fafc">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Kitchen Universe">
-  <meta name="description" content="Vibrant pantry and kitchen stock inventory tracker with weights and counts">
+  <meta name="description" content="Vibrant pantry and kitchen stock inventory tracker with Active and Stock quantities">
 
   <!-- SVG App Favicon & Apple Touch Icon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='50%25' stop-color='%23ec4899'/%3E%3Cstop offset='100%25' stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='26' fill='url(%23g)'/%3E%3Cpath d='M30 68 C30 52 70 52 70 68 Z' fill='%23ffffff' opacity='0.95'/%3E%3Cpath d='M35 50 Q50 34 65 50' stroke='%23ffffff' stroke-width='6' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='50' cy='32' r='5' fill='%23ffffff'/%3E%3C/svg%3E">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='50%25' stop-color='%23ec4899'/%3E%3Cstop offset='100%25' stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='26' fill='url(%23g)'/%3E%3Cpath d='M30 68 C30 52 70 52 70 68 Z' fill='%23ffffff' opacity='0.95'/%3E%3Cpath d='M35 50 Q50 34 65 50' stroke='%23ffffff' stroke-width='6' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='50' cy='32' r='5' fill='%23ffffff'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%237c3aed'/%3E%3Cstop offset='50%25' stop-color='%23ec4899'/%3E%3Cstop offset='100%25' stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='26' fill='url(%23g)'/%3E%3Cpath d='M30 68 C30 52 70 52 70 68 Z' fill='%23ffffff' opacity='0.95'/%3E%3Cpath d='M35 50 Q50 34 65 50' stroke='%23ffffff' stroke-width='6' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='50' cy='32' r='5' fill='%23ffffff'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%237c3aed'/%3E%3Cstop offset='50%25' stop-color='%23ec4899'/%3E%3Cstop offset='100%25' stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='26' fill='url(%23g)'/%3E%3Cpath d='M30 68 C30 52 70 52 70 68 Z' fill='%23ffffff' opacity='0.95'/%3E%3Cpath d='M35 50 Q50 34 65 50' stroke='%23ffffff' stroke-width='6' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='50' cy='32' r='5' fill='%23ffffff'/%3E%3C/svg%3E">
 
   <!-- Dynamic Inline PWA Manifest -->
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kitchen%20Universe%22%2C%22short_name%22%3A%22Kitchen%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%236366f1%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%253E%253Cdefs%253E%253ClinearGradient%20id%3D'g'%20x1%3D'0%2525'%20y1%3D'0%2525'%20x2%3D'100%2525'%20y2%3D'100%2525'%253E%253Cstop%20offset%3D'0%2525'%20stop-color%3D'%25238b5cf6'%2F%253E%253Cstop%20offset%3D'50%2525'%20stop-color%3D'%2523ec4899'%2F%253E%253Cstop%20offset%3D'100%2525'%20stop-color%3D'%2523f59e0b'%2F%253E%253C%2FlinearGradient%253E%253C%2Fdefs%253E%253Crect%20width%3D'100'%20height%3D'100'%20rx%3D'26'%20fill%3D'url(%2523g)'%2F%253E%253Cpath%20d%3D'M30%2068%20C30%2052%2070%2052%2070%2068%20Z'%20fill%3D'%2523ffffff'%20opacity%3D'0.95'%2F%253E%253Cpath%20d%3D'M35%2050%20Q50%2034%2065%2050'%20stroke%3D'%2523ffffff'%20stroke-width%3D'6'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%253E%253Ccircle%20cx%3D'50'%20cy%3D'32'%20r%3D'5'%20fill%3D'%2523ffffff'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Kitchen%20Universe%22%2C%22short_name%22%3A%22Kitchen%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8fafc%22%2C%22theme_color%22%3A%22%237c3aed%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%253E%253Cdefs%253E%253ClinearGradient%20id%3D'g'%20x1%3D'0%2525'%20y1%3D'0%2525'%20x2%3D'100%2525'%20y2%3D'100%2525'%253E%253Cstop%20offset%3D'0%2525'%20stop-color%3D'%25237c3aed'%2F%253E%253Cstop%20offset%3D'50%2525'%20stop-color%3D'%2523ec4899'%2F%253E%253Cstop%20offset%3D'100%2525'%20stop-color%3D'%2523f59e0b'%2F%253E%253C%2FlinearGradient%253E%253C%2Fdefs%253E%253Crect%20width%3D'100'%20height%3D'100'%20rx%3D'26'%20fill%3D'url(%2523g)'%2F%253E%253Cpath%20d%3D'M30%2068%20C30%2052%2070%2052%2070%2068%20Z'%20fill%3D'%2523ffffff'%20opacity%3D'0.95'%2F%253E%253Cpath%20d%3D'M35%2050%20Q50%2034%2065%2050'%20stroke%3D'%2523ffffff'%20stroke-width%3D'6'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%253E%253Ccircle%20cx%3D'50'%20cy%3D'32'%20r%3D'5'%20fill%3D'%2523ffffff'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons via unpkg -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     
     * {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Ambient continuous floating animations */
+    /* Ambient continuous floating animations for Light Theme */
     @keyframes floatOrb1 {
-      0%, 100% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-      }
-      33% {
-        transform: translate3d(55px, -70px, 0) scale(1.18) rotate(120deg);
-      }
-      66% {
-        transform: translate3d(-40px, 45px, 0) scale(0.9) rotate(240deg);
-      }
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+      33% { transform: translate3d(55px, -60px, 0) scale(1.15) rotate(120deg); }
+      66% { transform: translate3d(-40px, 40px, 0) scale(0.92) rotate(240deg); }
     }
 
     @keyframes floatOrb2 {
-      0%, 100% {
-        transform: translate3d(0, 0, 0) scale(1) rotate(360deg);
-      }
-      33% {
-        transform: translate3d(-70px, 50px, 0) scale(1.22) rotate(210deg);
-      }
-      66% {
-        transform: translate3d(55px, -35px, 0) scale(0.85) rotate(90deg);
-      }
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1) rotate(360deg); }
+      33% { transform: translate3d(-65px, 45px, 0) scale(1.18) rotate(210deg); }
+      66% { transform: translate3d(50px, -30px, 0) scale(0.88) rotate(90deg); }
     }
 
     @keyframes floatOrb3 {
-      0%, 100% {
-        transform: translate3d(0, 0, 0) scale(0.95);
-      }
-      50% {
-        transform: translate3d(60px, 55px, 0) scale(1.2);
-      }
-    }
-
-    @keyframes gentleFloatCard {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-6px);
-      }
-    }
-
-    @keyframes shimmerWave {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
+      0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+      50% { transform: translate3d(55px, 50px, 0) scale(1.15); }
     }
 
     .animate-orb-1 {
@@ -101,42 +64,43 @@
       will-change: transform;
     }
 
-    .animate-float-card {
-      animation: gentleFloatCard 6s ease-in-out infinite;
-    }
-
-    .gradient-flow {
-      background-size: 200% 200%;
-      animation: shimmerWave 8s ease infinite;
-    }
-
-    /* Ultra-Glassmorphism Classes */
+    /* Light Mode Glassmorphism */
     .glass-panel {
-      background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.95);
-      box-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.16), 0 8px 16px -6px rgba(0, 0, 0, 0.04);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 18px 40px -12px rgba(99, 102, 241, 0.12), 0 4px 16px -4px rgba(15, 23, 42, 0.05);
     }
 
     .glass-input {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(226, 232, 240, 0.9);
+      background: rgba(248, 250, 252, 0.95);
+      border: 1.5px solid #e2e8f0;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      font-size: 16px; /* Prevents auto-zoom on iOS safari / Chrome mobile */
+      font-size: 16px; /* Prevents mobile browser auto-zoom */
     }
 
     @media (min-width: 640px) {
       .glass-input {
-        font-size: 0.875rem; /* sm:text-sm */
+        font-size: 0.875rem;
       }
     }
 
     .glass-input:focus {
       background: #ffffff;
-      border-color: #8b5cf6;
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.22);
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.16);
+    }
+
+    /* Long-press tactile feedback zone */
+    .hold-zone {
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    .hold-zone:active {
+      transform: scale(0.97);
     }
 
     /* Custom Scrollbar */
@@ -144,36 +108,36 @@
       width: 5px;
     }
     ::-webkit-scrollbar-thumb {
-      background: linear-gradient(to bottom, #ec4899, #8b5cf6);
+      background: linear-gradient(to bottom, #c084fc, #818cf8);
       border-radius: 9999px;
     }
   </style>
 </head>
-<body class="bg-slate-950 min-h-screen text-slate-800 flex flex-col items-center p-2.5 sm:p-6 lg:p-10 relative overflow-x-hidden selection:bg-pink-500 selection:text-white">
+<body class="bg-gradient-to-br from-indigo-50/90 via-slate-50 to-rose-50/80 min-h-screen text-slate-800 flex flex-col items-center px-4 py-5 sm:p-8 lg:p-10 relative overflow-x-hidden selection:bg-violet-500 selection:text-white">
 
-  <!-- ==================== ALWAYS-RUNNING VIBRANT BACKGROUND ORBS ==================== -->
+  <!-- ==================== LIGHT THEME FLOATING BACKGROUND ORBS ==================== -->
   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
-    <div class="absolute -top-20 -left-20 w-80 sm:w-[540px] h-80 sm:h-[540px] bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-indigo-600 rounded-full blur-[90px] sm:blur-[120px] opacity-70 animate-orb-1"></div>
-    <div class="absolute top-1/3 -right-24 w-80 sm:w-[600px] h-80 sm:h-[600px] bg-gradient-to-br from-amber-400 via-rose-500 to-pink-600 rounded-full blur-[100px] sm:blur-[130px] opacity-65 animate-orb-2"></div>
-    <div class="absolute -bottom-28 left-1/4 w-80 sm:w-[560px] h-80 sm:h-[560px] bg-gradient-to-t from-cyan-400 via-teal-400 to-emerald-500 rounded-full blur-[95px] sm:blur-[125px] opacity-60 animate-orb-3"></div>
+    <div class="absolute -top-24 -left-24 w-80 sm:w-[540px] h-80 sm:h-[540px] bg-gradient-to-tr from-violet-300/60 via-fuchsia-200/60 to-indigo-300/60 rounded-full blur-[90px] sm:blur-[110px] animate-orb-1"></div>
+    <div class="absolute top-1/3 -right-28 w-80 sm:w-[580px] h-80 sm:h-[580px] bg-gradient-to-br from-amber-200/65 via-rose-200/60 to-pink-300/60 rounded-full blur-[95px] sm:blur-[120px] animate-orb-2"></div>
+    <div class="absolute -bottom-28 left-1/4 w-80 sm:w-[540px] h-80 sm:h-[540px] bg-gradient-to-t from-sky-200/65 via-teal-200/60 to-emerald-200/60 rounded-full blur-[90px] sm:blur-[115px] animate-orb-3"></div>
   </div>
 
-  <!-- Main Container -->
-  <div class="w-full max-w-4xl space-y-4 sm:space-y-6 relative z-10">
+  <!-- Main Centered Container with Proper Mobile Breathing Room -->
+  <div class="w-full max-w-4xl space-y-5 sm:space-y-6 relative z-10">
 
-    <!-- Clean Branded Header -->
-    <header class="flex items-center justify-between py-2 px-1">
+    <!-- Clean Light Branded Header -->
+    <header class="flex items-center justify-between px-1 pt-1">
       <div class="flex items-center gap-3">
         <!-- Brand Logo Badge -->
-        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-600 to-rose-500 flex items-center justify-center shadow-lg shadow-violet-500/25 p-2 flex-shrink-0 border border-white/20">
-          <svg viewBox="0 0 100 100" class="w-full h-full fill-white drop-shadow">
+        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-amber-500 flex items-center justify-center shadow-lg shadow-violet-500/20 p-2 flex-shrink-0 border border-white">
+          <svg viewBox="0 0 100 100" class="w-full h-full fill-white drop-shadow-sm">
             <path d="M25 72 C25 50 75 50 75 72 Z" fill="#ffffff" />
             <path d="M32 48 Q50 30 68 48" stroke="#ffffff" stroke-width="7" stroke-linecap="round" fill="none" />
             <circle cx="50" cy="26" r="6" fill="#ffffff" />
           </svg>
         </div>
         <div>
-          <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-sm">
+          <h1 class="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-violet-900 to-fuchsia-800 bg-clip-text text-transparent">
             Kitchen Universe
           </h1>
         </div>
@@ -182,204 +146,107 @@
       <!-- Install PWA Mobile App Button (Conditional) -->
       <button
         id="installAppBtn"
-        class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/90 hover:bg-white text-violet-800 text-xs font-extrabold rounded-xl shadow-md active:scale-95 transition"
-        title="Install Kitchen Universe App on your phone"
+        class="hidden inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-violet-50 text-violet-700 border border-violet-200 text-xs font-extrabold rounded-xl shadow-sm active:scale-95 transition cursor-pointer"
+        title="Install Kitchen Universe App"
       >
         <i data-lucide="download" class="w-3.5 h-3.5"></i>
         <span>Install App</span>
       </button>
     </header>
 
-    <!-- Category Manager Section -->
-    <div class="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-5 shadow-xl transition-all">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200/80">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-400 text-white flex items-center justify-center shadow-md flex-shrink-0">
-            <i data-lucide="tag" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900">Custom Categories</h2>
-            <p class="text-[11px] sm:text-xs text-slate-500">Organize kitchen sections with deletion safety</p>
-          </div>
-        </div>
-
-        <!-- Add Category Form Inline -->
-        <form id="addCategoryForm" class="flex items-center gap-2 w-full sm:w-auto">
-          <input
-            type="text"
-            id="newCategoryInput"
-            placeholder="New Category..."
-            class="glass-input rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none flex-1 sm:w-44"
-            maxlength="24"
-            required
-          />
-          <button
-            type="submit"
-            class="inline-flex items-center gap-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl shadow-md active:scale-95 transition cursor-pointer flex-shrink-0"
-          >
-            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-            Add
-          </button>
-        </form>
-      </div>
-
-      <!-- Categories Pills Container -->
-      <div id="categoryPillsContainer" class="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-3">
-        <!-- Rendered dynamically -->
-      </div>
-    </div>
-
-    <!-- Add Item Section Form -->
-    <section class="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-          <span class="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-md">
-            <i data-lucide="plus-circle" class="w-4 h-4"></i>
-          </span>
-          Add New Pantry Entry
-        </h2>
-        <span class="text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-violet-100/90 text-violet-800 rounded-full border border-violet-200">
-          Auto Saved
-        </span>
-      </div>
-
-      <form id="inventoryForm" class="space-y-3 sm:space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5 sm:gap-3.5">
-          <!-- Item Name -->
-          <div class="sm:col-span-5">
-            <label for="itemName" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-              Item Name
-            </label>
-            <input
-              type="text"
-              id="itemName"
-              placeholder="e.g. Alphonso Mangoes, Salt, Milk"
-              class="glass-input w-full rounded-xl sm:rounded-2xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none"
-              required
-            />
-          </div>
-
-          <!-- Quantity -->
-          <div class="sm:col-span-3">
-            <label for="itemQty" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-              Quantity
-            </label>
-            <input
-              type="number"
-              id="itemQty"
-              placeholder="e.g. 2 or 500"
-              step="any"
-              min="0.001"
-              class="glass-input w-full rounded-xl sm:rounded-2xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none"
-              required
-            />
-          </div>
-
-          <!-- Unit Selector -->
-          <div class="sm:col-span-4">
-            <label for="itemUnit" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-              Measurement Type
-            </label>
-            <div class="relative">
-              <select
-                id="itemUnit"
-                class="glass-input w-full appearance-none rounded-xl sm:rounded-2xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none pr-9 cursor-pointer"
-              >
-                <optgroup label="Weight (Bulk)">
-                  <option value="kg">Kilograms (kg)</option>
-                  <option value="g">Grams (g)</option>
-                </optgroup>
-                <optgroup label="Count (Units)">
-                  <option value="items">Count / Pieces (1, 2, ...)</option>
-                  <option value="packs">Packs / Cartons</option>
-                  <option value="bunches">Bunches</option>
-                  <option value="bottles">Bottles</option>
-                </optgroup>
-              </select>
-              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-500">
-                <i data-lucide="chevron-down" class="w-4 h-4"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Category Picker & Submit -->
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-1">
-          <!-- Select category for this item -->
-          <div class="flex-1">
-            <label for="itemCategorySelect" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-              Assign Category
-            </label>
-            <div class="relative">
-              <select
-                id="itemCategorySelect"
-                class="glass-input w-full appearance-none rounded-xl sm:rounded-2xl px-3.5 py-2.5 text-slate-900 font-semibold focus:outline-none pr-9 cursor-pointer"
-              >
-                <!-- Dynamically populated from category state -->
-              </select>
-              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-500">
-                <i data-lucide="folder" class="w-4 h-4"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- Add Button with glowing hover -->
-          <div class="sm:self-end">
-            <button
-              type="submit"
-              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:via-fuchsia-700 hover:to-pink-600 text-white font-bold text-xs sm:text-sm px-6 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-fuchsia-500/25 active:scale-95 transition cursor-pointer"
-            >
-              <i data-lucide="plus" class="w-4 h-4"></i>
-              Add to Stock
-            </button>
-          </div>
-        </div>
-      </form>
-    </section>
-
-    <!-- Pantry Inventory Showcase with Integrated Controls directly below heading -->
-    <main class="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-xl min-h-[340px]">
+    <!-- Main Pantry Inventory Card -->
+    <main class="glass-panel rounded-3xl p-4 sm:p-7 shadow-xl min-h-[420px]">
       
-      <!-- Area Header -->
-      <div class="flex items-center justify-between pb-3 border-b border-slate-200/80">
+      <!-- Pantry Header with Action Buttons (+ Add Menu & Clear) -->
+      <div class="flex items-center justify-between gap-2 pb-3.5 border-b border-slate-200/80">
         <div>
-          <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2">
+          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2">
             Pantry Inventory
-            <span id="renderedCountBadge" class="text-[11px] px-2 py-0.5 rounded-full bg-violet-100 text-violet-700 font-extrabold">0 items</span>
-          </h3>
+            <span id="renderedCountBadge" class="text-[11px] px-2.5 py-0.5 rounded-full bg-violet-100 text-violet-700 font-extrabold">0</span>
+          </h2>
           <p class="text-[11px] text-slate-500 mt-0.5" id="sortLabelNotice">Sorted by newest added</p>
         </div>
 
-        <button
-          id="clearAllBtn"
-          class="inline-flex items-center gap-1 text-[11px] font-bold text-rose-500 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1.5 rounded-xl transition cursor-pointer"
-        >
-          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-          Clear
-        </button>
+        <div class="flex items-center gap-2 relative">
+          <!-- Clear All Button -->
+          <button
+            id="clearAllBtn"
+            type="button"
+            class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200/70 px-3 py-2 rounded-xl transition active:scale-95 cursor-pointer"
+            title="Clear all pantry items"
+          >
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Clear</span>
+          </button>
+
+          <!-- Primary Plus (+) Trigger Button -->
+          <button
+            id="addActionMenuBtn"
+            type="button"
+            class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:via-fuchsia-700 hover:to-pink-600 text-white text-xs sm:text-sm font-extrabold shadow-md shadow-violet-500/25 active:scale-95 transition cursor-pointer"
+            title="Add Entry or Category"
+          >
+            <i data-lucide="plus" class="w-4 h-4 stroke-[2.75]"></i>
+            <span>Add</span>
+          </button>
+
+          <!-- Choice Popover when clicking '+' -->
+          <div
+            id="addActionPopover"
+            class="hidden absolute right-0 top-12 z-40 w-56 bg-white rounded-2xl p-2 shadow-2xl border border-slate-200/90 space-y-1 animate-fade-in"
+          >
+            <button
+              id="openNewEntryModalBtn"
+              type="button"
+              class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-violet-50 text-left transition cursor-pointer group"
+            >
+              <div class="w-8 h-8 rounded-lg bg-violet-100 text-violet-600 group-hover:bg-violet-600 group-hover:text-white flex items-center justify-center transition">
+                <i data-lucide="package-plus" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <div class="text-xs font-extrabold text-slate-900">Add New Entry</div>
+                <div class="text-[10px] text-slate-500">Active & Stock quantities</div>
+              </div>
+            </button>
+
+            <button
+              id="openCategoryModalBtn"
+              type="button"
+              class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-pink-50 text-left transition cursor-pointer group"
+            >
+              <div class="w-8 h-8 rounded-lg bg-pink-100 text-pink-600 group-hover:bg-pink-600 group-hover:text-white flex items-center justify-center transition">
+                <i data-lucide="folder-plus" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <div class="text-xs font-extrabold text-slate-900">Manage Categories</div>
+                <div class="text-[10px] text-slate-500">Add or delete sections</div>
+              </div>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <!-- Integrated Sort, Filter Dropdown & Search Bar directly below the Heading -->
-      <div class="pt-3 pb-4 border-b border-slate-200/60 mb-4 space-y-2.5">
-        <div class="flex items-center gap-2">
+      <!-- Sort, Filter Dropdown & Search Bar directly below Pantry Heading -->
+      <div class="pt-3.5 pb-4 border-b border-slate-200/70 mb-4 space-y-2.5">
+        <div class="flex items-center gap-2.5">
           
-          <!-- Unified Sort & Filter Trigger Dropdown Menu Button -->
+          <!-- Unified Sort & Filter Trigger Dropdown Button -->
           <div class="relative">
             <button
               id="sortFilterToggleBtn"
               type="button"
-              class="inline-flex items-center justify-center gap-1.5 h-10 px-3 sm:px-3.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold shadow-md active:scale-95 transition cursor-pointer flex-shrink-0"
+              class="inline-flex items-center justify-center gap-1.5 h-10 px-3 sm:px-3.5 rounded-xl bg-slate-100 hover:bg-violet-100 text-slate-800 hover:text-violet-800 border border-slate-200/90 text-xs font-bold shadow-xs active:scale-95 transition cursor-pointer flex-shrink-0"
               title="Sort and Filter Options"
             >
-              <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+              <i data-lucide="sliders-horizontal" class="w-4 h-4 text-violet-600"></i>
               <span class="hidden sm:inline">Sort & Filter</span>
-              <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-500"></i>
             </button>
 
             <!-- Floating Sort & Filter Dropdown Popover -->
             <div
               id="sortFilterDropdown"
-              class="hidden absolute left-0 top-12 z-40 w-64 sm:w-72 glass-panel bg-white/95 rounded-2xl p-3 shadow-2xl border border-violet-100/90 text-slate-800 space-y-3"
+              class="hidden absolute left-0 top-12 z-40 w-64 sm:w-72 bg-white rounded-2xl p-3.5 shadow-2xl border border-slate-200 text-slate-800 space-y-3"
             >
               <!-- Sort selection -->
               <div>
@@ -388,25 +255,25 @@
                   Sort By
                 </label>
                 <div class="space-y-1 text-xs">
-                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-violet-50 font-semibold transition" data-sort="newest">Newest Added First</button>
-                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-violet-50 font-semibold transition" data-sort="oldest">Oldest Added First</button>
-                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-violet-50 font-semibold transition" data-sort="category">Category (A-Z)</button>
-                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-violet-50 font-semibold transition" data-sort="name">Item Name (A-Z)</button>
-                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-violet-50 font-semibold transition" data-sort="qty-high">Big Quantity First (↓)</button>
-                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-violet-50 font-semibold transition" data-sort="qty-low">Small Quantity First (↑)</button>
+                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-2 rounded-xl hover:bg-violet-50 font-semibold transition cursor-pointer" data-sort="newest">Newest Added First</button>
+                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-2 rounded-xl hover:bg-violet-50 font-semibold transition cursor-pointer" data-sort="oldest">Oldest Added First</button>
+                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-2 rounded-xl hover:bg-violet-50 font-semibold transition cursor-pointer" data-sort="category">Category (A-Z)</button>
+                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-2 rounded-xl hover:bg-violet-50 font-semibold transition cursor-pointer" data-sort="name">Item Name (A-Z)</button>
+                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-2 rounded-xl hover:bg-violet-50 font-semibold transition cursor-pointer" data-sort="qty-high">Big Quantity First (↓)</button>
+                  <button type="button" class="sort-option-btn w-full text-left px-2.5 py-2 rounded-xl hover:bg-violet-50 font-semibold transition cursor-pointer" data-sort="qty-low">Small Quantity First (↑)</button>
                 </div>
               </div>
 
               <!-- Filter selection -->
-              <div class="border-t border-slate-100 pt-2">
+              <div class="border-t border-slate-100 pt-2.5">
                 <label class="block text-[10px] font-black uppercase text-violet-700 tracking-wider mb-1.5 flex items-center gap-1">
                   <i data-lucide="filter" class="w-3 h-3"></i>
-                  Filter Type
+                  Filter Measurement
                 </label>
                 <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl text-center text-xs">
-                  <button type="button" class="filter-type-pill active py-1 rounded-lg font-bold bg-violet-600 text-white transition" data-filter="all">All</button>
-                  <button type="button" class="filter-type-pill py-1 rounded-lg font-bold text-slate-600 transition" data-filter="weight">Weight</button>
-                  <button type="button" class="filter-type-pill py-1 rounded-lg font-bold text-slate-600 transition" data-filter="count">Count</button>
+                  <button type="button" class="filter-type-pill active py-1.5 rounded-lg font-bold bg-violet-600 text-white transition cursor-pointer" data-filter="all">All</button>
+                  <button type="button" class="filter-type-pill py-1.5 rounded-lg font-bold text-slate-600 transition cursor-pointer" data-filter="weight">Weight</button>
+                  <button type="button" class="filter-type-pill py-1.5 rounded-lg font-bold text-slate-600 transition cursor-pointer" data-filter="count">Count</button>
                 </div>
               </div>
             </div>
@@ -414,63 +281,315 @@
 
           <!-- Live Search Bar next to Sort & Filter -->
           <div class="relative flex-1">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
             <input
               type="text"
               id="searchInput"
-              placeholder="Search items, category, units..."
+              placeholder="Search items or category..."
               class="glass-input w-full h-10 pl-9 pr-8 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none text-xs sm:text-sm"
             />
             <button
               id="clearSearchBtn"
               type="button"
-              class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5"
+              class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
             >
               <i data-lucide="x" class="w-3.5 h-3.5"></i>
             </button>
           </div>
         </div>
 
-        <!-- Active Filter Indicator Badge -->
-        <div id="activeFilterTags" class="flex items-center gap-1.5 flex-wrap text-[11px]">
-          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-violet-100 text-violet-700 font-bold">
-            <i data-lucide="arrow-up-down" class="w-3 h-3"></i>
-            <span id="activeSortLabel">Newest Added</span>
-          </span>
-          <span id="activeFilterBadge" class="hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-fuchsia-100 text-fuchsia-700 font-bold">
-            <i data-lucide="filter" class="w-3 h-3"></i>
-            <span id="activeFilterLabel">All Units</span>
+        <!-- Active Filter Indicator Badge + Helpful Tip -->
+        <div class="flex items-center justify-between gap-2 flex-wrap">
+          <div id="activeFilterTags" class="flex items-center gap-1.5 flex-wrap text-[11px]">
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-violet-100/90 text-violet-700 font-bold">
+              <i data-lucide="arrow-up-down" class="w-3 h-3"></i>
+              <span id="activeSortLabel">Newest Added</span>
+            </span>
+            <span id="activeFilterBadge" class="hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-fuchsia-100 text-fuchsia-700 font-bold">
+              <i data-lucide="filter" class="w-3 h-3"></i>
+              <span id="activeFilterLabel">All Units</span>
+            </span>
+          </div>
+          <span class="text-[10px] font-semibold text-slate-400">
+            Tip: Long-press Active or Stock values for quick options
           </span>
         </div>
       </div>
 
       <!-- Dynamic Item Cards Grid -->
-      <div id="itemsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3.5">
+      <div id="itemsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
         <!-- Rendered items here -->
       </div>
 
       <!-- Empty State -->
-      <div id="emptyState" class="hidden py-12 text-center">
-        <div class="w-16 h-16 bg-gradient-to-tr from-violet-200 via-pink-200 to-amber-100 text-violet-600 rounded-3xl flex items-center justify-center mx-auto mb-3 shadow-inner">
+      <div id="emptyState" class="hidden py-14 text-center">
+        <div class="w-16 h-16 bg-gradient-to-tr from-violet-100 via-pink-100 to-amber-100 text-violet-600 rounded-3xl flex items-center justify-center mx-auto mb-3 shadow-inner">
           <i data-lucide="package-open" class="w-8 h-8"></i>
         </div>
-        <h4 class="text-base font-bold text-slate-800 mb-0.5">No items found</h4>
-        <p class="text-xs text-slate-500 max-w-xs mx-auto">
-          Add items above or clear your search to see your pantry stock.
+        <h4 class="text-base font-bold text-slate-800 mb-1">Your pantry is empty</h4>
+        <p class="text-xs text-slate-500 max-w-xs mx-auto mb-4">
+          Tap the <span class="font-bold text-violet-600">+ Add</span> button above to add items with Active & Stock quantities.
         </p>
       </div>
     </main>
 
     <!-- Footer -->
-    <footer class="text-center text-[11px] text-white/70 py-3 font-medium tracking-wide">
-      Kitchen Universe &bull; Installable Mobile PWA &bull; Local Storage Guaranteed
+    <footer class="text-center text-[11px] text-slate-500 py-2 font-medium tracking-wide">
+      Kitchen Universe &bull; Saved Locally on Your Device
     </footer>
   </div>
 
-  <!-- Custom Warning / Confirmation Modal -->
-  <div id="customModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-    <div class="glass-panel bg-white/95 rounded-2xl sm:rounded-3xl p-5 sm:p-7 max-w-sm w-full shadow-2xl border border-white/80 text-center transform transition-all">
-      <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-sm">
+  <!-- ==================== MODAL 1: ADD NEW PANTRY ENTRY ==================== -->
+  <div id="addEntryModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white flex items-center justify-center shadow-md">
+            <i data-lucide="package-plus" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900">Add Pantry Entry</h3>
+            <p class="text-[11px] text-slate-500">Set both Active & In-Stock quantities</p>
+          </div>
+        </div>
+        <button id="closeAddEntryModal" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="inventoryForm" class="space-y-3.5">
+        <!-- Item Name -->
+        <div>
+          <label for="itemName" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+            Item Name
+          </label>
+          <input
+            type="text"
+            id="itemName"
+            placeholder="e.g. Basmati Rice, Milk, Mangoes"
+            class="glass-input w-full rounded-xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none"
+            required
+          />
+        </div>
+
+        <!-- Dual Quantities: Active & In Stock -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="itemActiveQty" class="block text-[11px] font-bold uppercase tracking-wider text-violet-700 mb-1">
+              Active Quantity
+            </label>
+            <input
+              type="number"
+              id="itemActiveQty"
+              placeholder="e.g. 1"
+              step="any"
+              min="0"
+              class="glass-input w-full rounded-xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none"
+              required
+            />
+          </div>
+          <div>
+            <label for="itemStockQty" class="block text-[11px] font-bold uppercase tracking-wider text-emerald-700 mb-1">
+              In Stock Quantity
+            </label>
+            <input
+              type="number"
+              id="itemStockQty"
+              placeholder="e.g. 5"
+              step="any"
+              min="0"
+              class="glass-input w-full rounded-xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Unit & Category -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="itemUnit" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+              Unit
+            </label>
+            <div class="relative">
+              <select
+                id="itemUnit"
+                class="glass-input w-full appearance-none rounded-xl px-3 py-2.5 text-slate-900 font-semibold focus:outline-none pr-8 cursor-pointer"
+              >
+                <optgroup label="Weight">
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                </optgroup>
+                <optgroup label="Count">
+                  <option value="items">items (1, 2...)</option>
+                  <option value="packs">packs</option>
+                  <option value="bunches">bunches</option>
+                  <option value="bottles">bottles</option>
+                </optgroup>
+              </select>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+          </div>
+
+          <div>
+            <label for="itemCategorySelect" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+              Category
+            </label>
+            <div class="relative">
+              <select
+                id="itemCategorySelect"
+                class="glass-input w-full appearance-none rounded-xl px-3 py-2.5 text-slate-900 font-semibold focus:outline-none pr-8 cursor-pointer"
+              >
+                <!-- Populated dynamically -->
+              </select>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center gap-2.5">
+          <button
+            type="button"
+            id="cancelAddEntryBtn"
+            class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 text-white font-extrabold text-xs shadow-md active:scale-95 transition cursor-pointer"
+          >
+            Save Item
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: MANAGE CATEGORIES ==================== -->
+  <div id="categoryModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 text-white flex items-center justify-center shadow-md">
+            <i data-lucide="tag" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900">Categories</h3>
+            <p class="text-[11px] text-slate-500">Add new or delete existing categories</p>
+          </div>
+        </div>
+        <button id="closeCategoryModal" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Add Category Form -->
+      <form id="addCategoryForm" class="flex items-center gap-2">
+        <input
+          type="text"
+          id="newCategoryInput"
+          placeholder="New category name..."
+          class="glass-input rounded-xl px-3.5 py-2.5 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none flex-1"
+          maxlength="24"
+          required
+        />
+        <button
+          type="submit"
+          class="inline-flex items-center gap-1 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-md active:scale-95 transition cursor-pointer flex-shrink-0"
+        >
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          Add
+        </button>
+      </form>
+
+      <!-- Existing Categories List -->
+      <div>
+        <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Current Categories</span>
+        <div id="categoryPillsContainer" class="flex flex-wrap items-center gap-2 max-h-48 overflow-y-auto p-1">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <div class="pt-1">
+        <button
+          id="doneCategoryModalBtn"
+          type="button"
+          class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition cursor-pointer"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: LONG-PRESS QUANTITY ACTIONS ==================== -->
+  <div id="quantityActionModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-sm w-full shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div>
+          <span id="qtyActionBadge" class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-violet-100 text-violet-700">Active</span>
+          <h3 id="qtyActionTitle" class="text-base font-extrabold text-slate-900 mt-1">Manage Quantity</h3>
+          <p id="qtyActionSubtitle" class="text-xs text-slate-500">Current: 0 kg</p>
+        </div>
+        <button id="closeQtyActionModal" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Mode Switcher for Stock (Restock vs Shift to Active) -->
+      <div id="stockActionModeTabs" class="hidden grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-xl text-xs">
+        <button type="button" id="tabRestockBtn" class="py-2 rounded-lg font-extrabold bg-emerald-600 text-white shadow-xs transition cursor-pointer">
+          + Restock
+        </button>
+        <button type="button" id="tabShiftBtn" class="py-2 rounded-lg font-extrabold text-slate-600 hover:text-slate-900 transition cursor-pointer">
+          ⇄ Shift to Active
+        </button>
+      </div>
+
+      <form id="qtyActionForm" class="space-y-3">
+        <div>
+          <label id="qtyActionInputLabel" for="qtyActionInput" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+            New Active Quantity
+          </label>
+          <div class="relative">
+            <input
+              type="number"
+              id="qtyActionInput"
+              step="any"
+              min="0"
+              placeholder="Enter quantity"
+              class="glass-input w-full rounded-xl px-3.5 py-2.5 pr-14 text-slate-900 font-bold focus:outline-none"
+              required
+            />
+            <span id="qtyActionUnitSuffix" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-extrabold text-slate-400 uppercase">kg</span>
+          </div>
+          <p id="qtyActionPreviewHint" class="text-[11px] font-semibold text-violet-600 mt-1.5"></p>
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <button
+            type="button"
+            id="cancelQtyActionBtn"
+            class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            id="submitQtyActionBtn"
+            class="flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer"
+          >
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 4: WARNING / CONFIRMATION MODAL ==================== -->
+  <div id="customModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl p-5 sm:p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center">
+      <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
         <i data-lucide="alert-triangle" class="w-6 h-6"></i>
       </div>
       <h4 class="text-base sm:text-lg font-black text-slate-900 mb-1" id="modalTitle">Warning</h4>
@@ -478,15 +597,17 @@
       <div class="flex items-center gap-2.5">
         <button
           id="modalCancel"
+          type="button"
           class="flex-1 py-2.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
         >
           Cancel
         </button>
         <button
           id="modalConfirm"
-          class="flex-1 py-2.5 text-xs font-bold rounded-xl bg-rose-500 hover:bg-rose-600 text-white shadow-md transition cursor-pointer"
+          type="button"
+          class="flex-1 py-2.5 text-xs font-bold rounded-xl bg-rose-600 hover:bg-rose-700 text-white shadow-md transition cursor-pointer"
         >
-          Proceed
+          Delete
         </button>
       </div>
     </div>
@@ -506,7 +627,7 @@
       });
     }
 
-    // PWA Install Prompt Listener for Mobile Chrome
+    // PWA Install Prompt Listener
     let deferredPrompt = null;
     const installAppBtn = document.getElementById('installAppBtn');
 
@@ -527,15 +648,15 @@
       }
     });
 
-    // Vibrant Category Colors Palette
+    // Vibrant Category Colors Palette for Light Theme
     const CATEGORY_COLORS = [
-      { bg: 'bg-emerald-500/15', text: 'text-emerald-700', border: 'border-emerald-300' },
-      { bg: 'bg-amber-500/15', text: 'text-amber-700', border: 'border-amber-300' },
-      { bg: 'bg-rose-500/15', text: 'text-rose-700', border: 'border-rose-300' },
-      { bg: 'bg-sky-500/15', text: 'text-sky-700', border: 'border-sky-300' },
-      { bg: 'bg-purple-500/15', text: 'text-purple-700', border: 'border-purple-300' },
-      { bg: 'bg-fuchsia-500/15', text: 'text-fuchsia-700', border: 'border-fuchsia-300' },
-      { bg: 'bg-teal-500/15', text: 'text-teal-700', border: 'border-teal-300' },
+      { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' },
+      { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
+      { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200' },
+      { bg: 'bg-sky-50', text: 'text-sky-700', border: 'border-sky-200' },
+      { bg: 'bg-violet-50', text: 'text-violet-700', border: 'border-violet-200' },
+      { bg: 'bg-fuchsia-50', text: 'text-fuchsia-700', border: 'border-fuchsia-200' },
+      { bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
     ];
 
     // State Variables
@@ -546,12 +667,14 @@
     let searchQuery = '';
     let pendingModalCallback = null;
 
-    // DOM Elements
-    const inventoryForm = document.getElementById('inventoryForm');
-    const itemNameInput = document.getElementById('itemName');
-    const itemQtyInput = document.getElementById('itemQty');
-    const itemUnitSelect = document.getElementById('itemUnit');
-    const itemCategorySelect = document.getElementById('itemCategorySelect');
+    // Long-press Action State
+    let activeQtyModalState = {
+      itemId: null,
+      targetType: 'active', // 'active' | 'stock'
+      stockMode: 'restock'  // 'restock' | 'shift'
+    };
+
+    // DOM References
     const itemsContainer = document.getElementById('itemsContainer');
     const emptyState = document.getElementById('emptyState');
     const renderedCountBadge = document.getElementById('renderedCountBadge');
@@ -563,18 +686,55 @@
     const activeFilterLabel = document.getElementById('activeFilterLabel');
     const clearAllBtn = document.getElementById('clearAllBtn');
 
-    // Sort & Filter Dropdown Popover
+    // Add Action Popover & Modals
+    const addActionMenuBtn = document.getElementById('addActionMenuBtn');
+    const addActionPopover = document.getElementById('addActionPopover');
+    const openNewEntryModalBtn = document.getElementById('openNewEntryModalBtn');
+    const openCategoryModalBtn = document.getElementById('openCategoryModalBtn');
+
+    // Add Entry Modal Elements
+    const addEntryModal = document.getElementById('addEntryModal');
+    const closeAddEntryModal = document.getElementById('closeAddEntryModal');
+    const cancelAddEntryBtn = document.getElementById('cancelAddEntryBtn');
+    const inventoryForm = document.getElementById('inventoryForm');
+    const itemNameInput = document.getElementById('itemName');
+    const itemActiveQtyInput = document.getElementById('itemActiveQty');
+    const itemStockQtyInput = document.getElementById('itemStockQty');
+    const itemUnitSelect = document.getElementById('itemUnit');
+    const itemCategorySelect = document.getElementById('itemCategorySelect');
+
+    // Category Modal Elements
+    const categoryModal = document.getElementById('categoryModal');
+    const closeCategoryModal = document.getElementById('closeCategoryModal');
+    const doneCategoryModalBtn = document.getElementById('doneCategoryModalBtn');
+    const addCategoryForm = document.getElementById('addCategoryForm');
+    const newCategoryInput = document.getElementById('newCategoryInput');
+    const categoryPillsContainer = document.getElementById('categoryPillsContainer');
+
+    // Sort & Filter Dropdown
     const sortFilterToggleBtn = document.getElementById('sortFilterToggleBtn');
     const sortFilterDropdown = document.getElementById('sortFilterDropdown');
     const sortOptionBtns = document.querySelectorAll('.sort-option-btn');
     const filterTypePills = document.querySelectorAll('.filter-type-pill');
 
-    // Category Manager Elements
-    const addCategoryForm = document.getElementById('addCategoryForm');
-    const newCategoryInput = document.getElementById('newCategoryInput');
-    const categoryPillsContainer = document.getElementById('categoryPillsContainer');
+    // Long-press Quantity Action Modal
+    const quantityActionModal = document.getElementById('quantityActionModal');
+    const closeQtyActionModal = document.getElementById('closeQtyActionModal');
+    const cancelQtyActionBtn = document.getElementById('cancelQtyActionBtn');
+    const qtyActionBadge = document.getElementById('qtyActionBadge');
+    const qtyActionTitle = document.getElementById('qtyActionTitle');
+    const qtyActionSubtitle = document.getElementById('qtyActionSubtitle');
+    const stockActionModeTabs = document.getElementById('stockActionModeTabs');
+    const tabRestockBtn = document.getElementById('tabRestockBtn');
+    const tabShiftBtn = document.getElementById('tabShiftBtn');
+    const qtyActionForm = document.getElementById('qtyActionForm');
+    const qtyActionInputLabel = document.getElementById('qtyActionInputLabel');
+    const qtyActionInput = document.getElementById('qtyActionInput');
+    const qtyActionUnitSuffix = document.getElementById('qtyActionUnitSuffix');
+    const qtyActionPreviewHint = document.getElementById('qtyActionPreviewHint');
+    const submitQtyActionBtn = document.getElementById('submitQtyActionBtn');
 
-    // Modal References
+    // Warning Confirmation Modal
     const customModal = document.getElementById('customModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalDescription = document.getElementById('modalDescription');
@@ -587,14 +747,14 @@
       for (let i = 0; i < categoryName.length; i++) {
         hash = categoryName.charCodeAt(i) + ((hash << 5) - hash);
       }
-      const index = Math.abs(hash) % CATEGORY_COLORS.length;
-      return CATEGORY_COLORS[index];
+      return CATEGORY_COLORS[Math.abs(hash) % CATEGORY_COLORS.length];
     }
 
-    // Modal Control
-    function openModal(title, desc, onConfirm) {
+    // Confirmation Modal Control
+    function openModal(title, desc, onConfirm, confirmBtnText = 'Confirm') {
       modalTitle.textContent = title;
       modalDescription.textContent = desc;
+      modalConfirm.textContent = confirmBtnText;
       pendingModalCallback = onConfirm;
       customModal.classList.remove('hidden');
       lucide.createIcons();
@@ -613,15 +773,56 @@
       pendingModalCallback = null;
     });
 
-    // Toggle Sort/Filter Popover Menu
+    // Toggle '+' Choice Popover
+    addActionMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      sortFilterDropdown.classList.add('hidden');
+      addActionPopover.classList.toggle('hidden');
+    });
+
+    // Open New Entry Popup
+    openNewEntryModalBtn.addEventListener('click', () => {
+      addActionPopover.classList.add('hidden');
+      populateCategorySelect();
+      addEntryModal.classList.remove('hidden');
+      setTimeout(() => itemNameInput.focus(), 80);
+    });
+
+    function closeEntryPopup() {
+      addEntryModal.classList.add('hidden');
+      inventoryForm.reset();
+    }
+    closeAddEntryModal.addEventListener('click', closeEntryPopup);
+    cancelAddEntryBtn.addEventListener('click', closeEntryPopup);
+
+    // Open Category Management Popup
+    openCategoryModalBtn.addEventListener('click', () => {
+      addActionPopover.classList.add('hidden');
+      renderCategoryPills();
+      categoryModal.classList.remove('hidden');
+    });
+
+    function closeCategoryPopup() {
+      categoryModal.classList.add('hidden');
+      newCategoryInput.value = '';
+    }
+    closeCategoryModal.addEventListener('click', closeCategoryPopup);
+    doneCategoryModalBtn.addEventListener('click', closeCategoryPopup);
+
+    // Toggle Sort/Filter Popover
     sortFilterToggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
+      addActionPopover.classList.add('hidden');
       sortFilterDropdown.classList.toggle('hidden');
     });
 
+    // Close popovers when clicking outside
     document.addEventListener('click', (e) => {
       if (!sortFilterDropdown.contains(e.target) && !sortFilterToggleBtn.contains(e.target)) {
         sortFilterDropdown.classList.add('hidden');
+      }
+      if (!addActionPopover.contains(e.target) && !addActionMenuBtn.contains(e.target)) {
+        addActionPopover.classList.add('hidden');
       }
     });
 
@@ -681,7 +882,7 @@
       }
     }
 
-    // Data Load & Initial Seed
+    // Load & Migrate LocalStorage Data
     function loadData() {
       const storedCategories = localStorage.getItem('kitchen_vibrant_categories');
       if (storedCategories) {
@@ -698,16 +899,22 @@
       const storedItems = localStorage.getItem('kitchen_vibrant_items');
       if (storedItems) {
         try {
-          items = JSON.parse(storedItems);
+          const parsed = JSON.parse(storedItems);
+          // Migrate legacy items that only had `qty` to `activeQty` + `stockQty`
+          items = parsed.map(item => ({
+            ...item,
+            activeQty: typeof item.activeQty === 'number' ? item.activeQty : (item.qty || 0),
+            stockQty: typeof item.stockQty === 'number' ? item.stockQty : 0
+          }));
         } catch (e) {
           items = [];
         }
       } else {
         items = [
-          { id: '1', name: 'Alphonso Mangoes', qty: 6, unit: 'items', category: 'Produce', timestamp: Date.now() - 50000 },
-          { id: '2', name: 'Basmati Rice', qty: 5.5, unit: 'kg', category: 'Grains & Flour', timestamp: Date.now() - 40000 },
-          { id: '3', name: 'Saffron Threads', qty: 15, unit: 'g', category: 'Spices & Herbs', timestamp: Date.now() - 30000 },
-          { id: '4', name: 'Greek Yogurt', qty: 2, unit: 'packs', category: 'Dairy & Eggs', timestamp: Date.now() - 20000 }
+          { id: '1', name: 'Alphonso Mangoes', activeQty: 4, stockQty: 8, unit: 'items', category: 'Produce', timestamp: Date.now() - 50000 },
+          { id: '2', name: 'Basmati Rice', activeQty: 1.5, stockQty: 5, unit: 'kg', category: 'Grains & Flour', timestamp: Date.now() - 40000 },
+          { id: '3', name: 'Saffron Threads', activeQty: 10, stockQty: 25, unit: 'g', category: 'Spices & Herbs', timestamp: Date.now() - 30000 },
+          { id: '4', name: 'Greek Yogurt', activeQty: 2, stockQty: 4, unit: 'packs', category: 'Dairy & Eggs', timestamp: Date.now() - 20000 }
         ];
         saveItems();
       }
@@ -736,19 +943,20 @@
       });
     }
 
-    // Render Categories & Setup Delete with Explicit Warning
+    // Render Category Pills inside Category Modal
     function renderCategoryPills() {
       categoryPillsContainer.innerHTML = '';
       categories.forEach(cat => {
         const style = getCategoryColor(cat);
         const pill = document.createElement('div');
-        pill.className = `flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl border text-xs font-bold ${style.bg} ${style.text} ${style.border} shadow-sm`;
+        pill.className = `flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold ${style.bg} ${style.text} ${style.border}`;
 
         pill.innerHTML = `
           <span>${escapeHtml(cat)}</span>
           <button
+            type="button"
             onclick="promptDeleteCategory('${escapeHtml(cat)}')"
-            class="hover:opacity-80 p-0.5 rounded transition text-current cursor-pointer"
+            class="hover:bg-black/10 p-0.5 rounded transition text-current cursor-pointer"
             title="Delete Category"
           >
             <i data-lucide="x" class="w-3.5 h-3.5"></i>
@@ -759,13 +967,14 @@
       lucide.createIcons();
     }
 
-    // Explicit Warning when Deleting Category
+    // Delete Category with Safety Warning
     window.promptDeleteCategory = function(catName) {
       if (categories.length <= 1) {
         openModal(
           "Action Prohibited",
           "You must keep at least one active category in your kitchen inventory.",
-          () => {}
+          () => {},
+          "Okay"
         );
         return;
       }
@@ -774,8 +983,8 @@
       const targetCategory = categories.find(c => c !== catName) || 'General';
 
       const warningText = affectedCount > 0
-        ? `Warning: There are ${affectedCount} item(s) in "${catName}". If you proceed, these items will automatically be re-assigned to "${targetCategory}".`
-        : `Are you sure you want to delete the category "${catName}"? This action cannot be undone.`;
+        ? `Warning: There are ${affectedCount} item(s) in "${catName}". Deleting it will move those items to "${targetCategory}".`
+        : `Are you sure you want to delete the category "${catName}"?`;
 
       openModal(
         `Delete "${catName}"?`,
@@ -792,7 +1001,8 @@
           renderCategoryPills();
           populateCategorySelect();
           renderItems();
-        }
+        },
+        "Delete"
       );
     };
 
@@ -815,18 +1025,185 @@
       newCategoryInput.value = '';
     });
 
-    // Helper: Is Weight
     function isWeight(unit) {
       return unit === 'kg' || unit === 'g';
     }
 
     function normalizeQuantityForSorting(item) {
-      if (item.unit === 'kg') return item.qty * 1000;
-      if (item.unit === 'g') return item.qty;
-      return item.qty * 100;
+      const total = (item.activeQty || 0) + (item.stockQty || 0);
+      if (item.unit === 'kg') return total * 1000;
+      if (item.unit === 'g') return total;
+      return total * 100;
     }
 
-    // Render Inventory Items
+    // ==================== LONG-PRESS QUANTITY POPUP LOGIC ====================
+    function openQuantityActionModal(itemId, targetType) {
+      const item = items.find(i => i.id === itemId);
+      if (!item) return;
+
+      activeQtyModalState.itemId = itemId;
+      activeQtyModalState.targetType = targetType;
+      activeQtyModalState.stockMode = 'restock';
+
+      qtyActionUnitSuffix.textContent = item.unit;
+      qtyActionInput.value = '';
+
+      if (targetType === 'active') {
+        qtyActionBadge.textContent = 'Active Usage';
+        qtyActionBadge.className = 'text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-violet-100 text-violet-700';
+        qtyActionTitle.textContent = `Replace Active • ${item.name}`;
+        qtyActionSubtitle.textContent = `Current Active: ${item.activeQty} ${item.unit}`;
+        stockActionModeTabs.classList.add('hidden');
+        qtyActionInputLabel.textContent = 'New Active Quantity';
+        qtyActionInput.placeholder = `e.g. ${item.activeQty}`;
+        submitQtyActionBtn.textContent = 'Replace Active';
+        submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
+      } else {
+        qtyActionBadge.textContent = 'In Stock Reserve';
+        qtyActionBadge.className = 'text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+        qtyActionTitle.textContent = `Manage Stock • ${item.name}`;
+        qtyActionSubtitle.textContent = `In Stock: ${item.stockQty} ${item.unit} • Active: ${item.activeQty} ${item.unit}`;
+        stockActionModeTabs.classList.remove('hidden');
+        setStockActionMode('restock');
+      }
+
+      updateQtyActionPreview();
+      quantityActionModal.classList.remove('hidden');
+      setTimeout(() => qtyActionInput.focus(), 80);
+    }
+
+    function setStockActionMode(mode) {
+      activeQtyModalState.stockMode = mode;
+      const item = items.find(i => i.id === activeQtyModalState.itemId);
+      if (!item) return;
+
+      if (mode === 'restock') {
+        tabRestockBtn.className = 'py-2 rounded-lg font-extrabold bg-emerald-600 text-white shadow-xs transition cursor-pointer';
+        tabShiftBtn.className = 'py-2 rounded-lg font-extrabold text-slate-600 hover:text-slate-900 transition cursor-pointer';
+        qtyActionInputLabel.textContent = 'Add Quantity to Stock';
+        qtyActionInput.placeholder = 'e.g. 5';
+        submitQtyActionBtn.textContent = 'Restock';
+        submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
+      } else {
+        tabShiftBtn.className = 'py-2 rounded-lg font-extrabold bg-violet-600 text-white shadow-xs transition cursor-pointer';
+        tabRestockBtn.className = 'py-2 rounded-lg font-extrabold text-slate-600 hover:text-slate-900 transition cursor-pointer';
+        qtyActionInputLabel.textContent = `Shift to Active (Max ${item.stockQty} ${item.unit})`;
+        qtyActionInput.placeholder = `e.g. ${Math.min(1, item.stockQty)}`;
+        submitQtyActionBtn.textContent = 'Shift to Active';
+        submitQtyActionBtn.className = 'flex-1 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-extrabold text-xs shadow-md transition cursor-pointer';
+      }
+      updateQtyActionPreview();
+    }
+
+    tabRestockBtn.addEventListener('click', () => setStockActionMode('restock'));
+    tabShiftBtn.addEventListener('click', () => setStockActionMode('shift'));
+
+    function updateQtyActionPreview() {
+      const item = items.find(i => i.id === activeQtyModalState.itemId);
+      if (!item) return;
+      const val = parseFloat(qtyActionInput.value);
+
+      if (isNaN(val) || val < 0) {
+        if (activeQtyModalState.targetType === 'active') {
+          qtyActionPreviewHint.textContent = 'Enter a new quantity to replace the current active amount.';
+        } else if (activeQtyModalState.stockMode === 'restock') {
+          qtyActionPreviewHint.textContent = `Adds directly onto your existing ${item.stockQty} ${item.unit} stock.`;
+        } else {
+          qtyActionPreviewHint.textContent = `Moves quantity from Stock (${item.stockQty} ${item.unit}) into Active (${item.activeQty} ${item.unit}).`;
+        }
+        return;
+      }
+
+      if (activeQtyModalState.targetType === 'active') {
+        qtyActionPreviewHint.textContent = `Active will become ${Number(val.toFixed(2))} ${item.unit}`;
+      } else if (activeQtyModalState.stockMode === 'restock') {
+        const nextStock = Number((item.stockQty + val).toFixed(2));
+        qtyActionPreviewHint.textContent = `New Stock: ${item.stockQty} + ${val} = ${nextStock} ${item.unit}`;
+      } else {
+        const shiftAmt = Math.min(val, item.stockQty);
+        const nextStock = Number((item.stockQty - shiftAmt).toFixed(2));
+        const nextActive = Number((item.activeQty + shiftAmt).toFixed(2));
+        qtyActionPreviewHint.textContent = `Result → Stock: ${nextStock} ${item.unit} | Active: ${nextActive} ${item.unit}`;
+      }
+    }
+
+    qtyActionInput.addEventListener('input', updateQtyActionPreview);
+
+    qtyActionForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const item = items.find(i => i.id === activeQtyModalState.itemId);
+      if (!item) return;
+
+      const val = parseFloat(qtyActionInput.value);
+      if (isNaN(val) || val < 0) return;
+
+      if (activeQtyModalState.targetType === 'active') {
+        item.activeQty = Number(val.toFixed(2));
+      } else if (activeQtyModalState.stockMode === 'restock') {
+        item.stockQty = Number((item.stockQty + val).toFixed(2));
+      } else {
+        const shiftAmt = Math.min(val, item.stockQty);
+        item.stockQty = Number((item.stockQty - shiftAmt).toFixed(2));
+        item.activeQty = Number((item.activeQty + shiftAmt).toFixed(2));
+      }
+
+      saveItems();
+      renderItems();
+      quantityActionModal.classList.add('hidden');
+    });
+
+    function closeQtyPopup() {
+      quantityActionModal.classList.add('hidden');
+    }
+    closeQtyActionModal.addEventListener('click', closeQtyPopup);
+    cancelQtyActionBtn.addEventListener('click', closeQtyPopup);
+
+    // Attach Long-Press Handler (supports Touch & Mouse hold without blocking '-' button clicks)
+    function attachLongPress(element, callback) {
+      let pressTimer = null;
+      let startX = 0;
+      let startY = 0;
+
+      const startHold = (e) => {
+        // Ignore clicks on quick '-' or '+' buttons inside the zone
+        if (e.target.closest('button')) return;
+        const point = e.touches ? e.touches[0] : e;
+        startX = point.clientX;
+        startY = point.clientY;
+
+        pressTimer = setTimeout(() => {
+          if (navigator.vibrate) navigator.vibrate(25);
+          callback();
+        }, 450);
+      };
+
+      const cancelHold = () => {
+        if (pressTimer) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+        }
+      };
+
+      const moveHold = (e) => {
+        if (!pressTimer) return;
+        const point = e.touches ? e.touches[0] : e;
+        if (Math.abs(point.clientX - startX) > 10 || Math.abs(point.clientY - startY) > 10) {
+          cancelHold();
+        }
+      };
+
+      element.addEventListener('touchstart', startHold, { passive: true });
+      element.addEventListener('touchmove', moveHold, { passive: true });
+      element.addEventListener('touchend', cancelHold);
+      element.addEventListener('touchcancel', cancelHold);
+
+      element.addEventListener('mousedown', startHold);
+      element.addEventListener('mousemove', moveHold);
+      element.addEventListener('mouseup', cancelHold);
+      element.addEventListener('mouseleave', cancelHold);
+    }
+
+    // ==================== RENDER PANTRY ITEMS ====================
     function renderItems() {
       let result = items.filter(item => {
         const q = searchQuery.toLowerCase();
@@ -852,7 +1229,7 @@
         }
       });
 
-      renderedCountBadge.textContent = `${result.length} item${result.length === 1 ? '' : 's'}`;
+      renderedCountBadge.textContent = `${result.length}`;
       itemsContainer.innerHTML = '';
 
       if (result.length === 0) {
@@ -862,62 +1239,99 @@
 
         result.forEach(item => {
           const catStyle = getCategoryColor(item.category);
-          const isKgOrG = isWeight(item.unit);
+          const stepDelta = (isWeight(item.unit) && item.unit === 'g') ? 50 : 1;
 
           const card = document.createElement('div');
-          card.className = 'group relative flex flex-col justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/85 hover:bg-white border border-slate-200/90 hover:border-violet-300 hover:shadow-lg transition-all duration-200';
+          card.className = 'group relative flex flex-col justify-between p-4 rounded-2xl bg-white border border-slate-200/90 hover:border-violet-300 shadow-sm hover:shadow-md transition-all duration-200';
 
           card.innerHTML = `
+            <!-- Top Header: Category Tag + Item Name + Delete Button -->
             <div class="flex items-start justify-between gap-2.5">
               <div class="min-w-0 flex-1">
                 <div class="flex items-center gap-1.5 flex-wrap mb-1">
-                  <span class="text-[9px] sm:text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full border ${catStyle.bg} ${catStyle.text} ${catStyle.border}">
+                  <span class="text-[10px] uppercase font-extrabold tracking-wider px-2.5 py-0.5 rounded-full border ${catStyle.bg} ${catStyle.text} ${catStyle.border}">
                     ${escapeHtml(item.category)}
                   </span>
-                  <span class="text-[10px] font-bold text-slate-400">
+                  <span class="text-[10px] font-semibold text-slate-400">
                     ${new Date(item.timestamp).toLocaleDateString([], { month: 'short', day: 'numeric' })}
                   </span>
                 </div>
-                <h4 class="font-extrabold text-sm sm:text-base text-slate-900 truncate tracking-tight">
+                <h4 class="font-extrabold text-base text-slate-900 truncate tracking-tight">
                   ${escapeHtml(item.name)}
                 </h4>
               </div>
 
-              <!-- Delete Button -->
+              <!-- Visible Delete Button -->
               <button
-                onclick="removeItem('${item.id}')"
-                class="text-slate-400 hover:text-rose-500 hover:bg-rose-50 p-1.5 rounded-lg transition cursor-pointer"
-                title="Remove item"
+                type="button"
+                onclick="promptRemoveItem('${item.id}')"
+                class="inline-flex items-center gap-1 text-[11px] font-bold text-rose-600 hover:text-white bg-rose-50 hover:bg-rose-500 border border-rose-200/80 px-2.5 py-1.5 rounded-xl transition active:scale-95 cursor-pointer flex-shrink-0"
+                title="Delete item"
               >
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                <span>Delete</span>
               </button>
             </div>
 
-            <!-- Bottom Quantity & Counter Controls -->
-            <div class="flex items-center justify-between mt-3 pt-2.5 border-t border-slate-100">
-              <div class="flex items-baseline gap-1">
-                <span class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">${item.qty}</span>
-                <span class="text-[11px] sm:text-xs font-bold text-violet-600 uppercase tracking-wide">${escapeHtml(item.unit)}</span>
+            <!-- Bottom Split Bar: Left (Active + '-' control) | Center Divider | Right (Stock) -->
+            <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-3.5 pt-3 border-t border-slate-100">
+              
+              <!-- Left Side: Active Quantity + Quick Minus Button (Long-press to Replace) -->
+              <div
+                data-hold-active="${item.id}"
+                class="hold-zone flex items-center justify-between gap-1.5 p-2 rounded-xl bg-violet-50/70 hover:bg-violet-100/70 border border-violet-100 cursor-pointer"
+                title="Long-press to replace Active quantity"
+              >
+                <div class="min-w-0">
+                  <div class="text-[10px] font-extrabold uppercase tracking-wider text-violet-600">Active</div>
+                  <div class="flex items-baseline gap-1">
+                    <span class="text-lg sm:text-xl font-black text-slate-900 leading-tight">${item.activeQty}</span>
+                    <span class="text-[10px] font-bold text-violet-700 uppercase">${escapeHtml(item.unit)}</span>
+                  </div>
+                </div>
+
+                <!-- Minus Button next to Active -->
+                <button
+                  type="button"
+                  onclick="decrementActive('${item.id}', ${stepDelta})"
+                  class="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-slate-700 hover:text-rose-600 border border-slate-200/90 shadow-xs active:scale-90 transition cursor-pointer flex-shrink-0"
+                  title="Decrease Active by ${stepDelta}"
+                >
+                  <i data-lucide="minus" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+                </button>
               </div>
 
-              <div class="flex items-center gap-1 bg-slate-100/90 rounded-xl p-1 border border-slate-200">
-                <button
-                  onclick="changeQuantity('${item.id}', -${isKgOrG && item.unit === 'g' ? 50 : 1})"
-                  class="w-7 h-7 flex items-center justify-center rounded-lg bg-white text-slate-700 hover:text-violet-700 shadow-sm active:scale-90 transition cursor-pointer"
-                  title="Decrease"
-                >
-                  <i data-lucide="minus" class="w-3.5 h-3.5"></i>
-                </button>
-                <button
-                  onclick="changeQuantity('${item.id}', ${isKgOrG && item.unit === 'g' ? 50 : 1})"
-                  class="w-7 h-7 flex items-center justify-center rounded-lg bg-white text-slate-700 hover:text-violet-700 shadow-sm active:scale-90 transition cursor-pointer"
-                  title="Increase"
-                >
-                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                </button>
+              <!-- Middle Vertical Line Divider -->
+              <div class="w-[1.5px] h-11 bg-slate-200 rounded-full mx-0.5"></div>
+
+              <!-- Right Side: In Stock Quantity (Long-press to Restock or Shift to Active) -->
+              <div
+                data-hold-stock="${item.id}"
+                class="hold-zone flex items-center justify-between gap-1.5 p-2 rounded-xl bg-emerald-50/70 hover:bg-emerald-100/70 border border-emerald-100 cursor-pointer"
+                title="Long-press to Restock or Shift to Active"
+              >
+                <div class="min-w-0">
+                  <div class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">Stock</div>
+                  <div class="flex items-baseline gap-1">
+                    <span class="text-lg sm:text-xl font-black text-slate-900 leading-tight">${item.stockQty}</span>
+                    <span class="text-[10px] font-bold text-emerald-700 uppercase">${escapeHtml(item.unit)}</span>
+                  </div>
+                </div>
+
+                <span class="text-[10px] font-bold text-emerald-600/80 bg-white/80 px-1.5 py-0.5 rounded-md border border-emerald-200/60">
+                  Hold
+                </span>
               </div>
+
             </div>
           `;
+
+          // Bind Long-Press to Active and Stock zones
+          const activeZone = card.querySelector(`[data-hold-active="${item.id}"]`);
+          const stockZone = card.querySelector(`[data-hold-stock="${item.id}"]`);
+
+          attachLongPress(activeZone, () => openQuantityActionModal(item.id, 'active'));
+          attachLongPress(stockZone, () => openQuantityActionModal(item.id, 'stock'));
 
           itemsContainer.appendChild(card);
         });
@@ -926,42 +1340,50 @@
       lucide.createIcons();
     }
 
-    // Change Quantity
-    window.changeQuantity = function(id, delta) {
+    // Decrement Active Quantity (clamps at 0 instead of deleting item)
+    window.decrementActive = function(id, delta) {
       const item = items.find(i => i.id === id);
       if (!item) return;
 
-      const newQty = parseFloat((item.qty + delta).toFixed(2));
-      if (newQty <= 0) {
-        removeItem(id);
-        return;
-      }
-      item.qty = newQty;
+      const nextActive = Math.max(0, parseFloat((item.activeQty - delta).toFixed(2)));
+      item.activeQty = nextActive;
       saveItems();
       renderItems();
     };
 
-    // Remove Item
-    window.removeItem = function(id) {
-      items = items.filter(i => i.id !== id);
-      saveItems();
-      renderItems();
+    // Prompt Delete Item with Confirmation
+    window.promptRemoveItem = function(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+
+      openModal(
+        `Delete "${item.name}"?`,
+        `Are you sure you want to remove "${item.name}" (Active: ${item.activeQty} ${item.unit}, Stock: ${item.stockQty} ${item.unit}) from your pantry?`,
+        () => {
+          items = items.filter(i => i.id !== id);
+          saveItems();
+          renderItems();
+        },
+        "Delete"
+      );
     };
 
-    // Form Submission
+    // Add New Pantry Entry Form Submission
     inventoryForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = itemNameInput.value.trim();
-      const qty = parseFloat(itemQtyInput.value);
+      const activeQty = parseFloat(itemActiveQtyInput.value);
+      const stockQty = parseFloat(itemStockQtyInput.value);
       const unit = itemUnitSelect.value;
       const category = itemCategorySelect.value || (categories[0] || 'General');
 
-      if (!name || isNaN(qty) || qty <= 0) return;
+      if (!name || isNaN(activeQty) || activeQty < 0 || isNaN(stockQty) || stockQty < 0) return;
 
       const newItem = {
         id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
         name,
-        qty: Number(qty.toFixed(2)),
+        activeQty: Number(activeQty.toFixed(2)),
+        stockQty: Number(stockQty.toFixed(2)),
         unit,
         category,
         timestamp: Date.now()
@@ -970,20 +1392,13 @@
       items.unshift(newItem);
       saveItems();
       renderItems();
-
-      itemNameInput.value = '';
-      itemQtyInput.value = '';
-      itemNameInput.focus();
+      closeEntryPopup();
     });
 
     // Search Input & Clear
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
-      if (searchQuery.length > 0) {
-        clearSearchBtn.classList.remove('hidden');
-      } else {
-        clearSearchBtn.classList.add('hidden');
-      }
+      clearSearchBtn.classList.toggle('hidden', searchQuery.length === 0);
       renderItems();
     });
 
@@ -995,17 +1410,18 @@
       searchInput.focus();
     });
 
-    // Clear All
+    // Clear All Pantry Items
     clearAllBtn.addEventListener('click', () => {
       if (items.length === 0) return;
       openModal(
         'Empty Entire Kitchen?',
-        'Warning: This will permanently wipe all pantry items from your local storage. Do you wish to continue?',
+        'Warning: This will permanently wipe all pantry items from your device storage. Continue?',
         () => {
           items = [];
           saveItems();
           renderItems();
-        }
+        },
+        "Clear All"
       );
     });
 
