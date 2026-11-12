@@ -66,11 +66,14 @@
 
     /* Light Mode Glassmorphism */
     .glass-panel {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(26px);
-      -webkit-backdrop-filter: blur(26px);
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
       border: 1.5px solid rgba(255, 255, 255, 0.98);
-      box-shadow: 0 24px 50px -12px rgba(109, 40, 217, 0.14), 0 8px 20px -6px rgba(15, 23, 42, 0.06);
+      box-shadow:
+        0 28px 60px -15px rgba(109, 40, 217, 0.16),
+        0 10px 25px -8px rgba(15, 23, 42, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
     }
 
     .glass-dropdown {
@@ -78,7 +81,27 @@
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border: 1.5px solid rgba(226, 232, 240, 0.95);
-      box-shadow: 0 20px 45px -10px rgba(79, 70, 229, 0.18), 0 6px 16px -4px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 22px 48px -10px rgba(79, 70, 229, 0.2), 0 6px 16px -4px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Elevated Pantry Item Cards */
+    .pantry-card {
+      background: linear-gradient(155deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.92) 100%);
+      border: 1.5px solid rgba(226, 232, 240, 0.9);
+      box-shadow:
+        0 10px 26px -8px rgba(15, 23, 42, 0.06),
+        0 2px 6px -1px rgba(124, 58, 237, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+      transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.24s ease;
+    }
+
+    .pantry-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(167, 139, 250, 0.65);
+      box-shadow:
+        0 20px 38px -12px rgba(124, 58, 237, 0.16),
+        0 6px 14px -4px rgba(15, 23, 42, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
     }
 
     @keyframes modalPopIn {
@@ -144,9 +167,9 @@
 
     <!-- Clean Light Branded Header -->
     <header class="flex items-center justify-between px-1 pt-1">
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3.5">
         <!-- Brand Logo Badge -->
-        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-amber-500 flex items-center justify-center shadow-lg shadow-violet-500/20 p-2 flex-shrink-0 border border-white">
+        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-500 to-amber-500 flex items-center justify-center shadow-xl shadow-violet-500/25 p-2.5 flex-shrink-0 border-2 border-white">
           <svg viewBox="0 0 100 100" class="w-full h-full fill-white drop-shadow-sm">
             <path d="M25 72 C25 50 75 50 75 72 Z" fill="#ffffff" />
             <path d="M32 48 Q50 30 68 48" stroke="#ffffff" stroke-width="7" stroke-linecap="round" fill="none" />
@@ -157,6 +180,7 @@
           <h1 class="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-violet-900 to-fuchsia-800 bg-clip-text text-transparent">
             Kitchen Universe
           </h1>
+          <p class="text-[11px] font-semibold text-slate-500 hidden sm:block">Smart Pantry & Volume Tracker</p>
         </div>
       </div>
 
@@ -287,9 +311,10 @@
                   <i data-lucide="filter" class="w-3 h-3"></i>
                   Filter Measurement
                 </label>
-                <div class="grid grid-cols-3 gap-1 bg-slate-100/90 p-1 rounded-xl text-center text-xs">
+                <div class="grid grid-cols-4 gap-1 bg-slate-100/90 p-1 rounded-xl text-center text-[11px]">
                   <button type="button" class="filter-type-pill active py-1.5 rounded-lg font-bold bg-violet-600 text-white shadow-xs transition cursor-pointer" data-filter="all">All</button>
                   <button type="button" class="filter-type-pill py-1.5 rounded-lg font-bold text-slate-600 transition cursor-pointer" data-filter="weight">Weight</button>
+                  <button type="button" class="filter-type-pill py-1.5 rounded-lg font-bold text-slate-600 transition cursor-pointer" data-filter="volume">Liquid</button>
                   <button type="button" class="filter-type-pill py-1.5 rounded-lg font-bold text-slate-600 transition cursor-pointer" data-filter="count">Count</button>
                 </div>
               </div>
@@ -436,6 +461,10 @@
                   <option value="kg">kg</option>
                   <option value="g">g</option>
                 </optgroup>
+                <optgroup label="Liquid / Volume">
+                  <option value="L">L</option>
+                  <option value="ml">ml</option>
+                </optgroup>
                 <optgroup label="Count">
                   <option value="items">items (1, 2...)</option>
                   <option value="packs">packs</option>
@@ -476,6 +505,106 @@
             class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 text-white font-extrabold text-xs shadow-md active:scale-95 transition cursor-pointer"
           >
             Save Item
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 1B: EDIT EXISTING PANTRY ENTRY ==================== -->
+  <div id="editEntryModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white/95 backdrop-blur-xl rounded-[1.75rem] p-5 sm:p-6 max-w-md w-full shadow-2xl border border-white space-y-4 animate-modal-in">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3.5">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-500 text-white flex items-center justify-center shadow-lg shadow-indigo-500/25">
+            <i data-lucide="pencil" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900">Edit Pantry Entry</h3>
+            <p class="text-[11px] text-slate-500 font-medium">Update name, measurement unit, or category</p>
+          </div>
+        </div>
+        <button id="closeEditEntryModal" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="editInventoryForm" class="space-y-3.5">
+        <input type="hidden" id="editItemId" />
+
+        <!-- Edit Item Name -->
+        <div>
+          <label for="editItemName" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+            Item Name
+          </label>
+          <input
+            type="text"
+            id="editItemName"
+            placeholder="e.g. Olive Oil, Basmati Rice"
+            class="glass-input w-full rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold placeholder-slate-400 focus:outline-none"
+            required
+          />
+        </div>
+
+        <!-- Edit Unit & Category -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="editItemUnit" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+              Quantity Type / Unit
+            </label>
+            <div class="relative">
+              <select
+                id="editItemUnit"
+                class="glass-input w-full appearance-none rounded-xl px-3 py-2.5 text-slate-900 font-semibold focus:outline-none pr-8 cursor-pointer"
+              >
+                <optgroup label="Weight">
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                </optgroup>
+                <optgroup label="Liquid / Volume">
+                  <option value="L">L</option>
+                  <option value="ml">ml</option>
+                </optgroup>
+                <optgroup label="Count">
+                  <option value="items">items (1, 2...)</option>
+                  <option value="packs">packs</option>
+                  <option value="bunches">bunches</option>
+                  <option value="bottles">bottles</option>
+                </optgroup>
+              </select>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+          </div>
+
+          <div>
+            <label for="editItemCategorySelect" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+              Category
+            </label>
+            <div class="relative">
+              <select
+                id="editItemCategorySelect"
+                class="glass-input w-full appearance-none rounded-xl px-3 py-2.5 text-slate-900 font-semibold focus:outline-none pr-8 cursor-pointer"
+              >
+                <!-- Populated dynamically -->
+              </select>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center gap-2.5">
+          <button
+            type="button"
+            id="cancelEditEntryBtn"
+            class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 hover:from-indigo-700 hover:to-fuchsia-700 text-white font-extrabold text-xs shadow-md active:scale-95 transition cursor-pointer"
+          >
+            Save Changes
           </button>
         </div>
       </form>
@@ -679,7 +808,7 @@
     // State Variables
     let items = [];
     let categories = [];
-    let currentFilter = 'all'; // 'all' | 'weight' | 'count'
+    let currentFilter = 'all'; // 'all' | 'weight' | 'volume' | 'count'
     let currentSort = 'newest';
     let searchQuery = '';
     let pendingModalCallback = null;
@@ -719,6 +848,16 @@
     const itemStockQtyInput = document.getElementById('itemStockQty');
     const itemUnitSelect = document.getElementById('itemUnit');
     const itemCategorySelect = document.getElementById('itemCategorySelect');
+
+    // Edit Entry Modal Elements
+    const editEntryModal = document.getElementById('editEntryModal');
+    const closeEditEntryModal = document.getElementById('closeEditEntryModal');
+    const cancelEditEntryBtn = document.getElementById('cancelEditEntryBtn');
+    const editInventoryForm = document.getElementById('editInventoryForm');
+    const editItemIdInput = document.getElementById('editItemId');
+    const editItemNameInput = document.getElementById('editItemName');
+    const editItemUnitSelect = document.getElementById('editItemUnit');
+    const editItemCategorySelect = document.getElementById('editItemCategorySelect');
 
     // Category Modal Elements
     const categoryModal = document.getElementById('categoryModal');
@@ -812,6 +951,50 @@
     closeAddEntryModal.addEventListener('click', closeEntryPopup);
     cancelAddEntryBtn.addEventListener('click', closeEntryPopup);
 
+    // Open & Close Edit Entry Popup
+    window.openEditEntryModal = function(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+
+      populateCategorySelect();
+      editItemIdInput.value = item.id;
+      editItemNameInput.value = item.name;
+      editItemUnitSelect.value = item.unit;
+      editItemCategorySelect.value = categories.includes(item.category) ? item.category : (categories[0] || '');
+
+      editEntryModal.classList.remove('hidden');
+      lucide.createIcons();
+      setTimeout(() => editItemNameInput.focus(), 80);
+    };
+
+    function closeEditPopup() {
+      editEntryModal.classList.add('hidden');
+      editInventoryForm.reset();
+    }
+    closeEditEntryModal.addEventListener('click', closeEditPopup);
+    cancelEditEntryBtn.addEventListener('click', closeEditPopup);
+
+    editInventoryForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = editItemIdInput.value;
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+
+      const updatedName = editItemNameInput.value.trim();
+      const updatedUnit = editItemUnitSelect.value;
+      const updatedCategory = editItemCategorySelect.value || (categories[0] || 'General');
+
+      if (!updatedName) return;
+
+      item.name = updatedName;
+      item.unit = updatedUnit;
+      item.category = updatedCategory;
+
+      saveItems();
+      renderItems();
+      closeEditPopup();
+    });
+
     // Open Category Management Popup
     openCategoryModalBtn.addEventListener('click', () => {
       addActionPopover.classList.add('hidden');
@@ -895,7 +1078,12 @@
         activeFilterBadge.classList.add('hidden');
       } else {
         activeFilterBadge.classList.remove('hidden');
-        activeFilterLabel.textContent = currentFilter === 'weight' ? 'Weights only' : 'Counts only';
+        const filterLabels = {
+          'weight': 'Weights (kg/g)',
+          'volume': 'Liquids (L/ml)',
+          'count': 'Counts only'
+        };
+        activeFilterLabel.textContent = filterLabels[currentFilter] || 'Filtered';
       }
     }
 
@@ -951,12 +1139,19 @@
     }
 
     function populateCategorySelect() {
-      itemCategorySelect.innerHTML = '';
-      categories.forEach(cat => {
-        const option = document.createElement('option');
-        option.value = cat;
-        option.textContent = cat;
-        itemCategorySelect.appendChild(option);
+      [itemCategorySelect, editItemCategorySelect].forEach(selectEl => {
+        if (!selectEl) return;
+        const previousVal = selectEl.value;
+        selectEl.innerHTML = '';
+        categories.forEach(cat => {
+          const option = document.createElement('option');
+          option.value = cat;
+          option.textContent = cat;
+          selectEl.appendChild(option);
+        });
+        if (previousVal && categories.includes(previousVal)) {
+          selectEl.value = previousVal;
+        }
       });
     }
 
@@ -1046,10 +1241,14 @@
       return unit === 'kg' || unit === 'g';
     }
 
+    function isVolume(unit) {
+      return unit === 'L' || unit === 'ml';
+    }
+
     function normalizeQuantityForSorting(item) {
       const total = (item.activeQty || 0) + (item.stockQty || 0);
-      if (item.unit === 'kg') return total * 1000;
-      if (item.unit === 'g') return total;
+      if (item.unit === 'kg' || item.unit === 'L') return total * 1000;
+      if (item.unit === 'g' || item.unit === 'ml') return total;
       return total * 100;
     }
 
@@ -1230,7 +1429,8 @@
         if (!matchesQuery) return false;
 
         if (currentFilter === 'weight') return isWeight(item.unit);
-        if (currentFilter === 'count') return !isWeight(item.unit);
+        if (currentFilter === 'volume') return isVolume(item.unit);
+        if (currentFilter === 'count') return !isWeight(item.unit) && !isVolume(item.unit);
         return true;
       });
 
@@ -1256,64 +1456,100 @@
 
         result.forEach(item => {
           const catStyle = getCategoryColor(item.category);
+          const totalQty = Number(((item.activeQty || 0) + (item.stockQty || 0)).toFixed(2));
+          const unitTypeBadge = isWeight(item.unit)
+            ? { label: 'Weight', icon: 'scale', cls: 'text-amber-600 bg-amber-50/90 border-amber-200/70' }
+            : isVolume(item.unit)
+              ? { label: 'Liquid', icon: 'droplets', cls: 'text-sky-600 bg-sky-50/90 border-sky-200/70' }
+              : { label: 'Count', icon: 'hash', cls: 'text-indigo-600 bg-indigo-50/90 border-indigo-200/70' };
 
           const card = document.createElement('div');
-          card.className = 'group relative flex flex-col justify-between p-4 rounded-2xl bg-gradient-to-b from-white to-slate-50/70 border border-slate-200/80 hover:border-violet-300 shadow-xs hover:shadow-lg hover:shadow-violet-500/10 transition-all duration-200';
+          card.className = 'pantry-card group relative flex flex-col justify-between p-4 sm:p-5 rounded-[1.5rem] overflow-hidden';
 
           card.innerHTML = `
-            <!-- Top Header: Category Tag + Item Name + Icon-Only Delete Button -->
-            <div class="flex items-start justify-between gap-2.5">
+            <!-- Subtle Top Accent Strip -->
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-amber-400 opacity-75 group-hover:opacity-100 transition-opacity"></div>
+
+            <!-- Top Header: Category & Type Badges + Item Name + Edit & Delete Icon Buttons -->
+            <div class="flex items-start justify-between gap-2.5 pt-0.5">
               <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-1.5 flex-wrap mb-1.5">
+                <div class="flex items-center gap-1.5 flex-wrap mb-2">
                   <span class="text-[10px] uppercase font-extrabold tracking-wider px-2.5 py-0.5 rounded-full border ${catStyle.bg} ${catStyle.text} ${catStyle.border}">
                     ${escapeHtml(item.category)}
                   </span>
+                  <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${unitTypeBadge.cls}">
+                    <i data-lucide="${unitTypeBadge.icon}" class="w-2.5 h-2.5"></i>
+                    ${unitTypeBadge.label}
+                  </span>
                 </div>
-                <h4 class="font-extrabold text-base sm:text-[17px] text-slate-900 truncate tracking-tight">
+                <h4 class="font-extrabold text-base sm:text-lg text-slate-900 truncate tracking-tight">
                   ${escapeHtml(item.name)}
                 </h4>
+                <p class="text-[11px] font-semibold text-slate-400 mt-0.5">
+                  Total: <span class="text-slate-600 font-bold">${totalQty} ${escapeHtml(item.unit)}</span>
+                </p>
               </div>
 
-              <!-- Icon-Only Delete Button -->
-              <button
-                type="button"
-                onclick="promptRemoveItem('${item.id}')"
-                class="w-8 h-8 inline-flex items-center justify-center text-rose-500 hover:text-white bg-rose-50/90 hover:bg-rose-500 border border-rose-200/70 rounded-xl transition-all duration-200 active:scale-90 cursor-pointer flex-shrink-0"
-                title="Delete item"
-              >
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
-              </button>
+              <!-- Action Buttons: Edit & Delete Icons -->
+              <div class="flex items-center gap-1.5 flex-shrink-0">
+                <button
+                  type="button"
+                  onclick="openEditEntryModal('${item.id}')"
+                  class="w-8 h-8 inline-flex items-center justify-center text-indigo-600 hover:text-white bg-indigo-50/90 hover:bg-indigo-600 border border-indigo-200/70 rounded-xl transition-all duration-200 active:scale-90 cursor-pointer"
+                  title="Edit item"
+                >
+                  <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                </button>
+                <button
+                  type="button"
+                  onclick="promptRemoveItem('${item.id}')"
+                  class="w-8 h-8 inline-flex items-center justify-center text-rose-500 hover:text-white bg-rose-50/90 hover:bg-rose-500 border border-rose-200/70 rounded-xl transition-all duration-200 active:scale-90 cursor-pointer"
+                  title="Delete item"
+                >
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             </div>
 
             <!-- Bottom Split Bar: Left (Active) | Center Divider | Right (Stock) -->
-            <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-3.5 pt-3 border-t border-slate-100">
+            <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-4 pt-3.5 border-t border-slate-100/90">
               
               <!-- Left Side: Active Quantity (Long-press to Replace) -->
               <div
                 data-hold-active="${item.id}"
-                class="hold-zone flex flex-col justify-center px-3 py-2 rounded-xl bg-gradient-to-br from-violet-50/90 to-indigo-50/60 hover:from-violet-100/80 hover:to-indigo-100/70 border border-violet-200/60 cursor-pointer"
+                class="hold-zone relative flex flex-col justify-center px-3.5 py-2.5 rounded-2xl bg-gradient-to-br from-violet-50 via-indigo-50/70 to-white hover:from-violet-100/90 hover:to-indigo-50 border border-violet-200/70 shadow-2xs cursor-pointer"
                 title="Long-press to replace Active quantity"
               >
-                <div class="text-[10px] font-extrabold uppercase tracking-wider text-violet-600 mb-0.5">Active</div>
+                <div class="flex items-center justify-between mb-0.5">
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-violet-600 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                    Active
+                  </span>
+                </div>
                 <div class="flex items-baseline gap-1">
                   <span class="text-lg sm:text-xl font-black text-slate-900 leading-tight">${item.activeQty}</span>
-                  <span class="text-[10px] font-bold text-violet-700 uppercase">${escapeHtml(item.unit)}</span>
+                  <span class="text-[11px] font-extrabold text-violet-700">${escapeHtml(item.unit)}</span>
                 </div>
               </div>
 
               <!-- Middle Vertical Line Divider -->
-              <div class="w-[1.5px] h-11 bg-gradient-to-b from-slate-100 via-slate-300 to-slate-100 rounded-full mx-0.5"></div>
+              <div class="w-[1.5px] h-12 bg-gradient-to-b from-transparent via-slate-300/90 to-transparent rounded-full mx-0.5"></div>
 
               <!-- Right Side: In Stock Quantity (Long-press to Restock or Shift to Active) -->
               <div
                 data-hold-stock="${item.id}"
-                class="hold-zone flex flex-col justify-center px-3 py-2 rounded-xl bg-gradient-to-br from-emerald-50/90 to-teal-50/60 hover:from-emerald-100/80 hover:to-teal-100/70 border border-emerald-200/60 cursor-pointer"
+                class="hold-zone relative flex flex-col justify-center px-3.5 py-2.5 rounded-2xl bg-gradient-to-br from-emerald-50 via-teal-50/70 to-white hover:from-emerald-100/90 hover:to-teal-50 border border-emerald-200/70 shadow-2xs cursor-pointer"
                 title="Long-press to Restock or Shift to Active"
               >
-                <div class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 mb-0.5">Stock</div>
+                <div class="flex items-center justify-between mb-0.5">
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Stock
+                  </span>
+                </div>
                 <div class="flex items-baseline gap-1">
                   <span class="text-lg sm:text-xl font-black text-slate-900 leading-tight">${item.stockQty}</span>
-                  <span class="text-[10px] font-bold text-emerald-700 uppercase">${escapeHtml(item.unit)}</span>
+                  <span class="text-[11px] font-extrabold text-emerald-700">${escapeHtml(item.unit)}</span>
                 </div>
               </div>
 
