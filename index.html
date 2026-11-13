@@ -56,23 +56,26 @@
     .animate-orb-1 {
       animation: floatOrb1 18s ease-in-out infinite;
       will-change: transform;
+      backface-visibility: hidden;
     }
 
     .animate-orb-2 {
       animation: floatOrb2 22s ease-in-out infinite;
       will-change: transform;
+      backface-visibility: hidden;
     }
 
     .animate-orb-3 {
       animation: floatOrb3 20s ease-in-out infinite;
       will-change: transform;
+      backface-visibility: hidden;
     }
 
     /* Unified Light Mode Glassmorphism across Panels & Modals */
     .glass-panel {
-      background: rgba(255, 255, 255, 0.86);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border: 1.5px solid rgba(255, 255, 255, 0.96);
       box-shadow:
         0 24px 52px -14px rgba(109, 40, 217, 0.14),
@@ -81,9 +84,9 @@
     }
 
     .glass-modal {
-      background: linear-gradient(165deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 252, 0.94) 100%);
-      backdrop-filter: blur(26px);
-      -webkit-backdrop-filter: blur(26px);
+      background: linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.96) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1.5px solid rgba(255, 255, 255, 0.98);
       box-shadow:
         0 30px 64px -14px rgba(109, 40, 217, 0.22),
@@ -95,8 +98,8 @@
 
     .glass-dropdown {
       background: rgba(255, 255, 255, 0.97);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border: 1.5px solid rgba(226, 232, 240, 0.95);
       box-shadow: 0 22px 48px -10px rgba(79, 70, 229, 0.2), 0 6px 16px -4px rgba(15, 23, 42, 0.08);
     }
@@ -1077,7 +1080,7 @@
   </div>
 
   <!-- ==================== MODAL 7: LIST ACCESS GATE (WHEN SETTINGS VALUES ARE MISSING) ==================== -->
-  <div id="mandatorySettingsGateModal" data-backdrop-close="mandatorySettingsGateModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md z-[80] flex items-center justify-center p-4 hidden modal-backdrop-animate">
+  <div id="mandatorySettingsGateModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-md z-[80] flex items-center justify-center p-4 hidden modal-backdrop-animate">
     <div class="glass-modal rounded-[1.75rem] p-6 max-w-sm w-full border-2 border-rose-200 text-center animate-modal-in">
       <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-rose-500 via-amber-500 to-violet-600"></div>
       <div class="w-14 h-14 bg-gradient-to-br from-rose-100 to-amber-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-3.5 mt-1 shadow-inner">
@@ -1259,8 +1262,9 @@
     const STORAGE_KEY_SORT = 'kitchen_universe_sort_v2';
     const STORAGE_KEY_SHOPPING_LIST = 'kitchen_universe_shopping_list_v1';
     const STORAGE_KEY_SHOPPING_META = 'kitchen_universe_shopping_meta_v1';
+    const STORAGE_KEY_MIGRATED_FLAG = 'kitchen_universe_migrated_v3';
 
-    // Legacy Storage Keys for Automatic Migration across updates
+    // Legacy Storage Keys for One-Time Migration across updates
     const LEGACY_ITEM_KEYS = [
       'kitchen_universe_items_v1',
       'kitchen_universe_items',
@@ -1417,6 +1421,9 @@
     const headerListBtn = document.getElementById('headerListBtn');
     const headerHomeBtn = document.getElementById('headerHomeBtn');
     const headerShortageBackBtn = document.getElementById('headerShortageBackBtn');
+    const homeScreenView = document.getElementById('homeScreenView');
+    const listScreenView = document.getElementById('listScreenView');
+
     // Shortages Screen DOM
     const shortageScreenView = document.getElementById('shortageScreenView');
     const shortageCountBadge = document.getElementById('shortageCountBadge');
@@ -1512,16 +1519,34 @@
       const item = items.find(i => i.id === id);
       if (!item) return;
 
+      const oldUnitGroup = getUnitGroup(item.unit);
+      const newUnitGroup = getUnitGroup(newUnit);
+
       item.name = newName;
       item.unit = newUnit;
       item.category = newCategory;
 
       const compatUnits = getCompatibleUnits(newUnit);
-      if (!compatUnits.includes(item.settingsUnit)) {
+      if (!compatUnits.includes(item.settingsUnit) || oldUnitGroup !== newUnitGroup) {
         item.settingsUnit = newUnit;
+        if (oldUnitGroup !== newUnitGroup) {
+          item.settingsValue = '';
+        }
       }
 
+      // Keep any existing shopping list entry name/category in sync
+      shoppingList.forEach(entry => {
+        if (entry.itemId === id) {
+          entry.name = newName;
+          entry.category = newCategory;
+          if (oldUnitGroup !== newUnitGroup) {
+            entry.unit = newUnit;
+          }
+        }
+      });
+
       saveItems();
+      saveShoppingList();
       renderItems();
       renderSettingsItemsList();
       closeEditEntryPopup();
@@ -1807,7 +1832,7 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-1.5 flex-shrink-0">
+          <div class="flex items-center gap-1 flex-shrink-0">
             <input
               type="number"
               step="any"
@@ -1815,7 +1840,7 @@
               data-settings-val="${item.id}"
               value="${item.settingsValue !== undefined && item.settingsValue !== null ? escapeHtml(item.settingsValue) : ''}"
               placeholder="Target"
-              class="w-16 sm:w-22 h-9 rounded-lg border ${isBlank ? 'border-rose-300 bg-white' : 'border-slate-200 bg-white'} px-2 text-xs font-extrabold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-600"
+              class="w-15 sm:w-22 h-9 rounded-lg border ${isBlank ? 'border-rose-300 bg-white' : 'border-slate-200 bg-white'} px-2 text-xs font-extrabold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-600"
             />
             ${unitControlHtml}
           </div>
@@ -2082,10 +2107,12 @@
 
       const boughtVal = parseFloat(purchasedQtyInput.value);
       if (isNaN(boughtVal) || boughtVal <= 0) {
-        purchasePreviewHint.textContent = '';
+        purchasePreviewHint.className = 'text-[11px] font-semibold text-rose-600 mt-1.5';
+        purchasePreviewHint.textContent = 'Enter a purchased quantity greater than 0.';
         return;
       }
 
+      purchasePreviewHint.className = 'text-[11px] font-semibold text-emerald-600 mt-1.5';
       if (boughtVal >= entry.neededQty) {
         purchasePreviewHint.textContent = `Adds +${boughtVal} ${entry.unit} to Stock & removes item from list.`;
       } else {
@@ -2145,8 +2172,10 @@
     });
 
     function saveShoppingList() {
-      localStorage.setItem(STORAGE_KEY_SHOPPING_LIST, JSON.stringify(shoppingList));
-      localStorage.setItem(STORAGE_KEY_SHOPPING_META, JSON.stringify({ lastRefreshed: shoppingListLastTimestamp }));
+      try {
+        localStorage.setItem(STORAGE_KEY_SHOPPING_LIST, JSON.stringify(shoppingList));
+        localStorage.setItem(STORAGE_KEY_SHOPPING_META, JSON.stringify({ lastRefreshed: shoppingListLastTimestamp }));
+      } catch (e) {}
     }
 
     function updateReservedCounters() {
@@ -2244,8 +2273,14 @@
       );
     }
 
-    // Initialization with Automatic Legacy Storage Migration
+    // Initialization with One-Time Legacy Storage Migration
     function migrateLegacyStorage() {
+      try {
+        if (localStorage.getItem(STORAGE_KEY_MIGRATED_FLAG) === '1') {
+          return;
+        }
+      } catch (e) {}
+
       // 1. Migrate Categories if current key is missing
       if (!localStorage.getItem(STORAGE_KEY_CATS)) {
         for (const legacyKey of LEGACY_CAT_KEYS) {
@@ -2262,20 +2297,11 @@
         }
       }
 
-      // 2. Migrate Items if current key is missing or empty
+      // 2. Migrate Items ONLY if current key has never been initialized yet
       const currentItemsRaw = localStorage.getItem(STORAGE_KEY_ITEMS);
-      let hasCurrentItems = false;
-      if (currentItemsRaw) {
-        try {
-          const parsedCurrent = JSON.parse(currentItemsRaw);
-          if (Array.isArray(parsedCurrent) && parsedCurrent.length > 0) {
-            hasCurrentItems = true;
-          }
-        } catch (e) {}
-      }
+      let hasCurrentStorage = currentItemsRaw !== null;
 
-      if (!hasCurrentItems) {
-        // Check explicit legacy keys first
+      if (!hasCurrentStorage) {
         for (const legacyKey of LEGACY_ITEM_KEYS) {
           const raw = localStorage.getItem(legacyKey);
           if (raw) {
@@ -2290,7 +2316,7 @@
                 if (parsed && Array.isArray(parsed.categories) && !localStorage.getItem(STORAGE_KEY_CATS)) {
                   localStorage.setItem(STORAGE_KEY_CATS, JSON.stringify(parsed.categories));
                 }
-                hasCurrentItems = true;
+                hasCurrentStorage = true;
                 break;
               }
             } catch (e) {}
@@ -2298,8 +2324,8 @@
         }
       }
 
-      // 3. Fallback scan of any remaining kitchen/pantry keys in localStorage
-      if (!hasCurrentItems) {
+      // 3. Fallback scan of any remaining kitchen/pantry keys if still uninitialized
+      if (!hasCurrentStorage) {
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           if (!key || key === STORAGE_KEY_ITEMS || key === STORAGE_KEY_SHOPPING_LIST) continue;
@@ -2317,24 +2343,45 @@
           }
         }
       }
+
+      // Mark migration complete permanently so deleted items never resurrect on refresh
+      try {
+        localStorage.setItem(STORAGE_KEY_MIGRATED_FLAG, '1');
+      } catch (e) {}
+    }
+
+    function safeReadArray(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : fallback;
+      } catch (e) {
+        return fallback;
+      }
     }
 
     function init() {
       migrateLegacyStorage();
 
-      const savedCats = localStorage.getItem(STORAGE_KEY_CATS);
-      categories = savedCats ? JSON.parse(savedCats) : [...DEFAULT_CATEGORIES];
+      categories = safeReadArray(STORAGE_KEY_CATS, [...DEFAULT_CATEGORIES]);
+      if (categories.length === 0) categories = [...DEFAULT_CATEGORIES];
 
-      const savedSort = localStorage.getItem(STORAGE_KEY_SORT);
-      if (savedSort) currentSort = savedSort;
+      try {
+        const savedSort = localStorage.getItem(STORAGE_KEY_SORT);
+        if (savedSort) currentSort = savedSort;
+      } catch (e) {}
 
-      const savedItems = localStorage.getItem(STORAGE_KEY_ITEMS);
-      items = savedItems ? JSON.parse(savedItems) : [];
+      items = safeReadArray(STORAGE_KEY_ITEMS, []);
+      shoppingList = safeReadArray(STORAGE_KEY_SHOPPING_LIST, []);
 
-      const savedShopList = localStorage.getItem(STORAGE_KEY_SHOPPING_LIST);
-      shoppingList = savedShopList ? JSON.parse(savedShopList) : [];
+      try {
+        const savedShopMeta = localStorage.getItem(STORAGE_KEY_SHOPPING_META);
+        if (savedShopMeta) {
+          shoppingListLastTimestamp = JSON.parse(savedShopMeta).lastRefreshed || null;
+        }
+      } catch (e) {}
 
-      const savedShopMeta = localStorage.getItem(STORAGE_KEY_SHOPPING_META);
       // Migrate legacy entries seamlessly (guarantee unique id for every item)
       let idsAssigned = false;
       items = items.map((item, idx) => {
@@ -2362,15 +2409,22 @@
     }
 
     function saveItems() {
-      localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify(items));
+      try {
+        localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify(items));
+        localStorage.setItem(STORAGE_KEY_MIGRATED_FLAG, '1');
+      } catch (e) {}
     }
 
     function saveCategories() {
-      localStorage.setItem(STORAGE_KEY_CATS, JSON.stringify(categories));
+      try {
+        localStorage.setItem(STORAGE_KEY_CATS, JSON.stringify(categories));
+      } catch (e) {}
     }
 
     function saveSort() {
-      localStorage.setItem(STORAGE_KEY_SORT, currentSort);
+      try {
+        localStorage.setItem(STORAGE_KEY_SORT, currentSort);
+      } catch (e) {}
     }
 
     // Render Categories in Select Dropdown & Category Modal
@@ -2455,6 +2509,7 @@
       saveItems();
       renderCategories();
       renderItems();
+      renderSettingsItemsList();
     }
 
     addCategoryForm.addEventListener('submit', (e) => {
@@ -2744,6 +2799,8 @@
       element.addEventListener('touchstart', (e) => {
         if (e.touches.length === 1) {
           startTimer(e.touches[0].clientX, e.touches[0].clientY);
+        } else {
+          cancelTimer();
         }
       }, { passive: true });
 
@@ -3016,6 +3073,9 @@
         () => {
           items = [];
           shoppingList = [];
+          searchQuery = '';
+          searchInput.value = '';
+          clearSearchBtn.classList.add('hidden');
           saveItems();
           saveShoppingList();
           renderItems();
@@ -3074,6 +3134,29 @@
         "'": '&#039;'
       }[m]));
     }
+
+    // Re-sync from localStorage when mobile browser restores tab from bfcache or background
+    function syncStateFromStorage() {
+      const latestItems = safeReadArray(STORAGE_KEY_ITEMS, null);
+      if (latestItems !== null) {
+        items = latestItems;
+        renderItems();
+        renderSettingsItemsList();
+        if (!shortageScreenView.classList.contains('hidden')) {
+          renderShortageScreen();
+        }
+      }
+    }
+
+    window.addEventListener('pageshow', (e) => {
+      if (e.persisted) syncStateFromStorage();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        syncStateFromStorage();
+      }
+    });
 
     // Boot Application
     init();
