@@ -1872,7 +1872,7 @@
         const selectedSettingsUnit = compatUnits.includes(item.settingsUnit) ? item.settingsUnit : item.unit;
 
         const row = document.createElement('div');
-        row.className = `flex items-center justify-between gap-2 p-2.5 rounded-xl border transition ${
+        row.className = `flex items-center justify-between gap-2.5 p-2.5 sm:p-3 rounded-xl border transition ${
           isBlank
             ? 'bg-rose-50/70 border-rose-200/90'
             : 'bg-slate-50/80 border-slate-200/80'
@@ -1882,25 +1882,25 @@
           ? `
             <select
               data-settings-unit="${item.id}"
-              class="h-9 rounded-lg border border-slate-200 bg-white px-2 text-xs font-extrabold text-slate-700 focus:outline-none focus:border-violet-500 cursor-pointer flex-shrink-0"
+              class="h-9 rounded-lg border border-slate-200 bg-white px-1.5 text-xs font-extrabold text-slate-700 focus:outline-none focus:border-violet-500 cursor-pointer flex-shrink-0"
             >
               ${compatUnits.map(u => `<option value="${escapeHtml(u)}" ${u === selectedSettingsUnit ? 'selected' : ''}>${escapeHtml(u)}</option>`).join('')}
             </select>
           `
           : `
-            <span class="h-9 max-w-[4.5rem] truncate inline-flex items-center justify-center px-2 rounded-lg bg-slate-200/70 text-[11px] font-extrabold text-slate-600 select-none flex-shrink-0">
+            <span class="h-9 max-w-[3.75rem] truncate inline-flex items-center justify-center px-1.5 rounded-lg bg-slate-200/70 text-[11px] font-extrabold text-slate-600 select-none flex-shrink-0" title="${escapeHtml(item.unit)}">
               ${escapeHtml(item.unit)}
             </span>
           `;
 
         row.innerHTML = `
           <div class="min-w-0 flex-1 pr-1">
-            <div class="flex items-center gap-1.5 min-w-0">
-              <span class="text-xs font-extrabold text-slate-900 truncate">${escapeHtml(item.name)}</span>
-              ${item.reserved ? '<span class="text-[9px] font-extrabold px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 border border-amber-200 flex-shrink-0">Reserved</span>' : ''}
+            <div class="flex items-start gap-1.5 min-w-0">
+              <span class="text-xs sm:text-[13px] font-extrabold text-slate-900 leading-snug line-clamp-2 break-words" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</span>
+              ${item.reserved ? '<span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200 flex-shrink-0 mt-0.5">Reserved</span>' : ''}
             </div>
-            <div class="text-[10px] text-slate-400 font-semibold truncate">
-              ${escapeHtml(item.category)} &bull; Base: ${escapeHtml(item.unit)}
+            <div class="text-[10px] text-slate-400 font-semibold truncate mt-0.5">
+              ${escapeHtml(item.category)} &bull; ${escapeHtml(item.unit)}
             </div>
           </div>
 
@@ -1912,7 +1912,7 @@
               data-settings-val="${item.id}"
               value="${item.settingsValue !== undefined && item.settingsValue !== null ? escapeHtml(item.settingsValue) : ''}"
               placeholder="Target"
-              class="w-15 sm:w-22 h-9 rounded-lg border ${isBlank ? 'border-rose-300 bg-white' : 'border-slate-200 bg-white'} px-2 text-xs font-extrabold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-600"
+              class="w-16 sm:w-20 h-9 rounded-lg border ${isBlank ? 'border-rose-300 bg-white' : 'border-slate-200 bg-white'} px-2 text-xs font-extrabold text-slate-900 placeholder-slate-400 focus:outline-none focus:border-violet-600"
             />
             ${unitControlHtml}
           </div>
