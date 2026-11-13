@@ -2335,22 +2335,22 @@
       shoppingList = savedShopList ? JSON.parse(savedShopList) : [];
 
       const savedShopMeta = localStorage.getItem(STORAGE_KEY_SHOPPING_META);
-      if (savedShopMeta) {
-        try {
-          const parsedMeta = JSON.parse(savedShopMeta);
-          shoppingListLastTimestamp = parsedMeta.lastRefreshed || null;
-        } catch (e) {}
-      }
-
-      // Migrate legacy entries seamlessly
-      items = items.map(item => ({
-        ...item,
-        activeQty: item.activeQty !== undefined ? Number(item.activeQty) : Number(item.qty || 0),
-        stockQty: item.stockQty !== undefined ? Number(item.stockQty) : 0,
-        reserved: Boolean(item.reserved),
-        settingsValue: item.settingsValue !== undefined ? item.settingsValue : '',
-        settingsUnit: item.settingsUnit || item.unit
-      }));
+      // Migrate legacy entries seamlessly (guarantee unique id for every item)
+      let idsAssigned = false;
+      items = items.map((item, idx) => {
+        const validId = item.id ? String(item.id) : ('legacy_' + Date.now().toString(36) + '_' + idx + '_' + Math.random().toString(36).substring(2, 6));
+        if (!item.id) idsAssigned = true;
+        return {
+          ...item,
+          id: validId,
+          activeQty: item.activeQty !== undefined ? Number(item.activeQty) : Number(item.qty || 0),
+          stockQty: item.stockQty !== undefined ? Number(item.stockQty) : 0,
+          reserved: Boolean(item.reserved),
+          settingsValue: item.settingsValue !== undefined ? item.settingsValue : '',
+          settingsUnit: item.settingsUnit || item.unit
+        };
+      });
+      if (idsAssigned) saveItems();
 
       renderCategories();
       updateSortSelectionUI();
@@ -2811,34 +2811,34 @@
             <!-- Reserve Icon Button (Long-press to reserve) -->
             <button
               type="button"
-              data-reserve-btn="${item.id}"
+              data-reserve-btn="${escapeHtml(item.id)}"
               class="hold-zone w-8 h-8 rounded-xl text-slate-400 hover:text-amber-600 bg-slate-50/90 hover:bg-amber-50 border border-slate-200/70 hover:border-amber-200/80 flex items-center justify-center transition cursor-pointer"
               title="Long-press to move to Reserved Items"
               aria-label="Reserve ${escapeHtml(item.name)}"
             >
-              <i data-lucide="archive" class="w-4 h-4"></i>
+              <i data-lucide="archive" class="w-4 h-4 pointer-events-none"></i>
             </button>
 
             <!-- Edit Icon Button -->
             <button
               type="button"
-              onclick="openEditItemModal('${item.id}')"
+              data-edit-btn="${escapeHtml(item.id)}"
               class="w-8 h-8 rounded-xl text-slate-400 hover:text-violet-600 bg-slate-50/90 hover:bg-violet-50 border border-slate-200/70 hover:border-violet-200/80 flex items-center justify-center transition active:scale-95 cursor-pointer"
               title="Edit item"
               aria-label="Edit ${escapeHtml(item.name)}"
             >
-              <i data-lucide="pencil" class="w-4 h-4"></i>
+              <i data-lucide="pencil" class="w-4 h-4 pointer-events-none"></i>
             </button>
 
             <!-- Icon-Only Delete Button -->
             <button
               type="button"
-              onclick="promptDeleteItem('${item.id}')"
+              data-delete-btn="${escapeHtml(item.id)}"
               class="w-8 h-8 rounded-xl text-slate-400 hover:text-rose-600 bg-slate-50/90 hover:bg-rose-50 border border-slate-200/70 hover:border-rose-200/80 flex items-center justify-center transition active:scale-95 cursor-pointer"
               title="Delete item"
               aria-label="Delete ${escapeHtml(item.name)}"
             >
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
+              <i data-lucide="trash-2" class="w-4 h-4 pointer-events-none"></i>
             </button>
           </div>
         </div>
@@ -2897,8 +2897,28 @@
       bindLongPress(stockZoneEl, () => openQtyActionModal(item.id, 'stock', 'restock'));
 
       // Bind Long-press on Reserve Icon -> Move to Reserved Items
-      const reserveBtnEl = card.querySelector(`[data-reserve-btn="${item.id}"]`);
-      bindLongPress(reserveBtnEl, () => promptToggleReserve(item.id, true));
+      const reserveBtnEl = card.querySelector('[data-reserve-btn]');
+      if (reserveBtnEl) {
+        bindLongPress(reserveBtnEl, () => promptToggleReserve(item.id, true));
+      }
+
+      // Bind Click on Edit Icon -> Open Edit Modal
+      const editBtnEl = card.querySelector('[data-edit-btn]');
+      if (editBtnEl) {
+        editBtnEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openEditItemModal(item.id);
+        });
+      }
+
+      // Bind Click on Delete Icon -> Confirm Delete
+      const deleteBtnEl = card.querySelector('[data-delete-btn]');
+      if (deleteBtnEl) {
+        deleteBtnEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          promptDeleteItem(item.id);
+        });
+      }
 
       return card;
     }
