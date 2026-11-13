@@ -1260,6 +1260,24 @@
     const STORAGE_KEY_SHOPPING_LIST = 'kitchen_universe_shopping_list_v1';
     const STORAGE_KEY_SHOPPING_META = 'kitchen_universe_shopping_meta_v1';
 
+    // Legacy Storage Keys for Automatic Migration across updates
+    const LEGACY_ITEM_KEYS = [
+      'kitchen_universe_items_v1',
+      'kitchen_universe_items',
+      'kitchen_inventory_data',
+      'kitchen_inventory_items',
+      'kitchen_universe_v1',
+      'kitchen_universe_v2',
+      'pantry_items'
+    ];
+    const LEGACY_CAT_KEYS = [
+      'kitchen_universe_cats_v1',
+      'kitchen_universe_cats',
+      'kitchen_inventory_cats',
+      'kitchen_categories',
+      'pantry_categories'
+    ];
+
     // Default Categories & Badge Colors
     const DEFAULT_CATEGORIES = [
       'Grains & Pulses',
@@ -2163,34 +2181,30 @@
               <h4 class="font-extrabold text-slate-900 text-sm sm:text-base tracking-tight truncate">
                 ${escapeHtml(item.name)}
               </h4>
-              <div class="mt-1.5 flex items-center gap-1.5 flex-wrap">
+              <div class="mt-1">
                 <span class="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${catStyle} truncate max-w-full">
                   ${escapeHtml(item.category)}
-                </span>
-                <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200/70">
-                  Total: ${totalQty} ${escapeHtml(item.unit)}
                 </span>
               </div>
             </div>
 
-            <!-- Icon-only Long-press Unreserve Button -->
+            <!-- Unreserve Icon Button (Long-press to move back to Pantry) -->
             <button
               type="button"
               data-unreserve-btn="${item.id}"
-              class="hold-zone w-9 h-9 rounded-xl text-amber-600 hover:text-emerald-700 bg-amber-50/90 hover:bg-emerald-50 border border-amber-200/80 hover:border-emerald-200 flex items-center justify-center transition flex-shrink-0 cursor-pointer"
-              title="Long-press to unreserve and restore to Pantry"
+              class="hold-zone w-9 h-9 rounded-xl text-amber-600 hover:text-emerald-700 bg-amber-50 hover:bg-emerald-50 border border-amber-200/80 hover:border-emerald-200 flex items-center justify-center transition cursor-pointer flex-shrink-0"
+              title="Long-press to unreserve back to Pantry"
+              aria-label="Unreserve ${escapeHtml(item.name)}"
             >
               <i data-lucide="archive-restore" class="w-4 h-4"></i>
             </button>
           </div>
 
-          <div class="pt-2.5 border-t border-slate-200/70 flex items-center justify-between gap-2 text-xs">
-            <div class="px-2.5 py-1.5 rounded-xl bg-violet-50/80 border border-violet-200/60 font-bold text-slate-700 min-w-0 flex-1 truncate">
-              Active: <span class="text-slate-900 font-black">${item.activeQty} ${escapeHtml(item.unit)}</span>
-            </div>
-            <div class="px-2.5 py-1.5 rounded-xl bg-emerald-50/80 border border-emerald-200/60 font-bold text-slate-700 min-w-0 flex-1 truncate">
-              Stock: <span class="text-slate-900 font-black">${item.stockQty} ${escapeHtml(item.unit)}</span>
-            </div>
+          <div class="pt-2.5 border-t border-slate-200/80 flex items-center justify-between gap-2 text-xs">
+            <span class="font-bold text-slate-500">Total Saved:</span>
+            <span class="font-extrabold text-slate-900 px-2.5 py-1 rounded-xl bg-amber-50/90 border border-amber-200/70 truncate">
+              ${totalQty} ${escapeHtml(item.unit)}
+            </span>
           </div>
         `;
 
@@ -2203,41 +2217,111 @@
       refreshIcons(reservedItemsContainer);
     }
 
-    function promptToggleReserve(id, shouldReserve) {
-      const item = items.find(i => i.id === id);
-      if (!item) return;
+    function promptToggleReserve(id, moveToReserved) {
+      const target = items.find(i => i.id === id);
+      if (!target) return;
 
-      if (shouldReserve) {
-        openWarningModal(
-          'Reserve Item?',
-          `Move "${item.name}" out of Pantry Inventory and store it in Reserved Items?`,
-          'Reserve',
-          () => {
-            item.reserved = true;
-            saveItems();
-            renderItems();
-            updateReservedCounters();
-          },
-          'amber'
-        );
-      } else {
-        openWarningModal(
-          'Unreserve Item?',
-          `Restore "${item.name}" back into your active Pantry Inventory?`,
-          'Unreserve',
-          () => {
-            item.reserved = false;
-            saveItems();
+      openWarningModal(
+        moveToReserved ? 'Reserve Item?' : 'Unreserve Item?',
+        moveToReserved
+          ? `Move "${target.name}" out of your active pantry and into Reserved Items?`
+          : `Move "${target.name}" back into your active Pantry Inventory?`,
+        moveToReserved ? 'Reserve' : 'Unreserve',
+        () => {
+          target.reserved = moveToReserved;
+          if (moveToReserved) {
+            shoppingList = shoppingList.filter(s => s.itemId !== id);
+            saveShoppingList();
+          }
+          saveItems();
+          updateReservedCounters();
+          renderItems();
+          if (!reservedItemsModal.classList.contains('hidden')) {
             renderReservedItems();
-            renderItems();
-          },
-          'amber'
-        );
+          }
+        },
+        'amber'
+      );
+    }
+
+    // Initialization with Automatic Legacy Storage Migration
+    function migrateLegacyStorage() {
+      // 1. Migrate Categories if current key is missing
+      if (!localStorage.getItem(STORAGE_KEY_CATS)) {
+        for (const legacyKey of LEGACY_CAT_KEYS) {
+          const raw = localStorage.getItem(legacyKey);
+          if (raw) {
+            try {
+              const parsed = JSON.parse(raw);
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                localStorage.setItem(STORAGE_KEY_CATS, JSON.stringify(parsed));
+                break;
+              }
+            } catch (e) {}
+          }
+        }
+      }
+
+      // 2. Migrate Items if current key is missing or empty
+      const currentItemsRaw = localStorage.getItem(STORAGE_KEY_ITEMS);
+      let hasCurrentItems = false;
+      if (currentItemsRaw) {
+        try {
+          const parsedCurrent = JSON.parse(currentItemsRaw);
+          if (Array.isArray(parsedCurrent) && parsedCurrent.length > 0) {
+            hasCurrentItems = true;
+          }
+        } catch (e) {}
+      }
+
+      if (!hasCurrentItems) {
+        // Check explicit legacy keys first
+        for (const legacyKey of LEGACY_ITEM_KEYS) {
+          const raw = localStorage.getItem(legacyKey);
+          if (raw) {
+            try {
+              const parsed = JSON.parse(raw);
+              const candidateList = Array.isArray(parsed)
+                ? parsed
+                : (parsed && Array.isArray(parsed.items) ? parsed.items : null);
+
+              if (candidateList && candidateList.length > 0 && candidateList[0].name) {
+                localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify(candidateList));
+                if (parsed && Array.isArray(parsed.categories) && !localStorage.getItem(STORAGE_KEY_CATS)) {
+                  localStorage.setItem(STORAGE_KEY_CATS, JSON.stringify(parsed.categories));
+                }
+                hasCurrentItems = true;
+                break;
+              }
+            } catch (e) {}
+          }
+        }
+      }
+
+      // 3. Fallback scan of any remaining kitchen/pantry keys in localStorage
+      if (!hasCurrentItems) {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (!key || key === STORAGE_KEY_ITEMS || key === STORAGE_KEY_SHOPPING_LIST) continue;
+          if (/kitchen|pantry|inventory/i.test(key)) {
+            try {
+              const parsed = JSON.parse(localStorage.getItem(key));
+              const candidateList = Array.isArray(parsed)
+                ? parsed
+                : (parsed && Array.isArray(parsed.items) ? parsed.items : null);
+              if (candidateList && candidateList.length > 0 && candidateList[0] && candidateList[0].name) {
+                localStorage.setItem(STORAGE_KEY_ITEMS, JSON.stringify(candidateList));
+                break;
+              }
+            } catch (e) {}
+          }
+        }
       }
     }
 
-    // Initialization
     function init() {
+      migrateLegacyStorage();
+
       const savedCats = localStorage.getItem(STORAGE_KEY_CATS);
       categories = savedCats ? JSON.parse(savedCats) : [...DEFAULT_CATEGORIES];
 
