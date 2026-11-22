@@ -104,6 +104,27 @@
       box-shadow: 0 22px 48px -10px rgba(79, 70, 229, 0.2), 0 6px 16px -4px rgba(15, 23, 42, 0.08);
     }
 
+    /* Bottom Glassmorphic Navigation Bar */
+    .glass-bottom-nav {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1.5px solid rgba(255, 255, 255, 0.98);
+      box-shadow:
+        0 -8px 32px -10px rgba(109, 40, 217, 0.15),
+        0 14px 36px -8px rgba(15, 23, 42, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+
+    /* Safe Area Bottom Spacing */
+    .pb-safe-nav {
+      padding-bottom: calc(6.25rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .bottom-nav-offset {
+      bottom: calc(0.85rem + env(safe-area-inset-bottom, 0px));
+    }
+
     /* Elevated Pantry Item Cards */
     .pantry-card {
       background: linear-gradient(155deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.92) 100%);
@@ -229,7 +250,7 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-50/90 via-slate-50 to-rose-50/80 min-h-screen text-slate-800 flex flex-col items-center px-3.5 py-5 sm:p-8 lg:p-10 relative overflow-x-hidden selection:bg-violet-500 selection:text-white">
+<body class="bg-gradient-to-br from-indigo-50/90 via-slate-50 to-rose-50/80 min-h-screen text-slate-800 flex flex-col items-center px-3.5 pt-5 pb-safe-nav sm:px-8 sm:pt-8 lg:px-10 lg:pt-10 relative overflow-x-hidden selection:bg-violet-500 selection:text-white">
 
   <!-- ==================== LIGHT THEME FLOATING BACKGROUND ORBS (GPU-OPTIMIZED) ==================== -->
   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
@@ -260,8 +281,8 @@
         </div>
       </div>
 
-      <!-- Home View Header Buttons -->
-      <div id="homeHeaderActions" class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
+      <!-- Primary Header Actions (Install App + Settings; List button moved to Bottom Navigation Bar) -->
+      <div id="primaryHeaderActions" class="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
         <!-- Install PWA Mobile App Button (Conditional) -->
         <button
           id="installAppBtn"
@@ -270,17 +291,6 @@
         >
           <i data-lucide="download" class="w-3.5 h-3.5"></i>
           <span class="hidden sm:inline">Install App</span>
-        </button>
-
-        <!-- List Button -->
-        <button
-          id="headerListBtn"
-          type="button"
-          class="inline-flex items-center justify-center gap-1.5 h-10 px-3 sm:px-3.5 rounded-xl bg-white/90 hover:bg-white text-slate-700 hover:text-violet-700 border border-slate-200/90 text-xs font-extrabold shadow-xs active:scale-95 transition-all duration-200 cursor-pointer"
-          title="Shopping List"
-        >
-          <i data-lucide="clipboard-list" class="w-4 h-4 text-violet-600"></i>
-          <span>List</span>
         </button>
 
         <!-- Settings Button -->
@@ -295,20 +305,7 @@
         </button>
       </div>
 
-      <!-- List View Header Button (Replaces List & Settings when on List Screen) -->
-      <div id="listHeaderActions" class="hidden flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
-        <button
-          id="headerHomeBtn"
-          type="button"
-          class="inline-flex items-center justify-center gap-1.5 h-10 px-3.5 sm:px-4 rounded-xl bg-white/90 hover:bg-white text-slate-800 hover:text-violet-700 border border-slate-200/90 text-xs font-extrabold shadow-xs active:scale-95 transition-all duration-200 cursor-pointer"
-          title="Back to Home"
-        >
-          <i data-lucide="home" class="w-4 h-4 text-violet-600"></i>
-          <span>Home</span>
-        </button>
-      </div>
-
-      <!-- Shortages View Header Button (Replaces List & Settings when on Shortages Screen) -->
+      <!-- Shortages View Header Button (Replaces Settings when on Shortages Screen) -->
       <div id="shortageHeaderActions" class="hidden flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
         <button
           id="headerShortageBackBtn"
@@ -556,6 +553,120 @@
       </div>
     </section>
 
+    <!-- Recipes Screen (Matches Home & Shopping List Glassmorphism Theme) -->
+    <section id="recipesScreenView" class="hidden glass-panel rounded-[2rem] p-4 sm:p-7 min-h-[420px] transition-all duration-300">
+      <!-- Top Bar: Title + Count Badge & + Add Recipe Button -->
+      <div class="flex items-center justify-between gap-2 pb-4 border-b border-slate-200/70">
+        <div class="min-w-0">
+          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 flex items-center gap-2.5 tracking-tight">
+            <span class="truncate">Recipes</span>
+            <span id="recipesCountBadge" class="text-[11px] px-2.5 py-0.5 rounded-full bg-gradient-to-r from-violet-100 to-fuchsia-100 text-violet-700 border border-violet-200/60 font-extrabold flex-shrink-0">0</span>
+          </h2>
+          <p class="text-[11px] text-slate-500 mt-0.5 font-medium truncate">Tap any recipe to view its required ingredients</p>
+        </div>
+
+        <button
+          id="openAddRecipeModalBtn"
+          type="button"
+          class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:via-fuchsia-700 hover:to-pink-600 text-white text-xs sm:text-sm font-extrabold shadow-lg shadow-violet-500/25 active:scale-95 transition-all duration-200 cursor-pointer flex-shrink-0"
+          title="Add New Recipe"
+        >
+          <i data-lucide="plus" class="w-4 h-4 stroke-[2.75]"></i>
+          <span>Add</span>
+        </button>
+      </div>
+
+      <!-- Recipe Search Bar -->
+      <div class="pt-3.5 pb-4 border-b border-slate-200/70 mb-4">
+        <div class="relative w-full">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <input
+            type="text"
+            id="recipeSearchInput"
+            placeholder="Search recipes by name or ingredient..."
+            class="glass-input w-full h-10 pl-9 pr-8 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none text-xs sm:text-sm"
+          />
+          <button
+            id="clearRecipeSearchBtn"
+            type="button"
+            class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+          >
+            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recipes Grid -->
+      <div id="recipesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+        <!-- Rendered recipe cards here -->
+      </div>
+
+      <!-- Empty Recipes State -->
+      <div id="emptyRecipesState" class="hidden py-14 text-center">
+        <div class="w-16 h-16 bg-gradient-to-tr from-violet-100 via-pink-100 to-amber-100 text-violet-600 rounded-3xl flex items-center justify-center mx-auto mb-3 shadow-inner">
+          <i data-lucide="chef-hat" class="w-8 h-8"></i>
+        </div>
+        <h4 class="text-base font-bold text-slate-800 mb-1">No recipes added yet</h4>
+        <p class="text-xs text-slate-500 max-w-xs mx-auto mb-4">
+          Tap the <span class="font-bold text-violet-600">+ Add</span> button above to create a recipe with Veg/Non-Veg tags and ingredients from your pantry list.
+        </p>
+      </div>
+    </section>
+
+    <!-- Recipe Detail Screen (Shows All Required Ingredients for Selected Recipe) -->
+    <section id="recipeDetailScreenView" class="hidden glass-panel rounded-[2rem] p-4 sm:p-7 min-h-[420px] transition-all duration-300">
+      <!-- Top Bar with Back Button, Recipe Title, Veg/Non-Veg Badge, and Delete Button -->
+      <div class="flex items-start justify-between gap-2.5 pb-4 border-b border-slate-200/70 mb-4">
+        <div class="flex items-start gap-2.5 sm:gap-3 min-w-0 flex-1">
+          <button
+            id="backToRecipesBtn"
+            type="button"
+            class="w-9 h-9 rounded-xl bg-white hover:bg-violet-50 text-slate-700 hover:text-violet-700 border border-slate-200/90 flex items-center justify-center transition active:scale-95 cursor-pointer flex-shrink-0 mt-0.5"
+            title="Back to Recipes"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          </button>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 id="recipeDetailTitle" class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight break-words">
+                Recipe Name
+              </h2>
+              <span id="recipeDetailDietBadge" class="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border">
+                Veg
+              </span>
+            </div>
+            <p id="recipeDetailSubtitle" class="text-[11px] text-slate-500 mt-1 font-medium">
+              Required Ingredients Checklist
+            </p>
+          </div>
+        </div>
+
+        <button
+          id="deleteCurrentRecipeBtn"
+          type="button"
+          class="w-9 h-9 rounded-xl text-slate-400 hover:text-rose-600 bg-white/90 hover:bg-rose-50 border border-slate-200/80 hover:border-rose-200 flex items-center justify-center transition active:scale-95 cursor-pointer flex-shrink-0"
+          title="Delete Recipe"
+        >
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Ingredients Required List -->
+      <div class="space-y-2.5">
+        <div class="flex items-center justify-between px-1">
+          <span class="text-[11px] font-black uppercase tracking-wider text-violet-700 flex items-center gap-1.5">
+            <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
+            <span>Required Ingredients</span>
+          </span>
+          <span id="recipeDetailIngredientCount" class="text-[11px] font-bold text-slate-500">0 items</span>
+        </div>
+
+        <div id="recipeDetailIngredientsList" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-1">
+          <!-- Rendered required ingredient cards -->
+        </div>
+      </div>
+    </section>
+
     <!-- Dedicated Shortage Items Screen (Only Cards Facing Shortage) -->
     <section id="shortageScreenView" class="hidden glass-panel rounded-[2rem] p-4 sm:p-7 min-h-[420px] transition-all duration-300">
       <div class="flex items-center justify-between gap-2 pb-4 border-b border-slate-200/70 mb-4">
@@ -588,6 +699,43 @@
       Kitchen Universe &bull; Saved Locally on Your Device
     </footer>
   </div>
+
+  <!-- ==================== FIXED GLASSMORPHIC BOTTOM NAVIGATION BAR ==================== -->
+  <nav
+    id="bottomNavBar"
+    aria-label="Primary Navigation"
+    class="fixed left-1/2 -translate-x-1/2 bottom-nav-offset z-40 w-[calc(100%-1.75rem)] max-w-md glass-bottom-nav rounded-[1.6rem] p-1.5 grid grid-cols-3 gap-1.5"
+  >
+    <button
+      id="navHomeBtn"
+      type="button"
+      data-nav-tab="home"
+      class="bottom-nav-btn flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2 px-2 rounded-2xl font-extrabold text-xs transition-all duration-200 active:scale-95 cursor-pointer bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 text-white shadow-md shadow-violet-500/25"
+    >
+      <i data-lucide="home" class="w-4 h-4 stroke-[2.4]"></i>
+      <span>Home</span>
+    </button>
+
+    <button
+      id="navListBtn"
+      type="button"
+      data-nav-tab="list"
+      class="bottom-nav-btn flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2 px-2 rounded-2xl font-extrabold text-xs transition-all duration-200 active:scale-95 cursor-pointer text-slate-600 hover:text-violet-700 hover:bg-violet-50/80"
+    >
+      <i data-lucide="clipboard-list" class="w-4 h-4 stroke-[2.2]"></i>
+      <span>List</span>
+    </button>
+
+    <button
+      id="navRecipesBtn"
+      type="button"
+      data-nav-tab="recipes"
+      class="bottom-nav-btn flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2 px-2 rounded-2xl font-extrabold text-xs transition-all duration-200 active:scale-95 cursor-pointer text-slate-600 hover:text-violet-700 hover:bg-violet-50/80"
+    >
+      <i data-lucide="chef-hat" class="w-4 h-4 stroke-[2.2]"></i>
+      <span>Recipes</span>
+    </button>
+  </nav>
 
   <!-- ==================== MODAL 1: ADD NEW PANTRY ENTRY ==================== -->
   <div id="addEntryModal" data-backdrop-close="addEntryModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden modal-backdrop-animate">
@@ -717,6 +865,36 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 1C: DUPLICATE PANTRY ITEM POPUP ==================== -->
+  <div id="duplicateItemModal" data-backdrop-close="duplicateItemModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-md z-[75] flex items-center justify-center p-4 hidden modal-backdrop-animate">
+    <div class="glass-modal rounded-[1.75rem] p-5 sm:p-6 max-w-sm w-full text-center animate-modal-in">
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-violet-600 to-fuchsia-500"></div>
+      <div class="w-12 h-12 bg-gradient-to-br from-amber-100 to-violet-100 text-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-3 mt-1 shadow-inner">
+        <i data-lucide="copy-check" class="w-6 h-6"></i>
+      </div>
+      <h4 class="text-base sm:text-lg font-black text-slate-900 mb-1">Item Already Added</h4>
+      <p class="text-xs text-slate-600 mb-5 leading-relaxed" id="duplicateItemDesc">
+        This item is already in your pantry inventory.
+      </p>
+      <div class="flex items-center gap-2.5">
+        <button
+          id="duplicateItemCancelBtn"
+          type="button"
+          class="flex-1 py-2.5 text-xs font-bold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition active:scale-95 cursor-pointer"
+        >
+          Cancel
+        </button>
+        <button
+          id="duplicateItemShowBtn"
+          type="button"
+          class="flex-1 py-2.5 text-xs font-extrabold rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 text-white shadow-md transition active:scale-95 cursor-pointer"
+        >
+          Show the Item
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1038,7 +1216,7 @@
               <span>Backup & Restore Data</span>
             </h4>
             <p class="text-[10px] text-slate-500 font-medium mt-0.5">
-              Save a backup file or paste old data to replace current pantry items
+              Save a backup file or paste old data to replace current pantry & recipes
             </p>
           </div>
 
@@ -1267,6 +1445,139 @@
     </div>
   </div>
 
+  <!-- ==================== MODAL 10: ADD NEW RECIPE ==================== -->
+  <div id="addRecipeModal" data-backdrop-close="addRecipeModal" class="fixed inset-0 bg-slate-900/45 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden modal-backdrop-animate">
+    <div class="glass-modal rounded-[1.75rem] p-5 sm:p-6 max-w-md w-full max-h-[88vh] flex flex-col animate-modal-in">
+      <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-violet-600 via-fuchsia-500 to-emerald-500"></div>
+      <div class="flex items-center justify-between border-b border-slate-200/70 pb-3.5 pt-1 flex-shrink-0 gap-2">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-600 via-fuchsia-600 to-pink-500 text-white flex items-center justify-center shadow-lg shadow-violet-500/25 flex-shrink-0">
+            <i data-lucide="chef-hat" class="w-5 h-5"></i>
+          </div>
+          <div class="min-w-0">
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900 truncate">Add New Recipe</h3>
+            <p class="text-[11px] text-slate-500 font-medium truncate">Name, Veg/Non-Veg & ingredients from your list</p>
+          </div>
+        </div>
+        <button id="closeAddRecipeModal" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer flex-shrink-0">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="addRecipeForm" class="space-y-3.5 pt-3 flex-1 overflow-y-auto pr-0.5">
+        <!-- Recipe Name -->
+        <div>
+          <label for="recipeNameInput" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+            Recipe Name
+          </label>
+          <input
+            type="text"
+            id="recipeNameInput"
+            placeholder="e.g. Paneer Butter Masala, Chicken Biryani"
+            class="glass-input w-full rounded-xl px-3.5 py-2.5 text-slate-900 font-semibold placeholder-slate-400 focus:outline-none"
+            required
+          />
+        </div>
+
+        <!-- Veg / Non-Veg Selector -->
+        <div>
+          <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            Dietary Type
+          </span>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button
+              type="button"
+              id="dietVegBtn"
+              data-diet="veg"
+              class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-extrabold text-xs shadow-2xs transition cursor-pointer"
+            >
+              <span class="w-3.5 h-3.5 rounded-sm border-2 border-emerald-600 flex items-center justify-center flex-shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+              </span>
+              <span>Veg</span>
+            </button>
+
+            <button
+              type="button"
+              id="dietNonVegBtn"
+              data-diet="non-veg"
+              class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white/80 text-slate-600 hover:border-rose-300 font-extrabold text-xs transition cursor-pointer"
+            >
+              <span class="w-3.5 h-3.5 rounded-sm border-2 border-rose-600 flex items-center justify-center flex-shrink-0">
+                <span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>
+              </span>
+              <span>Non-Veg</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Ingredients Picker (Searches Both Reserved & Unreserved Items by Name Only) -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <label for="recipeIngredientSearchInput" class="block text-[11px] font-bold uppercase tracking-wider text-slate-700">
+              Ingredients (From Available List)
+            </label>
+            <span id="selectedRecipeIngredientsCount" class="text-[10px] font-extrabold text-violet-700">0 selected</span>
+          </div>
+
+          <!-- Search Available Pantry + Reserved Items -->
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <input
+              type="text"
+              id="recipeIngredientSearchInput"
+              placeholder="Search reserved & pantry items..."
+              autocomplete="off"
+              class="glass-input w-full h-10 pl-9 pr-8 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none text-xs"
+            />
+            <button
+              type="button"
+              id="clearRecipeIngredientSearchBtn"
+              class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+            >
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <!-- Matching Available Items List -->
+          <div
+            id="recipeIngredientSuggestions"
+            class="max-h-36 overflow-y-auto rounded-xl border border-slate-200/80 bg-white/90 p-1.5 space-y-1"
+          >
+            <!-- Dynamically populated with matching items -->
+          </div>
+
+          <!-- Selected Ingredient Pills -->
+          <div>
+            <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">Selected Ingredients</span>
+            <div id="selectedRecipeIngredientsPills" class="flex flex-wrap gap-1.5 min-h-[2rem] p-2 rounded-xl bg-slate-50/90 border border-slate-200/70">
+              <span class="text-[11px] text-slate-400 font-medium">Search and tap items above to add ingredients</span>
+            </div>
+            <p id="recipeFormValidationError" class="hidden text-[11px] font-bold text-rose-600 mt-1">
+              Please select at least 1 ingredient from your available list.
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-2 flex items-center gap-2.5 flex-shrink-0">
+          <button
+            type="button"
+            id="cancelAddRecipeBtn"
+            class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition active:scale-95 cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-500 hover:from-violet-700 hover:to-pink-600 text-white font-extrabold text-xs shadow-md active:scale-95 transition cursor-pointer"
+          >
+            Save Recipe
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     // Fast Scoped Icon Renderer (avoids scanning entire document unnecessarily)
     function refreshIcons(rootEl) {
@@ -1324,6 +1635,7 @@
     const STORAGE_KEY_SORT = 'kitchen_universe_sort_v2';
     const STORAGE_KEY_SHOPPING_LIST = 'kitchen_universe_shopping_list_v1';
     const STORAGE_KEY_SHOPPING_META = 'kitchen_universe_shopping_meta_v1';
+    const STORAGE_KEY_RECIPES = 'kitchen_universe_recipes_v1';
     const STORAGE_KEY_AUTO_BACKUP = 'kitchen_universe_safety_snapshot_v1';
     const STORAGE_KEY_MIGRATED_FLAG = 'kitchen_universe_migrated_v3';
 
@@ -1370,10 +1682,17 @@
     // App State
     let items = [];
     let categories = [];
+    let recipes = [];
     let currentSort = 'newest';
     let currentFilterType = 'all';
     let searchQuery = '';
+    let recipeSearchQuery = '';
     let pendingModalAction = null;
+    let duplicateMatchedItem = null;
+    let selectedRecipeDiet = 'veg';
+    let selectedRecipeIngredients = [];
+    let activeRecipeDetailId = null;
+    let currentActiveNavTab = 'home';
 
     // Long-press active item state
     let activeQtyEditTarget = {
@@ -1388,7 +1707,7 @@
     const openNewEntryModalBtn = document.getElementById('openNewEntryModalBtn');
     const openCategoryModalBtn = document.getElementById('openCategoryModalBtn');
 
-    // Modal 1: Add Entry
+    // Modal 1: Add Entry & Duplicate Item Modal
     const addEntryModal = document.getElementById('addEntryModal');
     const closeAddEntryModal = document.getElementById('closeAddEntryModal');
     const cancelAddEntryBtn = document.getElementById('cancelAddEntryBtn');
@@ -1398,6 +1717,11 @@
     const itemStockQtyInput = document.getElementById('itemStockQty');
     const itemUnitSelect = document.getElementById('itemUnit');
     const itemCategorySelect = document.getElementById('itemCategorySelect');
+
+    const duplicateItemModal = document.getElementById('duplicateItemModal');
+    const duplicateItemDesc = document.getElementById('duplicateItemDesc');
+    const duplicateItemCancelBtn = document.getElementById('duplicateItemCancelBtn');
+    const duplicateItemShowBtn = document.getElementById('duplicateItemShowBtn');
 
     // Modal 1B: Edit Entry
     const editEntryModal = document.getElementById('editEntryModal');
@@ -1486,15 +1810,49 @@
     const goToSettingsFromGateBtn = document.getElementById('goToSettingsFromGateBtn');
     const backHomeFromGateBtn = document.getElementById('backHomeFromGateBtn');
 
-    // Screen Navigation & Shopping List DOM
-    const homeHeaderActions = document.getElementById('homeHeaderActions');
-    const listHeaderActions = document.getElementById('listHeaderActions');
+    // Screen Navigation & Bottom Navigation DOM
+    const primaryHeaderActions = document.getElementById('primaryHeaderActions');
     const shortageHeaderActions = document.getElementById('shortageHeaderActions');
-    const headerListBtn = document.getElementById('headerListBtn');
-    const headerHomeBtn = document.getElementById('headerHomeBtn');
     const headerShortageBackBtn = document.getElementById('headerShortageBackBtn');
     const homeScreenView = document.getElementById('homeScreenView');
     const listScreenView = document.getElementById('listScreenView');
+    const recipesScreenView = document.getElementById('recipesScreenView');
+    const recipeDetailScreenView = document.getElementById('recipeDetailScreenView');
+
+    const navHomeBtn = document.getElementById('navHomeBtn');
+    const navListBtn = document.getElementById('navListBtn');
+    const navRecipesBtn = document.getElementById('navRecipesBtn');
+    const bottomNavBtns = document.querySelectorAll('.bottom-nav-btn');
+
+    // Recipes Screen & Modals DOM
+    const recipesCountBadge = document.getElementById('recipesCountBadge');
+    const openAddRecipeModalBtn = document.getElementById('openAddRecipeModalBtn');
+    const recipeSearchInput = document.getElementById('recipeSearchInput');
+    const clearRecipeSearchBtn = document.getElementById('clearRecipeSearchBtn');
+    const recipesContainer = document.getElementById('recipesContainer');
+    const emptyRecipesState = document.getElementById('emptyRecipesState');
+
+    const addRecipeModal = document.getElementById('addRecipeModal');
+    const closeAddRecipeModal = document.getElementById('closeAddRecipeModal');
+    const cancelAddRecipeBtn = document.getElementById('cancelAddRecipeBtn');
+    const addRecipeForm = document.getElementById('addRecipeForm');
+    const recipeNameInput = document.getElementById('recipeNameInput');
+    const dietVegBtn = document.getElementById('dietVegBtn');
+    const dietNonVegBtn = document.getElementById('dietNonVegBtn');
+    const recipeIngredientSearchInput = document.getElementById('recipeIngredientSearchInput');
+    const clearRecipeIngredientSearchBtn = document.getElementById('clearRecipeIngredientSearchBtn');
+    const recipeIngredientSuggestions = document.getElementById('recipeIngredientSuggestions');
+    const selectedRecipeIngredientsPills = document.getElementById('selectedRecipeIngredientsPills');
+    const selectedRecipeIngredientsCount = document.getElementById('selectedRecipeIngredientsCount');
+    const recipeFormValidationError = document.getElementById('recipeFormValidationError');
+
+    const backToRecipesBtn = document.getElementById('backToRecipesBtn');
+    const recipeDetailTitle = document.getElementById('recipeDetailTitle');
+    const recipeDetailDietBadge = document.getElementById('recipeDetailDietBadge');
+    const recipeDetailSubtitle = document.getElementById('recipeDetailSubtitle');
+    const deleteCurrentRecipeBtn = document.getElementById('deleteCurrentRecipeBtn');
+    const recipeDetailIngredientCount = document.getElementById('recipeDetailIngredientCount');
+    const recipeDetailIngredientsList = document.getElementById('recipeDetailIngredientsList');
 
     // Shortages Screen DOM
     const shortageScreenView = document.getElementById('shortageScreenView');
@@ -1531,6 +1889,83 @@
     let shoppingListLastTimestamp = null;
     let activePurchaseCheckItemId = null;
 
+    // ==================== BOTTOM NAVIGATION BAR LOGIC ====================
+    function updateBottomNavActiveUI(activeTab) {
+      currentActiveNavTab = activeTab;
+      const activeClasses = ['bg-gradient-to-r', 'from-violet-600', 'via-fuchsia-600', 'to-pink-500', 'text-white', 'shadow-md', 'shadow-violet-500/25'];
+      const inactiveClasses = ['text-slate-600', 'hover:text-violet-700', 'hover:bg-violet-50/80'];
+
+      bottomNavBtns.forEach(btn => {
+        const isTarget = btn.dataset.navTab === activeTab;
+        if (isTarget) {
+          btn.classList.remove(...inactiveClasses);
+          btn.classList.add(...activeClasses);
+        } else {
+          btn.classList.remove(...activeClasses);
+          btn.classList.add(...inactiveClasses);
+        }
+      });
+    }
+
+    function hideAllMainScreens() {
+      homeScreenView.classList.add('hidden');
+      listScreenView.classList.add('hidden');
+      recipesScreenView.classList.add('hidden');
+      recipeDetailScreenView.classList.add('hidden');
+      shortageScreenView.classList.add('hidden');
+      shortageHeaderActions.classList.add('hidden');
+      primaryHeaderActions.classList.remove('hidden');
+    }
+
+    function switchToHomeView() {
+      hideAllMainScreens();
+      homeScreenView.classList.remove('hidden');
+      updateBottomNavActiveUI('home');
+      renderItems();
+    }
+
+    function switchToListView() {
+      if (hasEmptySettingsValues()) {
+        showListGateWarning();
+        return;
+      }
+      hideAllMainScreens();
+      listScreenView.classList.remove('hidden');
+      updateBottomNavActiveUI('list');
+      renderShoppingList();
+    }
+
+    function switchToRecipesView() {
+      hideAllMainScreens();
+      recipesScreenView.classList.remove('hidden');
+      updateBottomNavActiveUI('recipes');
+      renderRecipes();
+    }
+
+    function switchToRecipeDetailView(recipeId) {
+      const recipe = recipes.find(r => r.id === recipeId);
+      if (!recipe) return switchToRecipesView();
+
+      activeRecipeDetailId = recipeId;
+      hideAllMainScreens();
+      recipeDetailScreenView.classList.remove('hidden');
+      updateBottomNavActiveUI('recipes');
+      renderRecipeDetail(recipe);
+    }
+
+    function switchToShortageView() {
+      hideAllMainScreens();
+      primaryHeaderActions.classList.add('hidden');
+      shortageHeaderActions.classList.remove('hidden');
+      shortageScreenView.classList.remove('hidden');
+      updateBottomNavActiveUI('home');
+      renderShortageScreen();
+    }
+
+    navHomeBtn.addEventListener('click', switchToHomeView);
+    navListBtn.addEventListener('click', switchToListView);
+    navRecipesBtn.addEventListener('click', switchToRecipesView);
+
     // Toggle '+' Choice Popover
     addActionMenuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1551,6 +1986,49 @@
     }
     closeAddEntryModal.addEventListener('click', closeEntryPopup);
     cancelAddEntryBtn.addEventListener('click', closeEntryPopup);
+
+    // Duplicate Item Modal Handlers
+    function openDuplicateItemModal(existingItem) {
+      duplicateMatchedItem = existingItem;
+      const locationNote = existingItem.reserved
+        ? `It is currently stored in your Reserved Items.`
+        : `It is already listed in your Pantry Inventory.`;
+      duplicateItemDesc.textContent = `"${existingItem.name}" has already been added (${existingItem.activeQty} Active, ${existingItem.stockQty} In Stock ${existingItem.unit}). ${locationNote}`;
+      duplicateItemModal.classList.remove('hidden');
+      refreshIcons(duplicateItemModal);
+    }
+
+    function closeDuplicateItemModal() {
+      duplicateItemModal.classList.add('hidden');
+      duplicateMatchedItem = null;
+    }
+
+    duplicateItemCancelBtn.addEventListener('click', closeDuplicateItemModal);
+
+    duplicateItemShowBtn.addEventListener('click', () => {
+      const targetItem = duplicateMatchedItem;
+      closeDuplicateItemModal();
+      if (!targetItem) return;
+
+      // Switch to Home screen, reset measurement filter to 'all' so item isn't hidden, and search its name
+      currentFilterType = 'all';
+      filterTypePills.forEach(p => {
+        if (p.dataset.filter === 'all') {
+          p.classList.add('active', 'bg-violet-600', 'text-white', 'shadow-xs');
+          p.classList.remove('text-slate-600');
+        } else {
+          p.classList.remove('active', 'bg-violet-600', 'text-white', 'shadow-xs');
+          p.classList.add('text-slate-600');
+        }
+      });
+      activeFilterBadge.classList.add('hidden');
+
+      searchInput.value = targetItem.name;
+      searchQuery = targetItem.name.trim().toLowerCase();
+      clearSearchBtn.classList.remove('hidden');
+
+      switchToHomeView();
+    });
 
     // Open & Close Edit Entry Modal
     window.openEditItemModal = function(id) {
@@ -1664,6 +2142,10 @@
           closePurchasePopup();
         } else if (backdropId === 'quantityActionModal') {
           closeQtyPopup();
+        } else if (backdropId === 'duplicateItemModal') {
+          closeDuplicateItemModal();
+        } else if (backdropId === 'addRecipeModal') {
+          closeAddRecipePopup();
         } else {
           e.target.classList.add('hidden');
         }
@@ -1674,9 +2156,11 @@
       if (e.key !== 'Escape') return;
       addActionPopover.classList.add('hidden');
       sortFilterDropdown.classList.add('hidden');
+      if (!duplicateItemModal.classList.contains('hidden')) return closeDuplicateItemModal();
       if (!customModal.classList.contains('hidden')) return closeModal();
       if (!purchaseCheckModal.classList.contains('hidden')) return closePurchasePopup();
       if (!quantityActionModal.classList.contains('hidden')) return closeQtyPopup();
+      if (!addRecipeModal.classList.contains('hidden')) return closeAddRecipePopup();
       if (!addEntryModal.classList.contains('hidden')) return closeEntryPopup();
       if (!editEntryModal.classList.contains('hidden')) return closeEditEntryPopup();
       if (!categoryModal.classList.contains('hidden')) return closeCategoryPopup();
@@ -1711,45 +2195,6 @@
       reservedItemsModal.classList.add('hidden');
       renderItems();
     }
-
-    function switchToHomeView() {
-      listScreenView.classList.add('hidden');
-      listHeaderActions.classList.add('hidden');
-      shortageScreenView.classList.add('hidden');
-      shortageHeaderActions.classList.add('hidden');
-      homeScreenView.classList.remove('hidden');
-      homeHeaderActions.classList.remove('hidden');
-      renderItems();
-    }
-
-    function switchToShortageView() {
-      homeScreenView.classList.add('hidden');
-      homeHeaderActions.classList.add('hidden');
-      listScreenView.classList.add('hidden');
-      listHeaderActions.classList.add('hidden');
-      shortageScreenView.classList.remove('hidden');
-      shortageHeaderActions.classList.remove('hidden');
-      renderShortageScreen();
-    }
-
-    // Screen Switching: Home <-> Shopping List
-    headerListBtn.addEventListener('click', () => {
-      if (hasEmptySettingsValues()) {
-        showListGateWarning();
-        return;
-      }
-      homeScreenView.classList.add('hidden');
-      homeHeaderActions.classList.add('hidden');
-      shortageScreenView.classList.add('hidden');
-      shortageHeaderActions.classList.add('hidden');
-      listScreenView.classList.remove('hidden');
-      listHeaderActions.classList.remove('hidden');
-      renderShoppingList();
-    });
-
-    headerHomeBtn.addEventListener('click', () => {
-      switchToHomeView();
-    });
 
     headerShortageBackBtn.addEventListener('click', () => {
       switchToHomeView();
@@ -1948,6 +2393,385 @@
         settingsAllItemsList.appendChild(row);
       });
     }
+
+    // ==================== RECIPES ENGINE ====================
+    function saveRecipes() {
+      try {
+        localStorage.setItem(STORAGE_KEY_RECIPES, JSON.stringify(recipes));
+      } catch (e) {}
+    }
+
+    function setRecipeDietUI(diet) {
+      selectedRecipeDiet = diet;
+      if (diet === 'veg') {
+        dietVegBtn.className = 'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-extrabold text-xs shadow-2xs transition cursor-pointer';
+        dietNonVegBtn.className = 'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white/80 text-slate-600 hover:border-rose-300 font-extrabold text-xs transition cursor-pointer';
+      } else {
+        dietNonVegBtn.className = 'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-rose-500 bg-rose-50 text-rose-800 font-extrabold text-xs shadow-2xs transition cursor-pointer';
+        dietVegBtn.className = 'flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 border-slate-200 bg-white/80 text-slate-600 hover:border-emerald-300 font-extrabold text-xs transition cursor-pointer';
+      }
+    }
+
+    dietVegBtn.addEventListener('click', () => setRecipeDietUI('veg'));
+    dietNonVegBtn.addEventListener('click', () => setRecipeDietUI('non-veg'));
+
+    openAddRecipeModalBtn.addEventListener('click', () => {
+      addRecipeForm.reset();
+      selectedRecipeIngredients = [];
+      setRecipeDietUI('veg');
+      recipeFormValidationError.classList.add('hidden');
+      clearRecipeIngredientSearchBtn.classList.add('hidden');
+      renderSelectedRecipeIngredients();
+      renderRecipeIngredientSuggestions('');
+      addRecipeModal.classList.remove('hidden');
+      refreshIcons(addRecipeModal);
+      setTimeout(() => recipeNameInput.focus(), 60);
+    });
+
+    function closeAddRecipePopup() {
+      addRecipeModal.classList.add('hidden');
+    }
+    closeAddRecipeModal.addEventListener('click', closeAddRecipePopup);
+    cancelAddRecipeBtn.addEventListener('click', closeAddRecipePopup);
+
+    recipeIngredientSearchInput.addEventListener('input', (e) => {
+      const q = e.target.value;
+      if (q.trim().length > 0) {
+        clearRecipeIngredientSearchBtn.classList.remove('hidden');
+      } else {
+        clearRecipeIngredientSearchBtn.classList.add('hidden');
+      }
+      renderRecipeIngredientSuggestions(q);
+    });
+
+    clearRecipeIngredientSearchBtn.addEventListener('click', () => {
+      recipeIngredientSearchInput.value = '';
+      clearRecipeIngredientSearchBtn.classList.add('hidden');
+      renderRecipeIngredientSuggestions('');
+    });
+
+    function renderRecipeIngredientSuggestions(query) {
+      const normalized = String(query || '').trim().toLowerCase();
+      recipeIngredientSuggestions.innerHTML = '';
+
+      if (items.length === 0) {
+        recipeIngredientSuggestions.innerHTML = `
+          <div class="text-center py-3 px-2 text-[11px] text-slate-400 font-medium">
+            No items available yet. Add items to your Pantry Inventory first.
+          </div>
+        `;
+        return;
+      }
+
+      // Search across BOTH unreserved and reserved items by name only
+      const matchingItems = items.filter(it =>
+        it.name.toLowerCase().includes(normalized)
+      );
+
+      if (matchingItems.length === 0) {
+        recipeIngredientSuggestions.innerHTML = `
+          <div class="text-center py-3 px-2 text-[11px] text-slate-400 font-medium">
+            No matching items in your Pantry or Reserved list.
+          </div>
+        `;
+        return;
+      }
+
+      matchingItems.forEach(item => {
+        const isAlreadySelected = selectedRecipeIngredients.some(
+          sel => sel.toLowerCase() === item.name.toLowerCase()
+        );
+
+        const rowBtn = document.createElement('button');
+        rowBtn.type = 'button';
+        rowBtn.className = `w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left text-xs transition cursor-pointer ${
+          isAlreadySelected
+            ? 'bg-violet-50/90 text-violet-800 font-extrabold'
+            : 'hover:bg-slate-50 text-slate-800 font-semibold'
+        }`;
+
+        rowBtn.innerHTML = `
+          <div class="flex items-center gap-2 min-w-0 flex-1">
+            <span class="truncate">${escapeHtml(item.name)}</span>
+            ${item.reserved ? '<span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200 flex-shrink-0">Reserved</span>' : ''}
+          </div>
+          <span class="flex-shrink-0 text-[10px] font-extrabold ${isAlreadySelected ? 'text-violet-600' : 'text-slate-400'}">
+            ${isAlreadySelected ? 'Added ✓' : '+ Add'}
+          </span>
+        `;
+
+        rowBtn.addEventListener('click', () => {
+          if (isAlreadySelected) {
+            selectedRecipeIngredients = selectedRecipeIngredients.filter(
+              sel => sel.toLowerCase() !== item.name.toLowerCase()
+            );
+          } else {
+            selectedRecipeIngredients.push(item.name);
+            recipeFormValidationError.classList.add('hidden');
+          }
+          renderSelectedRecipeIngredients();
+          renderRecipeIngredientSuggestions(recipeIngredientSearchInput.value);
+        });
+
+        recipeIngredientSuggestions.appendChild(rowBtn);
+      });
+    }
+
+    function renderSelectedRecipeIngredients() {
+      selectedRecipeIngredientsCount.textContent = `${selectedRecipeIngredients.length} selected`;
+      selectedRecipeIngredientsPills.innerHTML = '';
+
+      if (selectedRecipeIngredients.length === 0) {
+        selectedRecipeIngredientsPills.innerHTML = `
+          <span class="text-[11px] text-slate-400 font-medium">Search and tap items above to add ingredients</span>
+        `;
+        return;
+      }
+
+      selectedRecipeIngredients.forEach(ingName => {
+        const pill = document.createElement('span');
+        pill.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-violet-100 text-violet-800 border border-violet-200/80 text-xs font-extrabold max-w-full';
+        pill.innerHTML = `
+          <span class="truncate">${escapeHtml(ingName)}</span>
+          <button type="button" class="hover:bg-violet-200 rounded-full p-0.5 transition cursor-pointer flex-shrink-0" title="Remove ${escapeHtml(ingName)}">
+            <i data-lucide="x" class="w-3 h-3"></i>
+          </button>
+        `;
+
+        pill.querySelector('button').addEventListener('click', () => {
+          selectedRecipeIngredients = selectedRecipeIngredients.filter(s => s !== ingName);
+          renderSelectedRecipeIngredients();
+          renderRecipeIngredientSuggestions(recipeIngredientSearchInput.value);
+        });
+
+        selectedRecipeIngredientsPills.appendChild(pill);
+      });
+
+      refreshIcons(selectedRecipeIngredientsPills);
+    }
+
+    addRecipeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = recipeNameInput.value.trim();
+      if (!name) return;
+
+      if (selectedRecipeIngredients.length === 0) {
+        recipeFormValidationError.classList.remove('hidden');
+        return;
+      }
+
+      const newRecipe = {
+        id: 'rec_' + Date.now().toString(36) + Math.random().toString(36).substring(2, 6),
+        name,
+        diet: selectedRecipeDiet,
+        ingredients: [...selectedRecipeIngredients],
+        timestamp: Date.now()
+      };
+
+      recipes.unshift(newRecipe);
+      saveRecipes();
+      renderRecipes();
+      closeAddRecipePopup();
+    });
+
+    recipeSearchInput.addEventListener('input', (e) => {
+      recipeSearchQuery = e.target.value.trim().toLowerCase();
+      if (recipeSearchQuery.length > 0) {
+        clearRecipeSearchBtn.classList.remove('hidden');
+      } else {
+        clearRecipeSearchBtn.classList.add('hidden');
+      }
+      renderRecipes();
+    });
+
+    clearRecipeSearchBtn.addEventListener('click', () => {
+      recipeSearchInput.value = '';
+      recipeSearchQuery = '';
+      clearRecipeSearchBtn.classList.add('hidden');
+      renderRecipes();
+    });
+
+    function renderRecipes() {
+      const filteredRecipes = recipes.filter(rec => {
+        if (!recipeSearchQuery) return true;
+        const matchName = rec.name.toLowerCase().includes(recipeSearchQuery);
+        const matchIng = Array.isArray(rec.ingredients) && rec.ingredients.some(ing =>
+          ing.toLowerCase().includes(recipeSearchQuery)
+        );
+        return matchName || matchIng;
+      });
+
+      recipesCountBadge.textContent = filteredRecipes.length;
+      recipesContainer.innerHTML = '';
+
+      if (filteredRecipes.length === 0) {
+        emptyRecipesState.classList.remove('hidden');
+        if (recipes.length > 0) {
+          emptyRecipesState.querySelector('h4').textContent = 'No matching recipes';
+          emptyRecipesState.querySelector('p').textContent = 'Try searching with another recipe name or ingredient.';
+        } else {
+          emptyRecipesState.querySelector('h4').textContent = 'No recipes added yet';
+          emptyRecipesState.querySelector('p').innerHTML = 'Tap the <span class="font-bold text-violet-600">+ Add</span> button above to create a recipe with Veg/Non-Veg tags and ingredients from your pantry list.';
+        }
+        return;
+      }
+
+      emptyRecipesState.classList.add('hidden');
+
+      filteredRecipes.forEach((rec, idx) => {
+        const isVeg = rec.diet === 'veg';
+        const ingList = Array.isArray(rec.ingredients) ? rec.ingredients : [];
+
+        const card = document.createElement('div');
+        card.style.animationDelay = `${Math.min(idx * 25, 220)}ms`;
+        card.className = 'pantry-card animate-card-in rounded-3xl p-4 sm:p-5 flex flex-col justify-between gap-3.5 relative overflow-hidden cursor-pointer group';
+
+        card.innerHTML = `
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${isVeg ? 'from-emerald-400 via-teal-500 to-violet-500' : 'from-rose-500 via-orange-500 to-amber-500'} opacity-85"></div>
+
+          <div class="flex items-start justify-between gap-2 pt-0.5">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                  isVeg
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200/90'
+                    : 'bg-rose-50 text-rose-700 border-rose-200/90'
+                }">
+                  <span class="w-2 h-2 rounded-full ${isVeg ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
+                  <span>${isVeg ? 'Veg' : 'Non-Veg'}</span>
+                </span>
+                <span class="text-[11px] font-bold text-slate-400">
+                  ${ingList.length} ${ingList.length === 1 ? 'ingredient' : 'ingredients'}
+                </span>
+              </div>
+
+              <h4 class="font-extrabold text-slate-900 text-base sm:text-[17px] tracking-tight truncate mt-2 group-hover:text-violet-700 transition-colors">
+                ${escapeHtml(rec.name)}
+              </h4>
+            </div>
+
+            <button
+              type="button"
+              data-del-recipe="${escapeHtml(rec.id)}"
+              class="w-8 h-8 rounded-xl text-slate-400 hover:text-rose-600 bg-slate-50/90 hover:bg-rose-50 border border-slate-200/70 hover:border-rose-200/80 flex items-center justify-center transition active:scale-95 cursor-pointer flex-shrink-0"
+              title="Delete recipe"
+            >
+              <i data-lucide="trash-2" class="w-4 h-4 pointer-events-none"></i>
+            </button>
+          </div>
+
+          <div class="pt-2.5 border-t border-slate-200/80 flex items-center justify-between gap-2 text-xs">
+            <span class="text-[11px] text-slate-500 font-medium truncate">
+              ${escapeHtml(ingList.slice(0, 3).join(', '))}${ingList.length > 3 ? ` +${ingList.length - 3} more` : ''}
+            </span>
+            <span class="inline-flex items-center gap-1 text-[11px] font-extrabold text-violet-600 flex-shrink-0">
+              <span>View</span>
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+            </span>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          switchToRecipeDetailView(rec.id);
+        });
+
+        const delBtn = card.querySelector('[data-del-recipe]');
+        delBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          promptDeleteRecipe(rec.id);
+        });
+
+        recipesContainer.appendChild(card);
+      });
+
+      refreshIcons(recipesContainer);
+    }
+
+    function renderRecipeDetail(recipe) {
+      const isVeg = recipe.diet === 'veg';
+      const ingList = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
+
+      recipeDetailTitle.textContent = recipe.name;
+      recipeDetailDietBadge.className = `inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border flex-shrink-0 ${
+        isVeg
+          ? 'bg-emerald-50 text-emerald-700 border-emerald-200/90'
+          : 'bg-rose-50 text-rose-700 border-rose-200/90'
+      }`;
+      recipeDetailDietBadge.innerHTML = `
+        <span class="w-2 h-2 rounded-full ${isVeg ? 'bg-emerald-500' : 'bg-rose-500'}"></span>
+        <span>${isVeg ? 'Veg' : 'Non-Veg'}</span>
+      `;
+
+      recipeDetailIngredientCount.textContent = `${ingList.length} ${ingList.length === 1 ? 'ingredient' : 'ingredients'}`;
+      recipeDetailIngredientsList.innerHTML = '';
+
+      ingList.forEach((ingName, idx) => {
+        const matchedItem = items.find(it => it.name.toLowerCase() === ingName.toLowerCase());
+        let statusBadgeHtml = '';
+
+        if (!matchedItem) {
+          statusBadgeHtml = `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 border border-slate-200 flex-shrink-0">Not in list</span>`;
+        } else if (matchedItem.reserved) {
+          statusBadgeHtml = `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200 flex-shrink-0">Reserved</span>`;
+        } else {
+          const totalQty = (matchedItem.activeQty || 0) + (matchedItem.stockQty || 0);
+          if (totalQty <= 0) {
+            statusBadgeHtml = `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 border border-rose-200 flex-shrink-0">Out of Stock</span>`;
+          } else {
+            statusBadgeHtml = `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200 flex-shrink-0">In Pantry</span>`;
+          }
+        }
+
+        const ingRow = document.createElement('div');
+        ingRow.className = 'pantry-card rounded-2xl p-3.5 flex items-center justify-between gap-2.5';
+        ingRow.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0 flex-1">
+            <span class="w-6 h-6 rounded-lg bg-violet-100 text-violet-700 text-[11px] font-black flex items-center justify-center flex-shrink-0">
+              ${idx + 1}
+            </span>
+            <span class="text-sm font-extrabold text-slate-900 truncate">${escapeHtml(ingName)}</span>
+          </div>
+          ${statusBadgeHtml}
+        `;
+
+        recipeDetailIngredientsList.appendChild(ingRow);
+      });
+
+      refreshIcons(recipeDetailScreenView);
+    }
+
+    function promptDeleteRecipe(recipeId) {
+      const target = recipes.find(r => r.id === recipeId);
+      if (!target) return;
+
+      openWarningModal(
+        'Delete Recipe?',
+        `Are you sure you want to delete the recipe "${target.name}"?`,
+        'Delete',
+        () => {
+          recipes = recipes.filter(r => r.id !== recipeId);
+          saveRecipes();
+          if (activeRecipeDetailId === recipeId) {
+            activeRecipeDetailId = null;
+            switchToRecipesView();
+          } else {
+            renderRecipes();
+          }
+        },
+        'rose'
+      );
+    }
+
+    backToRecipesBtn.addEventListener('click', () => {
+      activeRecipeDetailId = null;
+      switchToRecipesView();
+    });
+
+    deleteCurrentRecipeBtn.addEventListener('click', () => {
+      if (activeRecipeDetailId) {
+        promptDeleteRecipe(activeRecipeDetailId);
+      }
+    });
 
     // ==================== SHORTAGE EVALUATION & LAUNCH ALERT ====================
     function getItemStockStatus(item) {
@@ -2349,15 +3173,16 @@
     function extractItemsFromParsedPayload(parsed) {
       if (!parsed) return null;
       if (Array.isArray(parsed) && parsed.length > 0 && parsed[0] && typeof parsed[0].name === 'string') {
-        return { items: parsed, categories: null, shoppingList: null };
+        return { items: parsed, categories: null, shoppingList: null, recipes: null };
       }
       if (typeof parsed === 'object') {
-        // Direct backup object { items: [...], categories: [...] }
+        // Direct backup object { items: [...], categories: [...], recipes: [...] }
         if (Array.isArray(parsed.items) && parsed.items.length > 0) {
           return {
             items: parsed.items,
             categories: Array.isArray(parsed.categories) ? parsed.categories : null,
-            shoppingList: Array.isArray(parsed.shoppingList) ? parsed.shoppingList : null
+            shoppingList: Array.isArray(parsed.shoppingList) ? parsed.shoppingList : null,
+            recipes: Array.isArray(parsed.recipes) ? parsed.recipes : null
           };
         }
         // Raw localStorage dump { kitchen_universe_items_v2: "[...]", ... }
@@ -2377,7 +3202,14 @@
                     }
                   }
                 }
-                return { items: inner, categories: extractedCats, shoppingList: null };
+                let extractedRecipes = null;
+                if (parsed[STORAGE_KEY_RECIPES]) {
+                  try {
+                    const rParsed = typeof parsed[STORAGE_KEY_RECIPES] === 'string' ? JSON.parse(parsed[STORAGE_KEY_RECIPES]) : parsed[STORAGE_KEY_RECIPES];
+                    if (Array.isArray(rParsed)) extractedRecipes = rParsed;
+                  } catch (e) {}
+                }
+                return { items: inner, categories: extractedCats, shoppingList: null, recipes: extractedRecipes };
               }
             } catch (e) {}
           }
@@ -2387,7 +3219,7 @@
           try {
             const inner = typeof val === 'string' ? JSON.parse(val) : val;
             if (Array.isArray(inner) && inner.length > 0 && inner[0] && typeof inner[0].name === 'string' && ('unit' in inner[0] || 'activeQty' in inner[0] || 'qty' in inner[0])) {
-              return { items: inner, categories: null, shoppingList: null };
+              return { items: inner, categories: null, shoppingList: null, recipes: null };
             }
           } catch (e) {}
         }
@@ -2429,7 +3261,7 @@
         return false;
       }
 
-      // Completely replace current items & categories with restored data
+      // Completely replace current items, categories & recipes with restored data
       items = extracted.items.map((it, idx) => normalizeItemRecord(it, idx));
 
       const restoredCats = new Set(
@@ -2442,13 +3274,18 @@
       });
       categories = Array.from(restoredCats);
       shoppingList = Array.isArray(extracted.shoppingList) ? extracted.shoppingList : [];
+      if (Array.isArray(extracted.recipes)) {
+        recipes = extracted.recipes;
+      }
 
       saveCategories();
       saveItems();
       saveShoppingList();
+      saveRecipes();
       renderCategories();
       updateReservedCounters();
       renderItems();
+      renderRecipes();
       renderSettingsItemsList();
 
       backupStatusText.className = 'text-[10px] font-bold text-emerald-600 truncate';
@@ -2464,7 +3301,8 @@
           exportedAt: new Date().toISOString(),
           items,
           categories,
-          shoppingList
+          shoppingList,
+          recipes
         };
         const jsonStr = JSON.stringify(snapshot, null, 2);
         const blob = new Blob([jsonStr], { type: 'application/json' });
@@ -2478,7 +3316,7 @@
         URL.revokeObjectURL(url);
 
         backupStatusText.className = 'text-[10px] font-bold text-emerald-600 truncate';
-        backupStatusText.textContent = `Backup downloaded (${items.length} items).`;
+        backupStatusText.textContent = `Backup downloaded (${items.length} items, ${recipes.length} recipes).`;
       });
     }
 
@@ -2527,7 +3365,7 @@
 
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (!key || key === STORAGE_KEY_ITEMS || key === STORAGE_KEY_SHOPPING_LIST) continue;
+          if (!key || key === STORAGE_KEY_ITEMS || key === STORAGE_KEY_SHOPPING_LIST || key === STORAGE_KEY_RECIPES) continue;
           try {
             const raw = localStorage.getItem(key);
             if (!raw) continue;
@@ -2611,7 +3449,7 @@
       if (!hasCurrentStorage) {
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (!key || key === STORAGE_KEY_ITEMS || key === STORAGE_KEY_SHOPPING_LIST) continue;
+          if (!key || key === STORAGE_KEY_ITEMS || key === STORAGE_KEY_SHOPPING_LIST || key === STORAGE_KEY_RECIPES) continue;
           if (/kitchen|pantry|inventory/i.test(key)) {
             try {
               const parsed = JSON.parse(localStorage.getItem(key));
@@ -2657,6 +3495,7 @@
 
       items = safeReadArray(STORAGE_KEY_ITEMS, []);
       shoppingList = safeReadArray(STORAGE_KEY_SHOPPING_LIST, []);
+      recipes = safeReadArray(STORAGE_KEY_RECIPES, []);
 
       try {
         const savedShopMeta = localStorage.getItem(STORAGE_KEY_SHOPPING_META);
@@ -2686,6 +3525,7 @@
       updateSortSelectionUI();
       updateReservedCounters();
       renderItems();
+      renderRecipes();
 
       // Show once-per-open Shortage Alert popup if any pantry items are running short
       checkAndShowLaunchShortageAlert();
@@ -2699,6 +3539,7 @@
           localStorage.setItem(STORAGE_KEY_AUTO_BACKUP, JSON.stringify({
             items,
             categories,
+            recipes,
             savedAt: Date.now()
           }));
         }
@@ -2815,7 +3656,7 @@
       newCategoryInput.value = '';
     });
 
-    // Add New Pantry Item (with Active & In Stock Quantities)
+    // Add New Pantry Item (with Duplicate Item Detection + Active & In Stock Quantities)
     inventoryForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
@@ -2826,6 +3667,17 @@
       const category = itemCategorySelect.value || (categories[0] || 'General');
 
       if (!name || isNaN(activeQty) || activeQty < 0 || isNaN(stockQty) || stockQty < 0) return;
+
+      // Check if an item with the same name already exists in Pantry or Reserved Items
+      const existingMatch = items.find(
+        it => it.name.trim().toLowerCase() === name.toLowerCase()
+      );
+
+      if (existingMatch) {
+        closeEntryPopup();
+        openDuplicateItemModal(existingMatch);
+        return;
+      }
 
       const newItem = {
         id: Date.now().toString(36) + Math.random().toString(36).substring(2, 6),
@@ -3435,6 +4287,11 @@
         if (!shortageScreenView.classList.contains('hidden')) {
           renderShortageScreen();
         }
+      }
+      const latestRecipes = safeReadArray(STORAGE_KEY_RECIPES, null);
+      if (latestRecipes !== null) {
+        recipes = latestRecipes;
+        renderRecipes();
       }
     }
 
